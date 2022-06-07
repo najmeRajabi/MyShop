@@ -4,6 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="lastAdaptor"
+            type="com.example.myshop.ui.adapters.HomeListsAdapter" />
+
+        <variable
+            name="mostSeenAdaptor"
+            type="com.example.myshop.ui.adapters.HomeListsAdapter" />
+
+        <variable
+            name="favoriteAdaptor"
+            type="com.example.myshop.ui.adapters.HomeListsAdapter" />
 
     </data>
 
@@ -23,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="18dp"
+            android:padding="5dp"
+            android:adapter="@{lastAdaptor}"
             android:background="?attr/colorSecondary"
             android:layout_marginTop="30dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -39,6 +51,7 @@
             android:orientation="horizontal"
             android:background="?attr/colorSecondaryVariant"
             android:padding="18dp"
+            android:adapter="@{mostSeenAdaptor}"
             android:layout_marginTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +66,7 @@
             android:orientation="horizontal"
             android:background="?attr/colorPrimary"
             android:padding="18dp"
+            android:adapter="@{favoriteAdaptor}"
             android:layout_marginTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
