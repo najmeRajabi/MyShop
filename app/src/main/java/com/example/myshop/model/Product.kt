@@ -1,11 +1,22 @@
 package com.example.myshop.model
 
+import com.squareup.moshi.Json
+
 data class Product(
 
+    @Json(name = "id")
     val id: Int,
+
+    @Json(name = "images")
     val images: List<Image>,
+
+    @Json(name = "name")
     val name: String,
+
+    @Json(name = "price")
     val price: String,
+
+    @Json(name = "categories")
     val categories: List<Category>,
 )
 /*

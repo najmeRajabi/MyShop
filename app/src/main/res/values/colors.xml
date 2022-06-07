@@ -15,5 +15,6 @@
     <color name="_teal_700">#FF018786</color>
     <color name="_black">#FF000000</color>
     <color name="_white">#FFFFFFFF</color>
+    <color name="title_color">#444444</color>
 
 </resources>

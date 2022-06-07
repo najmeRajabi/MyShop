@@ -13,7 +13,9 @@ import com.example.myshop.model.Category
 import com.example.myshop.model.Image
 import com.example.myshop.model.Product
 import com.example.myshop.ui.adapters.HomeListsAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
@@ -34,7 +36,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+        observe()
 
+
+    }
+
+    private fun observe() {
 
     }
 
@@ -55,6 +62,10 @@ class HomeFragment : Fragment() {
             Product(3, arrayListOf(Image(1,"","https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301302.jpg")),"name","5454", arrayListOf()),
             Product(4, arrayListOf(Image(1,""," ")),"name","5454", arrayListOf()),
         ))
+
+        vModel.products.observe(viewLifecycleOwner){
+            mostSeenAdapter.submitList(it)
+        }
     }
 
 }
