@@ -18,10 +18,16 @@
 
     </data>
 
-    <ScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,7 +56,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="?attr/colorSecondaryVariant"
-            android:padding="18dp"
+            android:padding="5dp"
             android:adapter="@{mostSeenAdaptor}"
             android:layout_marginTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -65,7 +71,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="?attr/colorPrimary"
-            android:padding="18dp"
+            android:padding="5dp"
             android:adapter="@{favoriteAdaptor}"
             android:layout_marginTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -73,19 +79,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recycler_most_seen_Home"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/purple_200"
-            android:src="@drawable/ic_baseline_list_24"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </ScrollView>
 
-    </ScrollView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/purple_200"
+            android:src="@drawable/ic_baseline_list_24"
+            android:layout_gravity="bottom|end"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

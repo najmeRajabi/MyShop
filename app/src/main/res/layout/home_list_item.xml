@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="140dp"
         android:layout_height="260dp"
-        android:background="@color/white"
+        android:background="@drawable/bg_gray"
         android:layout_margin="10dp"
         app:cardCornerRadius="10dp">
 
@@ -38,6 +38,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="10dp"
+            android:maxLines="2"
             android:textSize="@dimen/titleSizeHomeItem"
             tools:text="name"
             android:textColor="@color/title_color"/>

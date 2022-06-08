@@ -18,6 +18,9 @@ data class Product(
 
     @Json(name = "categories")
     val categories: List<Category>,
+
+    @Json(name = "average_rating")
+    val averageRating: Float
 )
 /*
 class Product : ArrayList<ProductItem>()

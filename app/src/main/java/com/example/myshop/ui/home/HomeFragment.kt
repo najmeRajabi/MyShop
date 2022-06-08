@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentHomeBinding
-import com.example.myshop.model.Category
 import com.example.myshop.model.Image
 import com.example.myshop.model.Product
 import com.example.myshop.ui.adapters.HomeListsAdapter
@@ -35,10 +35,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkConnectionInternet()
         initViews()
         observe()
 
 
+    }
+
+    private fun checkConnectionInternet() {
+       if ( !vModel.checkForInternet(requireContext())){
+            findNavController().navigate(R.id.action_homeFragment_to_disconnectBlankFragment)
+       }
     }
 
     private fun observe() {
@@ -57,10 +64,10 @@ class HomeFragment : Fragment() {
         lastAdapter.submitList(arrayListOf(
             Product(1, arrayListOf(Image(1,"",
                 "https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301185.jpg")),"name",
-                "5454", arrayListOf()),
-            Product(2, arrayListOf(Image(1,"","https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301416.jpg")),"name","5454", arrayListOf()),
-            Product(3, arrayListOf(Image(1,"","https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301302.jpg")),"name","5454", arrayListOf()),
-            Product(4, arrayListOf(Image(1,""," ")),"name","5454", arrayListOf()),
+                "5454", arrayListOf(),4f),
+            Product(2, arrayListOf(Image(1,"","https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301416.jpg")),"name","5454", arrayListOf(),3f),
+            Product(3, arrayListOf(Image(1,"","https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301302.jpg")),"name","5454", arrayListOf(),4f),
+            Product(4, arrayListOf(Image(1,""," ")),"name","5454", arrayListOf(),2f),
         ))
 
         vModel.products.observe(viewLifecycleOwner){
