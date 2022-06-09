@@ -6,8 +6,16 @@ import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
-    suspend fun getProducts(): List<Product>{
-        return apiService.getProducts()
+    suspend fun getLastProducts(): List<Product>{
+        return apiService.getLastProducts()
+    }
+
+    suspend fun getMostSeenProducts(): List<Product>{
+        return apiService.getMostSeenProducts()
+    }
+
+    suspend fun getFavoriteProducts(): List<Product>{
+        return apiService.getFavoriteProducts()
     }
 
 

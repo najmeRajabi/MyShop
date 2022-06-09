@@ -7,7 +7,15 @@ class ProductRepository @Inject constructor(
     val productRemoteDataSource: ProductRemoteDataSource
 ) {
 
-    suspend fun getProducts(): List<Product>{
-        return productRemoteDataSource.getProducts()
+    suspend fun getLastProducts(): List<Product>{
+        return productRemoteDataSource.getLastProducts()
+    }
+
+    suspend fun getMostSeenProducts(): List<Product>{
+        return productRemoteDataSource.getMostSeenProducts()
+    }
+
+    suspend fun getFavoriteProducts(): List<Product>{
+        return productRemoteDataSource.getFavoriteProducts()
     }
 }

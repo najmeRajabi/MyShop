@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentHomeBinding
-import com.example.myshop.model.Image
-import com.example.myshop.model.Product
 import com.example.myshop.ui.adapters.HomeListsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +35,6 @@ class HomeFragment : Fragment() {
 
         checkConnectionInternet()
         initViews()
-        observe()
 
 
     }
@@ -48,9 +45,7 @@ class HomeFragment : Fragment() {
        }
     }
 
-    private fun observe() {
 
-    }
 
     private fun initViews() {
         val lastAdapter=HomeListsAdapter{}
@@ -61,17 +56,17 @@ class HomeFragment : Fragment() {
         binding.mostSeenAdaptor = mostSeenAdapter
         binding.favoriteAdaptor = favoriteAdapter
 
-        lastAdapter.submitList(arrayListOf(
-            Product(1, arrayListOf(Image(1,"",
-                "https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301185.jpg")),"name",
-                "5454", arrayListOf(),4f),
-            Product(2, arrayListOf(Image(1,"","https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301416.jpg")),"name","5454", arrayListOf(),3f),
-            Product(3, arrayListOf(Image(1,"","https://woocommerce.s3.ir-thr-at1.arvanstorage.com/301302.jpg")),"name","5454", arrayListOf(),4f),
-            Product(4, arrayListOf(Image(1,""," ")),"name","5454", arrayListOf(),2f),
-        ))
 
-        vModel.products.observe(viewLifecycleOwner){
+        vModel.recentProducts.observe(viewLifecycleOwner){
+            lastAdapter.submitList(it)
+        }
+
+        vModel.mostSeenProducts.observe(viewLifecycleOwner){
             mostSeenAdapter.submitList(it)
+        }
+
+        vModel.favoriteProducts.observe(viewLifecycleOwner){
+            favoriteAdapter.submitList(it)
         }
     }
 
