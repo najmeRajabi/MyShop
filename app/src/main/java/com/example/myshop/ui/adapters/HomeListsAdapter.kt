@@ -61,7 +61,7 @@ class HomeListsAdapter(var clickHandler: ClickHandler):
             txvTitle.text = product.name
             Glide
                 .with(view)
-                .load(product.images[0].src)
+                .load(product.images[0]?.src)
                 .centerCrop()
                 .transition(withCrossFade())
                 .transform(CenterInside() , RoundedCorners(25) )

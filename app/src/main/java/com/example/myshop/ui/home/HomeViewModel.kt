@@ -2,6 +2,7 @@ package com.example.myshop.ui.home
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Product
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val productRepository: ProductRepository
-    ): BaseViewModel() {
+    ): ViewModel() {
 
     val recentProducts = MutableLiveData<List<Product>>()
     val mostSeenProducts = MutableLiveData<List<Product>>()

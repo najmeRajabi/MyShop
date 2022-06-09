@@ -41,7 +41,11 @@ class CategoryFragment : Fragment() {
 
     private fun initView() {
 
-        val adaptor = CategoryAdaptor{}
+        binding.lifecycleOwner= viewLifecycleOwner
+
+        val adaptor = CategoryAdaptor{
+
+        }
         binding.recyclerCategory.adapter=adaptor
 
         vModel.categories.observe(viewLifecycleOwner){

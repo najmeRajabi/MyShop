@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/disconnectBlankFragment"
@@ -23,4 +26,13 @@
         android:id="@+id/categoryFragment"
         android:name="com.example.myshop.ui.category.CategoryFragment"
         android:label="CategoryFragment" />
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.myshop.ui.detail.ProductDetailFragment"
+        android:label="ProductDetailFragment" >
+        <argument
+            android:name="idArg"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

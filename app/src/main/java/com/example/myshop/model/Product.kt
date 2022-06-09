@@ -8,7 +8,7 @@ data class Product(
     val id: Int,
 
     @Json(name = "images")
-    val images: List<Image>,
+    val images: List<Image?>,
 
     @Json(name = "name")
     val name: String,

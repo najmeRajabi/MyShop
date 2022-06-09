@@ -1,11 +1,10 @@
-package com.example.myshop.ui.category
+package com.example.myshop.ui.detail
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
-import com.example.myshop.model.Category
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,22 +14,19 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryViewModel@Inject constructor(
+class ProductViewModel @Inject constructor(
     val productRepository: ProductRepository
-    ): ViewModel() {
+): ViewModel() {
 
-    val categories = MutableLiveData<List<Category>>()
+    val product = MutableLiveData<Product>()
 
-    init {
-        getCategories()
-    }
 
-    fun getCategories(){
+    fun getProduct(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                categories.postValue( productRepository.getCategories())
+                product.postValue( productRepository.getProduct(id))
             }catch (e: Exception){
-                Log.d("CategoryViewModel---tag", "getCategories: $e")
+                Log.d("ProductViewModel----tag", "getProduct: $e")
             }
         }
     }

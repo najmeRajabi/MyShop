@@ -43,17 +43,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun checkConnectionInternet() {
-       if ( !vModel.checkForInternet(requireContext())){
-            findNavController().navigate(R.id.action_homeFragment_to_disconnectBlankFragment)
-       }
+//       if ( !vModel.checkForInternet(requireContext())){
+//            findNavController().navigate(R.id.action_homeFragment_to_disconnectBlankFragment)
+//       }
     }
 
 
 
     private fun initViews() {
-        val lastAdapter=HomeListsAdapter{}
-        val mostSeenAdapter=HomeListsAdapter{}
-        val favoriteAdapter=HomeListsAdapter{}
+        val lastAdapter=HomeListsAdapter{
+            goToDetail(it.id)}
+        val mostSeenAdapter=HomeListsAdapter{ goToDetail(it.id) }
+        val favoriteAdapter=HomeListsAdapter{ goToDetail(it.id) }
         binding.lifecycleOwner = viewLifecycleOwner
         binding.lastAdaptor = lastAdapter
         binding.mostSeenAdaptor = mostSeenAdapter
@@ -71,6 +72,10 @@ class HomeFragment : Fragment() {
         vModel.favoriteProducts.observe(viewLifecycleOwner){
             favoriteAdapter.submitList(it)
         }
+    }
+
+    private fun goToDetail(id: Int) {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(id))
     }
 
 }

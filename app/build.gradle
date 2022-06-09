@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
 
 
     def lifecycle_version = "2.5.0-rc01"
@@ -85,7 +86,11 @@ dependencies {
 
 
     //glide
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+//    //slide show
+//    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
 
 
 
