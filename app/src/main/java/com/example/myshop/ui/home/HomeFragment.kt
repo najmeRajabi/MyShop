@@ -35,6 +35,9 @@ class HomeFragment : Fragment() {
 
         checkConnectionInternet()
         initViews()
+        binding.fabGoToListHome.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
+        }
 
 
     }

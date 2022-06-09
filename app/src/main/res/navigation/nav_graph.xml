@@ -11,9 +11,16 @@
         <action
             android:id="@+id/action_homeFragment_to_disconnectBlankFragment"
             app:destination="@id/disconnectBlankFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/disconnectBlankFragment"
         android:name="com.example.myshop.ui.disconnect.DisconnectBlankFragment"
         android:label="DisconnectBlankFragment" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.myshop.ui.category.CategoryFragment"
+        android:label="CategoryFragment" />
 </navigation>
