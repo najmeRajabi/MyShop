@@ -50,7 +50,7 @@ class ProductDetailFragment : Fragment() {
         vModel.product.observe(viewLifecycleOwner) {
             Glide
                 .with(requireContext())
-                .load(it.images[0])
+                .load(it.images[0].src)
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(CenterInside(), RoundedCorners(25))

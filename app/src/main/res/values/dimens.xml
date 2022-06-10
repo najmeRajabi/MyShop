@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="titleSizeHomeItem">13sp</dimen>
+    <dimen name="titleSizeHomeItem">15sp</dimen>
     <dimen name="titleSizeCategoryItem">18sp</dimen>
+    <dimen name="descSizeHomeItem">12sp</dimen>
 </resources>

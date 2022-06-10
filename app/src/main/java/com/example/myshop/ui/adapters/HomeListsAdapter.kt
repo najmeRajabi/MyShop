@@ -1,5 +1,6 @@
 package com.example.myshop.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.RoundedCorner
 import android.view.View
@@ -59,15 +60,20 @@ class HomeListsAdapter(var clickHandler: ClickHandler):
         ) {
 
             txvTitle.text = product.name
+            try {
+
             Glide
                 .with(view)
-                .load(product.images[0]?.src)
+                .load(product.images[0].src)
                 .centerCrop()
                 .transition(withCrossFade())
                 .transform(CenterInside() , RoundedCorners(25) )
                 .placeholder(R.drawable.ic_baseline_more_horiz_24)
                 .error(R.drawable.ic_baseline_image_not_supported_24)
                 .into(imvImage)
+                }catch (e: Exception){
+                Log.d("HomeAdaptor---TAG", "bind: $e ")
+                }
 
             view.setOnClickListener { clickHandler(product) }
 

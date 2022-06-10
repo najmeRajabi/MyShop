@@ -10,10 +10,17 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.detail.ProductDetailFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+
 
         <ImageView
             android:id="@+id/imv_detail"
@@ -32,7 +39,6 @@
             android:id="@+id/txv_name_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:maxLines="2"
             android:padding="10dp"
@@ -42,6 +48,19 @@
             tools:text="name"
             app:layout_constraintTop_toBottomOf="@id/guideline3"/>
 
+            <TextView
+                android:id="@+id/txv_description_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:padding="10dp"
+                android:text="@{vModel.product.description}"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/descSizeHomeItem"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txv_name_detail"
+                tools:text="description" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
@@ -49,5 +68,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.7" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>

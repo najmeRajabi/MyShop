@@ -8,7 +8,7 @@ data class Product(
     val id: Int,
 
     @Json(name = "images")
-    val images: List<Image?>,
+    val images: List<Image>,
 
     @Json(name = "name")
     val name: String,
@@ -20,7 +20,10 @@ data class Product(
     val categories: List<Category>,
 
     @Json(name = "average_rating")
-    val averageRating: Float
+    val averageRating: Float,
+
+    @Json(name = "description")
+    val description: String,
 )
 /*
 class Product : ArrayList<ProductItem>()
