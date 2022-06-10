@@ -27,4 +27,8 @@ class ProductRepository @Inject constructor(
     suspend fun getCategories(): List<Category>{
         return productRemoteDataSource.getCategories()
     }
+
+    suspend fun getProductList(id: Int): List<Product> {
+        return productRemoteDataSource.getProductList(id)
+    }
 }

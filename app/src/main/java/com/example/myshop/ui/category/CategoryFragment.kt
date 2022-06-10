@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentCategoryBinding
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.ui.adapters.CategoryAdaptor
+import com.example.myshop.ui.home.HomeFragmentDirections
 import com.example.myshop.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,13 +46,19 @@ class CategoryFragment : Fragment() {
         binding.lifecycleOwner= viewLifecycleOwner
 
         val adaptor = CategoryAdaptor{
-
+            goToList(it.id)
         }
         binding.recyclerCategory.adapter=adaptor
 
         vModel.categories.observe(viewLifecycleOwner){
             adaptor.submitList(it)
         }
+
+
+    }
+
+    private fun goToList(id: Int) {
+        findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToListFragment(id))
     }
 
 

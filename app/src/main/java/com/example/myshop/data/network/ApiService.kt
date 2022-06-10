@@ -43,4 +43,11 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET
     ): List<Category>
 
+    @GET("products/categories/{id}")
+    suspend fun getProductList(
+        @Path("id") id: Int,
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+    ): List<Product>
+
 }

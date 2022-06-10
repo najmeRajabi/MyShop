@@ -25,7 +25,11 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.myshop.ui.category.CategoryFragment"
-        android:label="CategoryFragment" />
+        android:label="CategoryFragment" >
+        <action
+            android:id="@+id/action_categoryFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.example.myshop.ui.detail.ProductDetailFragment"
@@ -34,5 +38,17 @@
             android:name="idArg"
             app:argType="integer"
             android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.myshop.ui.list.ListFragment"
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/action_listFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <argument
+            android:name="categoryArg"
+            app:argType="integer"
+            android:defaultValue="0"/>
     </fragment>
 </navigation>
