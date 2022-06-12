@@ -1,5 +1,6 @@
 package com.example.myshop.ui.adapters
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.RoundedCorner
@@ -20,8 +21,8 @@ import com.example.myshop.model.Product
 
 typealias ClickHandler = (product: Product) -> Unit
 
-class HomeListsAdapter(var clickHandler: ClickHandler):
-    ListAdapter<Product, HomeListsAdapter.ViewHolder>(ProductDiffCallback){
+class HomeListsAdapter(var clickHandler: ClickHandler) :
+    ListAdapter<Product, HomeListsAdapter.ViewHolder>(ProductDiffCallback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeListsAdapter.ViewHolder {
@@ -33,7 +34,7 @@ class HomeListsAdapter(var clickHandler: ClickHandler):
     }
 
     override fun onBindViewHolder(holder: HomeListsAdapter.ViewHolder, position: Int) {
-        holder.bind(getItem(position) , clickHandler )
+        holder.bind(getItem(position), clickHandler)
 
 
     }
@@ -49,31 +50,37 @@ class HomeListsAdapter(var clickHandler: ClickHandler):
     }
 
 
-    class ViewHolder( val view: View): RecyclerView.ViewHolder(view) {
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val txvTitle = view.findViewById<TextView>(R.id.txv_name_list_Home)
+        val txvPrice = view.findViewById<TextView>(R.id.txv_price_list_Home)
         val imvImage = view.findViewById<ImageView>(R.id.imv_list_home)
 
 
+        @SuppressLint("SetTextI18n")
         fun bind(
             product: Product,
             clickHandler: ClickHandler
         ) {
 
             txvTitle.text = product.name
+            txvPrice.text = product.price+ " تومان"
             try {
 
-            Glide
-                .with(view)
-                .load(product.images[0].src)
-                .centerCrop()
-                .transition(withCrossFade())
-                .transform(CenterInside() , RoundedCorners(25) )
-                .placeholder(R.drawable.ic_baseline_more_horiz_24)
-                .error(R.drawable.ic_baseline_image_not_supported_24)
-                .into(imvImage)
-                }catch (e: Exception){
+                Glide
+                    .with(view)
+                    .load(product.images[0].src)
+                    .centerCrop()
+                    .transition(withCrossFade())
+                    .transform(CenterInside(), RoundedCorners(25))
+                    .placeholder(R.drawable.ic_baseline_more_horiz_24)
+                    .error(R.drawable.ic_baseline_image_not_supported_24)
+                    .into(imvImage)
+            } catch (e: Exception) {
                 Log.d("HomeAdaptor---TAG", "bind: $e ")
-                }
+
+                imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
+
+            }
 
             view.setOnClickListener { clickHandler(product) }
 

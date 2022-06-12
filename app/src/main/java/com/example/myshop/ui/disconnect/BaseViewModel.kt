@@ -15,10 +15,13 @@ open class BaseViewModel @Inject constructor():ViewModel() {
 
     val isConnected = MutableLiveData<Boolean>()
 
+    fun checkForInternet(context: Context){
+        isConnected.value = checkForConnection(context)
+    }
 
-    fun checkForInternet(context: Context): Boolean {
 
-        var result= false
+    fun checkForConnection(context: Context): Boolean {
+
         // register activity with the connectivity manager service
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -31,12 +34,10 @@ open class BaseViewModel @Inject constructor():ViewModel() {
 
                 return when {
                     activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        result = true
                         true
                     }
 
                     activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        result=true
                         true
                     }
 
@@ -49,9 +50,7 @@ open class BaseViewModel @Inject constructor():ViewModel() {
             @Suppress("DEPRECATION") val networkInfo =
                 connectivityManager.activeNetworkInfo ?: return false
             @Suppress("DEPRECATION")
-            result = networkInfo.isConnected
-            return result
+            return networkInfo.isConnected
         }
-        isConnected.value = result
     }
 }

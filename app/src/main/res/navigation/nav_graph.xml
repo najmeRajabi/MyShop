@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_disconnectBlankFragment"
+            app:destination="@id/disconnectBlankFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -38,6 +41,9 @@
             android:name="idArg"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_disconnectBlankFragment"
+            app:destination="@id/disconnectBlankFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
@@ -50,5 +56,8 @@
             android:name="categoryArg"
             app:argType="integer"
             android:defaultValue="0"/>
+        <action
+            android:id="@+id/action_listFragment_to_disconnectBlankFragment"
+            app:destination="@id/disconnectBlankFragment" />
     </fragment>
 </navigation>

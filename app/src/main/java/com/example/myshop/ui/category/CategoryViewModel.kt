@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel@Inject constructor(
     val productRepository: ProductRepository
-    ): ViewModel() {
+    ): BaseViewModel() {
 
     val categories = MutableLiveData<List<Category>>()
 

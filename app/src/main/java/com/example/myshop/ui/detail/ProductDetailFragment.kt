@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
@@ -38,6 +39,12 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkConnectionInternet()
+        initView()
+
+    }
+
+    private fun initView() {
         val id = args.idArg
         vModel.getProduct(id)
         binding.vModel = vModel
@@ -46,17 +53,30 @@ class ProductDetailFragment : Fragment() {
         initImageView()
     }
 
+    private fun checkConnectionInternet() {
+        vModel.checkForInternet(requireContext())
+        vModel.isConnected.observe(viewLifecycleOwner){
+            if (!it)
+                findNavController().navigate(R.id.action_productDetailFragment_to_disconnectBlankFragment)
+        }
+    }
+
     private fun initImageView() {
         vModel.product.observe(viewLifecycleOwner) {
-            Glide
-                .with(requireContext())
-                .load(it.images[0].src)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(CenterInside(), RoundedCorners(25))
-                .placeholder(R.drawable.ic_baseline_more_horiz_24)
-                .error(R.drawable.ic_baseline_image_not_supported_24)
-                .into(binding.imvDetail)
+            try {
+
+                Glide
+                    .with(requireContext())
+                    .load(it.images[0].src)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .transform(CenterInside(), RoundedCorners(25))
+                    .placeholder(R.drawable.ic_baseline_more_horiz_24)
+                    .error(R.drawable.ic_baseline_image_not_supported_24)
+                    .into(binding.imvDetail)
+            }catch (e: Exception){
+                binding.imvDetail.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
+            }
         }
     }
 

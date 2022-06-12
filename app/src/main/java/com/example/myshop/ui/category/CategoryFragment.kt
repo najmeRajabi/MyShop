@@ -38,6 +38,7 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkConnectionInternet()
         initView()
     }
 
@@ -55,6 +56,14 @@ class CategoryFragment : Fragment() {
         }
 
 
+    }
+
+    private fun checkConnectionInternet() {
+        vModel.checkForInternet(requireContext())
+        vModel.isConnected.observe(viewLifecycleOwner){
+            if (!it)
+                findNavController().navigate(R.id.action_categoryFragment_to_disconnectBlankFragment)
+        }
     }
 
     private fun goToList(id: Int) {

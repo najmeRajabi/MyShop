@@ -9,40 +9,67 @@
 
     <androidx.cardview.widget.CardView
     android:layout_width="140dp"
-    android:layout_height="260dp"
+    android:layout_height="210dp"
     android:background="@drawable/bg_gray"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-
-        <ImageView
-            android:id="@+id/imv_list_home"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="160dp"
-            android:layout_weight="2"
-            android:layout_margin="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txv_name_list_Home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"
-            android:maxLines="2"
-            android:textSize="@dimen/titleSizeHomeItem"
-            tools:text="name"
-            android:textColor="@color/title_color"/>
-    </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imv_list_home"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/guidelineImv"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/txv_name_list_Home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="5dp"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/titleSizeHomeItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guidelineImv"
+                app:layout_constraintBottom_toTopOf="@id/txv_price_list_Home"
+                tools:text="name" />
+
+            <TextView
+                android:id="@+id/txv_price_list_Home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="8dp"
+                android:padding="5dp"
+                android:layoutDirection="rtl"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/priceSizeHomeItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txv_name_list_Home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="price" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineImv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.67" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
 </layout>

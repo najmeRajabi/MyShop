@@ -35,17 +35,17 @@ class HomeFragment : Fragment() {
 
         checkConnectionInternet()
         initViews()
-        binding.fabGoToListHome.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
-        }
+
 
 
     }
 
     private fun checkConnectionInternet() {
-//       if ( !vModel.checkForInternet(requireContext())){
-//            findNavController().navigate(R.id.action_homeFragment_to_disconnectBlankFragment)
-//       }
+        vModel.checkForInternet(requireContext())
+        vModel.isConnected.observe(viewLifecycleOwner){
+            if (!it)
+                findNavController().navigate(R.id.action_homeFragment_to_disconnectBlankFragment)
+        }
     }
 
 
@@ -71,6 +71,10 @@ class HomeFragment : Fragment() {
 
         vModel.favoriteProducts.observe(viewLifecycleOwner){
             favoriteAdapter.submitList(it)
+        }
+
+        binding.fabGoToListHome.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
         }
     }
 

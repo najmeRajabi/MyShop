@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentListBinding
@@ -14,6 +15,7 @@ import com.example.myshop.databinding.FragmentProductDetailBinding
 import com.example.myshop.ui.adapters.HomeListsAdapter
 import com.example.myshop.ui.detail.ProductDetailFragmentArgs
 import com.example.myshop.ui.detail.ProductViewModel
+import com.example.myshop.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,15 +40,35 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkConnectionInternet()
+        initView()
+
+    }
+
+    private fun initView() {
         val categoryId = args.categoryArg
         vModel.getProductList(categoryId)
 
-        val adapter = HomeListsAdapter{}
+        val adapter = HomeListsAdapter{
+            goToDetail(it.id)
+        }
         binding.recyclerList.adapter= adapter
 
         vModel.productList.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
+    }
+
+    private fun checkConnectionInternet() {
+        vModel.checkForInternet(requireContext())
+        vModel.isConnected.observe(viewLifecycleOwner){
+            if (!it)
+                findNavController().navigate(R.id.action_listFragment_to_disconnectBlankFragment)
+        }
+    }
+
+    private fun goToDetail(id: Int) {
+        findNavController().navigate(ListFragmentDirections.actionListFragmentToProductDetailFragment(id))
     }
 
 }

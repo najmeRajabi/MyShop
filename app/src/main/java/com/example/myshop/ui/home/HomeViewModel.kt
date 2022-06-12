@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val productRepository: ProductRepository
-    ): ViewModel() {
+    ): BaseViewModel() {
 
     val recentProducts = MutableLiveData<List<Product>>()
     val mostSeenProducts = MutableLiveData<List<Product>>()
