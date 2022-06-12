@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,6 +50,10 @@ class ProductDetailFragment : Fragment() {
         vModel.getProduct(id)
         binding.vModel = vModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        vModel.product.observe(viewLifecycleOwner){
+            binding.txvDescriptionDetail.text = HtmlCompat.fromHtml(it.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
 
         initImageView()
     }

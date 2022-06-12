@@ -22,7 +22,7 @@ class ListViewModel @Inject constructor(
     fun getProductList(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                productList.postValue( productRepository.getProductList(id))
+                productList.postValue( productRepository.getProductsByCategory(id.toString()))
             }catch (e: Exception){
                 Log.d("ListViewModel----tag", "getProducts: $e")
             }

@@ -15,7 +15,8 @@
         android:layout_marginEnd="18dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="18dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         tools:context=".ui.category.CategoryFragment">
 
 

@@ -5,6 +5,7 @@ import com.example.myshop.model.Product
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 private const val KEY = "ck_4e34eda4882e044742e643e35060ab5234231ab3"
 private const val SECRET = "cs_28f528089254ed3dc6bc8cbd0ffeb34a52f69547"
@@ -49,5 +50,22 @@ interface ApiService {
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
     ): List<Product>
+
+    @GET("products/")
+    suspend fun getProductsByCategory(
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+        @Query("category") categoryId: String,
+        @Query("page") page: Int = 1,
+        @Query("per_page") perPage: Int = 100
+    ): List<Product>
+
+//    @GET("products/")
+//    suspend fun getProductsByCategory(
+//        @QueryMap options: Map = NetworkParams.getBaseOptions(),
+//        @Query("category") categoryId: String,
+//        @Query("page") page: Int = 1,
+//        @Query("per_page") perPage: Int = 100
+//    ): List
 
 }

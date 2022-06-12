@@ -31,5 +31,9 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.getProductList(id)
     }
 
+    suspend fun getProductsByCategory(categoryId: String): List<Product> {
+        return apiService.getProductsByCategory(categoryId = categoryId)
+    }
+
 
 }
