@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
     android:layout_width="140dp"
-    android:layout_height="210dp"
+    android:layout_height="220dp"
     android:background="@drawable/bg_gray"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp">
@@ -24,7 +24,7 @@
                 android:id="@+id/imv_list_home"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_margin="8dp"
+                android:layout_margin="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLines="2"
+                android:ellipsize="end"
                 android:padding="5dp"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/titleSizeHomeItem"

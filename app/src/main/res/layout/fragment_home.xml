@@ -7,15 +7,15 @@
 
         <variable
             name="lastAdaptor"
-            type="com.example.myshop.ui.adapters.HomeListsAdapter" />
+            type="com.example.myshop.adapters.HomeListsAdapter" />
 
         <variable
             name="mostSeenAdaptor"
-            type="com.example.myshop.ui.adapters.HomeListsAdapter" />
+            type="com.example.myshop.adapters.HomeListsAdapter" />
 
         <variable
             name="favoriteAdaptor"
-            type="com.example.myshop.ui.adapters.HomeListsAdapter" />
+            type="com.example.myshop.adapters.HomeListsAdapter" />
 
     </data>
 

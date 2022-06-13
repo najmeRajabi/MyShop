@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentHomeBinding
-import com.example.myshop.ui.adapters.HomeListsAdapter
+import com.example.myshop.adapters.HomeListsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

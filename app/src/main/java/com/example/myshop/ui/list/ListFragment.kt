@@ -11,11 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentListBinding
-import com.example.myshop.databinding.FragmentProductDetailBinding
-import com.example.myshop.ui.adapters.HomeListsAdapter
-import com.example.myshop.ui.detail.ProductDetailFragmentArgs
-import com.example.myshop.ui.detail.ProductViewModel
-import com.example.myshop.ui.home.HomeFragmentDirections
+import com.example.myshop.adapters.HomeListsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

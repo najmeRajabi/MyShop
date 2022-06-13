@@ -60,12 +60,4 @@ interface ApiService {
         @Query("per_page") perPage: Int = 100
     ): List<Product>
 
-//    @GET("products/")
-//    suspend fun getProductsByCategory(
-//        @QueryMap options: Map = NetworkParams.getBaseOptions(),
-//        @Query("category") categoryId: String,
-//        @Query("page") page: Int = 1,
-//        @Query("per_page") perPage: Int = 100
-//    ): List
-
 }

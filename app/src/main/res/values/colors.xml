@@ -18,5 +18,7 @@
     <color name="title_color">#444444</color>
     <color name="desc_color">#555555</color>
     <color name="warningTextColor">#444444</color>
+    <color name="bg_white">#eeeeee</color>
+    <color name="golden">#FFEB3B</color>
 
 </resources>

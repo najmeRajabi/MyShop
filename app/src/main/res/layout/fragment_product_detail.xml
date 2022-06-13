@@ -35,6 +35,37 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
+<!--            <androidx.cardview.widget.CardView-->
+<!--                app:cardCornerRadius="6dp"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:minHeight="160dp"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/guideline3"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
+
+<!--                <com.smarteist.autoimageslider.SliderView-->
+<!--                    android:id="@+id/imageSlider"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="300dp"-->
+<!--                    app:sliderAnimationDuration="600"-->
+<!--                    app:sliderAutoCycleDirection="back_and_forth"-->
+<!--                    app:sliderAutoCycleEnabled="true"-->
+<!--                    app:sliderIndicatorAnimationDuration="600"-->
+<!--                    app:sliderIndicatorGravity="center_horizontal|bottom"-->
+<!--                    app:sliderIndicatorMargin="15dp"-->
+<!--                    app:sliderIndicatorOrientation="horizontal"-->
+<!--                    app:sliderIndicatorPadding="3dp"-->
+<!--                    app:sliderIndicatorRadius="2dp"-->
+<!--                    app:sliderIndicatorSelectedColor="#5A5A5A"-->
+<!--                    app:sliderIndicatorUnselectedColor="#FFF"-->
+<!--                    app:sliderScrollTimeInSec="1"-->
+<!--                    app:sliderStartAutoCycle="true" />-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
         <TextView
             android:id="@+id/txv_name_detail"
             android:layout_width="match_parent"
@@ -46,10 +77,18 @@
             android:padding="10dp"
             android:textColor="@color/title_color"
             android:textSize="@dimen/titleSizeHomeItem"
+            android:textStyle="bold"
             android:text="@{vModel.product.name}"
             tools:text="name"
             app:layout_constraintTop_toBottomOf="@id/guideline3"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintTop_toBottomOf="@id/txv_name_detail"
+                android:background="@drawable/bg_gray"/>
             <TextView
                 android:id="@+id/txv_description_detail"
                 android:layout_width="match_parent"
@@ -59,9 +98,52 @@
                 android:padding="10dp"
                 android:textColor="@color/desc_color"
                 android:textSize="@dimen/descSizeHomeItem"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/txv_price_detail"
                 app:layout_constraintTop_toBottomOf="@id/txv_name_detail"
                 tools:text="description" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintTop_toBottomOf="@id/txv_description_detail"
+                android:background="@drawable/bg_gray"/>
+
+            <TextView
+                android:id="@+id/txv_price_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:padding="10dp"
+                android:text="@{vModel.product.price}"
+                android:textColor="@color/desc_color"
+                android:textSize="@dimen/descSizeHomeItem"
+                app:layout_constraintBottom_toTopOf="@id/rating_detail"
+                app:layout_constraintTop_toBottomOf="@id/txv_description_detail"
+                tools:text="price" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintTop_toBottomOf="@id/txv_price_detail"
+                android:background="@drawable/bg_gray"/>
+
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/rating_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="8dp"
+                android:progress="30"
+                android:progressTint="@color/golden"
+                android:shadowColor="@color/desc_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txv_price_detail"
+                style="@style/Widget.MaterialRatingBar.RatingBar" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
