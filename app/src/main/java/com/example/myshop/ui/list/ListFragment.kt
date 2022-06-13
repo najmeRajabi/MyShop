@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentListBinding
 import com.example.myshop.adapters.HomeListsAdapter
+import com.example.myshop.adapters.Orientation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +46,7 @@ class ListFragment : Fragment() {
         val categoryId = args.categoryArg
         vModel.getProductList(categoryId)
 
-        val adapter = HomeListsAdapter{
+        val adapter = HomeListsAdapter(Orientation.VERTICAL){
             goToDetail(it.id)
         }
         binding.recyclerList.adapter= adapter
