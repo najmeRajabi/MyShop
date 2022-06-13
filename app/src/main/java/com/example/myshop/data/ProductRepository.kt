@@ -35,4 +35,8 @@ class ProductRepository @Inject constructor(
     suspend fun getProductsByCategory(categoryId: String): List<Product> {
         return productRemoteDataSource.getProductsByCategory(categoryId)
     }
+
+    suspend fun searchInProducts(searchKey: String): List<Product> {
+        return productRemoteDataSource.searchInProducts(searchKey)
+    }
 }

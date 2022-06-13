@@ -7,4 +7,5 @@
     <string name="lastProducts">جدید ترین ها</string>
     <string name="mostSeenProducts">پر بازدید ترین ها</string>
     <string name="favoriteProducts">محبوب ترین ها</string>
+    <string name="search">جستجو در فروشگاه من</string>
 </resources>
