@@ -10,31 +10,42 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="?attr/colorSecondary"
+        android:orientation="vertical"
         tools:context=".ui.disconnect.DisconnectBlankFragment">
+
+        <ImageView
+            android:id="@+id/imv_connection"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/connection"
+            app:layout_constraintBottom_toTopOf="@id/txv_message_disconnection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/txv_message_disconnection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="18dp"
+            android:gravity="center"
             android:text="@string/messageDisconnection"
-            android:textSize="@dimen/titleSizeCategoryItem"
             android:textColor="@color/warningTextColor"
+            android:textSize="@dimen/titleSizeCategoryItem"
             app:layout_constraintBottom_toTopOf="@+id/btn_retry_connection"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imv_connection"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
             android:id="@+id/btn_retry_connection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/try_again"
             android:layout_marginTop="30dp"
             android:drawableLeft="@drawable/ic_baseline_refresh_24"
             android:drawableTint="?attr/colorOnPrimary"
+            android:text="@string/try_again"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

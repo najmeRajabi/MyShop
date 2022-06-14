@@ -17,6 +17,45 @@
            android:id="@+id/search_menu"
            layout="@layout/menu_search"/>
 
+        <ImageView
+            android:id="@+id/imv_filter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/filter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_menu"
+            android:layout_marginEnd="18dp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/txv_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter"
+            android:textSize="@dimen/titleSizeCategoryItem"
+            app:layout_constraintEnd_toStartOf="@id/imv_filter"
+            app:layout_constraintTop_toTopOf="@id/imv_filter"
+            app:layout_constraintBottom_toBottomOf="@id/imv_filter"/>
+
+        <ImageView
+            android:id="@+id/imv_sort"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/sort_ascending"
+            app:layout_constraintEnd_toStartOf="@id/txv_filter"
+            app:layout_constraintTop_toBottomOf="@id/search_menu"
+            android:layout_marginEnd="18dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/txv_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort"
+            android:textSize="@dimen/titleSizeCategoryItem"
+            app:layout_constraintEnd_toStartOf="@id/imv_sort"
+            app:layout_constraintTop_toTopOf="@id/imv_sort"
+            app:layout_constraintBottom_toBottomOf="@id/imv_sort"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search"
@@ -28,6 +67,6 @@
             android:layout_marginBottom="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_menu" />
+            app:layout_constraintTop_toBottomOf="@id/imv_filter" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
