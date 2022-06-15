@@ -24,6 +24,9 @@ data class Product(
 
     @Json(name = "description")
     val description: String,
+
+    @Json(name = "rating_count")
+    val ratingCount: Int,
 )
 /*
 class Product : ArrayList<ProductItem>()

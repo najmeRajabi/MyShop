@@ -9,8 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
-import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.adapters.HomeListsAdapter
+import com.example.myshop.databinding.FragmentHomeBinding
+import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +28,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.vModel = vModel
         return binding.root
     }
 
@@ -55,7 +58,6 @@ class HomeFragment : Fragment() {
             goToDetail(it.id)}
         val mostSeenAdapter=HomeListsAdapter{ goToDetail(it.id) }
         val favoriteAdapter=HomeListsAdapter{ goToDetail(it.id) }
-        binding.lifecycleOwner = viewLifecycleOwner
         binding.lastAdaptor = lastAdapter
         binding.mostSeenAdaptor = mostSeenAdapter
         binding.favoriteAdaptor = favoriteAdapter
@@ -73,9 +75,39 @@ class HomeFragment : Fragment() {
             favoriteAdapter.submitList(it)
         }
 
+        vModel.state.observe(viewLifecycleOwner){
+            when (it){
+                State.LOADING -> { showLoading() }
+                State.SUCCESS -> { hideLoading() }
+                State.FAILED  -> {}
+                else -> {}
+            }
+        }
+
         binding.fabGoToListHome.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
         }
+    }
+
+    private fun hideLoading() {
+        binding.progressHome.visibility = View.INVISIBLE
+        binding.recyclerMostSeenHome.visibility = View.VISIBLE
+        binding.recyclerFavoriteHome.visibility = View.VISIBLE
+        binding.recyclerLastHome.visibility = View.VISIBLE
+        binding.txvFavoriteHome.visibility = View.VISIBLE
+        binding.txvLastHome.visibility = View.VISIBLE
+        binding.txvMostSeenHome.visibility = View.VISIBLE
+    }
+
+    private fun showLoading() {
+
+        binding.progressHome.visibility = View.VISIBLE
+        binding.recyclerMostSeenHome.visibility = View.INVISIBLE
+        binding.recyclerFavoriteHome.visibility = View.INVISIBLE
+        binding.recyclerLastHome.visibility = View.INVISIBLE
+        binding.txvFavoriteHome.visibility = View.INVISIBLE
+        binding.txvLastHome.visibility = View.INVISIBLE
+        binding.txvMostSeenHome.visibility = View.INVISIBLE
     }
 
     private fun goToDetail(id: Int) {

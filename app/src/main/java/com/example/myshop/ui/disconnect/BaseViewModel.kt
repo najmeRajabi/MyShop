@@ -10,6 +10,8 @@ import com.example.myshop.data.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+enum class State{ LOADING , SUCCESS , FAILED }
+
 @HiltViewModel
 open class BaseViewModel @Inject constructor():ViewModel() {
 

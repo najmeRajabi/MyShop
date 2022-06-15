@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="vModel"
+            type="com.example.myshop.ui.home.HomeViewModel" />
 
         <variable
             name="lastAdaptor"
@@ -16,6 +20,10 @@
         <variable
             name="favoriteAdaptor"
             type="com.example.myshop.adapters.HomeListsAdapter" />
+
+        <variable
+            name="State"
+            type="com.example.myshop.ui.disconnect.State" />
 
     </data>
 
@@ -33,6 +41,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:id="@+id/progress_home"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:progressTint="@color/golden"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
 
                 <TextView
                     android:id="@+id/txv_last_home"
@@ -49,6 +67,7 @@
                     android:layoutDirection="rtl"
                     app:layout_constraintBottom_toTopOf="@id/recycler_last_Home"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="invisible"
                     tools:ignore="RtlSymmetry" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -59,6 +78,7 @@
                     android:background="?attr/colorSecondary"
                     android:orientation="horizontal"
                     android:padding="5dp"
+                    android:visibility="invisible"
                     android:layoutDirection="rtl"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -71,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
+                    android:visibility="invisible"
                     android:background="?attr/colorSecondaryVariant"
                     android:paddingEnd="20dp"
                     android:paddingStart="20dp"
@@ -80,7 +101,8 @@
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toTopOf="@id/recycler_most_seen_Home"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_last_Home" />
+                    app:layout_constraintTop_toBottomOf="@id/recycler_last_Home"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_most_seen_Home"
@@ -90,11 +112,13 @@
                     android:background="?attr/colorSecondaryVariant"
                     android:orientation="horizontal"
                     android:padding="5dp"
+                    android:visibility="invisible"
                     android:layoutDirection="rtl"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txv_most_seen_home" />
+                    app:layout_constraintTop_toBottomOf="@id/txv_most_seen_home"
+                    />
 
 
                 <TextView
@@ -102,6 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
+                    android:visibility="invisible"
                     android:background="?attr/colorPrimary"
                     android:paddingEnd="20dp"
                     android:paddingStart="20dp"
@@ -111,7 +136,8 @@
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toTopOf="@id/recycler_favorite_Home"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_most_seen_Home" />
+                    app:layout_constraintTop_toBottomOf="@id/recycler_most_seen_Home"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_favorite_Home"
@@ -121,12 +147,14 @@
                     android:background="?attr/colorPrimary"
                     android:orientation="horizontal"
                     android:padding="5dp"
+                    android:visibility="invisible"
                     android:layoutDirection="rtl"
                     android:layout_marginBottom="56dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txv_favorite_home" />
+                    app:layout_constraintTop_toBottomOf="@id/txv_favorite_home"
+                    />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
