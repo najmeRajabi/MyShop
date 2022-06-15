@@ -1,5 +1,6 @@
 package com.example.myshop.ui.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +46,7 @@ class ProductDetailFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView() {
         val id = args.idArg
         vModel.getProduct(id)
@@ -53,6 +55,9 @@ class ProductDetailFragment : Fragment() {
 
         vModel.product.observe(viewLifecycleOwner){
             binding.txvDescriptionDetail.text = HtmlCompat.fromHtml(it.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            binding.txvPriceDetail.text= it.price +" "+ getString(R.string.tooman)
+            binding.ratingDetail.progress = it.averageRating.toInt()
+            binding.txvRateCountDetail.text = " (${it.ratingCount}) رأی "
         }
 
         initImageView()

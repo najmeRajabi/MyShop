@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">MyShop</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="messageDisconnection">اتصال اینترنت برقرار نیست! لطفا بررسی کنید.</string>
     <string name="try_again">تلاش دوباره </string>
     <string name="lastProducts">جدید ترین ها</string>
     <string name="mostSeenProducts">پر بازدید ترین ها</string>
     <string name="favoriteProducts">محبوب ترین ها</string>
+    <string name="tooman">  تومان </string>
 </resources>

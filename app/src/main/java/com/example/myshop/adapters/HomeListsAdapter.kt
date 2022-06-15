@@ -50,9 +50,11 @@ class HomeListsAdapter(var clickHandler: ClickHandler) :
 
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val txvTitle = view.findViewById<TextView>(R.id.txv_name_list_Home)
-        val txvPrice = view.findViewById<TextView>(R.id.txv_price_list_Home)
-        val imvImage = view.findViewById<ImageView>(R.id.imv_list_home)
+        private val txvTitle = view.findViewById<TextView>(R.id.txv_name_list_Home)
+        private val txvPrice = view.findViewById<TextView>(R.id.txv_price_list_Home)
+        private val txvRate = view.findViewById<TextView>(R.id.txv_rateCount_item)
+        private val imvImage = view.findViewById<ImageView>(R.id.imv_list_home)
+        private val imvRate = view.findViewById<ImageView>(R.id.imv_rate_item)
 
 
         @SuppressLint("SetTextI18n")
@@ -63,6 +65,8 @@ class HomeListsAdapter(var clickHandler: ClickHandler) :
 
             txvTitle.text = product.name
             txvPrice.text = product.price+ " تومان"
+            txvRate.text = product.averageRating.toString() //+" "+ "(${product.ratingCount}) "
+            rateImage(product.ratingCount,imvRate)
             try {
 
                 Glide
@@ -83,6 +87,15 @@ class HomeListsAdapter(var clickHandler: ClickHandler) :
 
             view.setOnClickListener { clickHandler(product) }
 
+        }
+
+        private fun rateImage(ratingCount: Int , imageView: ImageView) {
+            if (ratingCount == 0){
+                imageView.setImageResource(R.drawable.ic_baseline_star_outline_24)
+            }else{
+                imageView.setImageResource(R.drawable.ic_baseline_star_rate_24)
+
+            }
         }
     }
 
