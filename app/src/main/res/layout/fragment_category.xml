@@ -6,6 +6,11 @@
     <data>
 
     </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSecondary">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_category"
@@ -17,8 +22,8 @@
         android:layout_marginStart="18dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:context=".ui.category.CategoryFragment">
+        tools:context=".ui.category.CategoryFragment"/>
 
+    </LinearLayout>
 
-    </androidx.recyclerview.widget.RecyclerView>
 </layout>
