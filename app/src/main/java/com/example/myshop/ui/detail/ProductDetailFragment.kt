@@ -17,6 +17,7 @@ import com.example.myshop.R
 import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator3
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -76,21 +77,10 @@ class ProductDetailFragment : Fragment() {
         vModel.product.observe(viewLifecycleOwner) {
             val sliderAdapter= SliderAdapter(requireContext(),it.images)
             viewPager.adapter = sliderAdapter
-//            try {
-//
-//                Glide
-//                    .with(requireContext())
-//                    .load(it.images[0].src)
-//                    .centerCrop()
-//                    .transition(DrawableTransitionOptions.withCrossFade())
-//                    .transform(CenterInside(), RoundedCorners(25))
-//                    .placeholder(R.drawable.ic_baseline_more_horiz_24)
-//                    .error(R.drawable.ic_baseline_image_not_supported_24)
-//                    .into(binding.imvDetail)
-//            }catch (e: Exception){
-//                binding.imvDetail.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
-//            }
         }
+
+        val indicator: CircleIndicator3 =binding.indicatorDetail
+        indicator.setViewPager(viewPager)
     }
 
 }
