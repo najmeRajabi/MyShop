@@ -21,49 +21,28 @@
             android:paddingBottom="20dp">
 
 
-            <ImageView
-                android:id="@+id/imv_detail"
+<!--            <ImageView-->
+<!--                android:id="@+id/imv_detail"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:layout_weight="2"-->
+<!--                android:visibility="invisible"-->
+<!--                android:minHeight="160dp"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/guideline3"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                tools:srcCompat="@tools:sample/avatars" />-->
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager_detail"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_margin="8dp"
-                android:layout_weight="2"
-                android:minHeight="160dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <!--            <androidx.cardview.widget.CardView-->
-            <!--                app:cardCornerRadius="6dp"-->
-            <!--                android:layout_margin="16dp"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:minHeight="160dp"-->
-            <!--                app:layout_constraintBottom_toTopOf="@+id/guideline3"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent">-->
-
-            <!--                <com.smarteist.autoimageslider.SliderView-->
-            <!--                    android:id="@+id/imageSlider"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="300dp"-->
-            <!--                    app:sliderAnimationDuration="600"-->
-            <!--                    app:sliderAutoCycleDirection="back_and_forth"-->
-            <!--                    app:sliderAutoCycleEnabled="true"-->
-            <!--                    app:sliderIndicatorAnimationDuration="600"-->
-            <!--                    app:sliderIndicatorGravity="center_horizontal|bottom"-->
-            <!--                    app:sliderIndicatorMargin="15dp"-->
-            <!--                    app:sliderIndicatorOrientation="horizontal"-->
-            <!--                    app:sliderIndicatorPadding="3dp"-->
-            <!--                    app:sliderIndicatorRadius="2dp"-->
-            <!--                    app:sliderIndicatorSelectedColor="#5A5A5A"-->
-            <!--                    app:sliderIndicatorUnselectedColor="#FFF"-->
-            <!--                    app:sliderScrollTimeInSec="1"-->
-            <!--                    app:sliderStartAutoCycle="true" />-->
-
-            <!--            </androidx.cardview.widget.CardView>-->
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:layout_width="match_parent"
@@ -71,7 +50,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/bg_gray"
-                app:layout_constraintTop_toBottomOf="@id/imv_detail" />
+                app:layout_constraintTop_toBottomOf="@id/viewPager_detail" />
 
             <TextView
                 android:id="@+id/txv_name_detail"

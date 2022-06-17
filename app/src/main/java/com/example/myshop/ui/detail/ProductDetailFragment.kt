@@ -5,17 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.ViewPager
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myshop.R
+import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -72,21 +71,25 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun initImageView() {
-        vModel.product.observe(viewLifecycleOwner) {
-            try {
 
-                Glide
-                    .with(requireContext())
-                    .load(it.images[0].src)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .transform(CenterInside(), RoundedCorners(25))
-                    .placeholder(R.drawable.ic_baseline_more_horiz_24)
-                    .error(R.drawable.ic_baseline_image_not_supported_24)
-                    .into(binding.imvDetail)
-            }catch (e: Exception){
-                binding.imvDetail.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
-            }
+        val viewPager:ViewPager2 = binding.viewPagerDetail
+        vModel.product.observe(viewLifecycleOwner) {
+            val sliderAdapter= SliderAdapter(requireContext(),it.images)
+            viewPager.adapter = sliderAdapter
+//            try {
+//
+//                Glide
+//                    .with(requireContext())
+//                    .load(it.images[0].src)
+//                    .centerCrop()
+//                    .transition(DrawableTransitionOptions.withCrossFade())
+//                    .transform(CenterInside(), RoundedCorners(25))
+//                    .placeholder(R.drawable.ic_baseline_more_horiz_24)
+//                    .error(R.drawable.ic_baseline_image_not_supported_24)
+//                    .into(binding.imvDetail)
+//            }catch (e: Exception){
+//                binding.imvDetail.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
+//            }
         }
     }
 
