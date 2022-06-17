@@ -64,7 +64,7 @@ class HomeListsAdapter(var clickHandler: ClickHandler) :
         ) {
 
             txvTitle.text = product.name
-            txvPrice.text = product.price+ " تومان"
+            txvPrice.text = "%,d".format(product.price.toInt())+ " تومان"
             txvRate.text = product.averageRating.toString() //+" "+ "(${product.ratingCount}) "
             rateImage(product.ratingCount,imvRate)
             try {

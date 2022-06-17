@@ -25,6 +25,7 @@ class HomeViewModel @Inject constructor(
     val favoriteProducts = MutableLiveData<List<Product>>()
     val state = MutableLiveData<State>()
     val serverError = MutableLiveData<Boolean>()
+    var splashFlag = true
 
     init {
         getLastProducts()

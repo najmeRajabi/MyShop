@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.HeaderViewListAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.R
 import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.databinding.FragmentHomeBinding
@@ -54,6 +56,8 @@ class HomeFragment : Fragment() {
 
 
     private fun initViews() {
+//        val header: RecyclerView.ItemDecoration = layoutInflater.inflate(layoutInflater,R.layout.category_list_item,false)
+//        binding.recyclerLastHome.addItemDecoration(header)
         val lastAdapter=HomeListsAdapter{
             goToDetail(it.id)}
         val mostSeenAdapter=HomeListsAdapter{ goToDetail(it.id) }

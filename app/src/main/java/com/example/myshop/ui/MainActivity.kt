@@ -3,15 +3,18 @@ package com.example.myshop.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.example.myshop.R
 import com.example.myshop.databinding.ActivityMainBinding
+import com.example.myshop.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
+    val vModel: HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
@@ -19,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         val imvSplash = binding.imvSplashScreen
         val fragment = binding.fragmentContainerView
-//        if (vModelList.splashFlag) {
+        if (vModel.splashFlag) {
             imvSplash.apply {
                 alpha = 0f
                 animate().setDuration(3000).alpha(1f)
@@ -32,10 +35,10 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
             }
-//            vModelList.splashFlag = false
-//        }else{
-//            fragment.visibility = View.VISIBLE
-//            imvSplash.visibility = View.GONE
-//        }
+            vModel.splashFlag = false
+        }else{
+            fragment.visibility = View.VISIBLE
+            imvSplash.visibility = View.GONE
+        }
     }
 }

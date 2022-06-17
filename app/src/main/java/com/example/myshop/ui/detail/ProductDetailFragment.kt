@@ -55,7 +55,7 @@ class ProductDetailFragment : Fragment() {
 
         vModel.product.observe(viewLifecycleOwner){
             binding.txvDescriptionDetail.text = HtmlCompat.fromHtml(it.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            binding.txvPriceDetail.text= it.price +" "+ getString(R.string.tooman)
+            binding.txvPriceDetail.text= "%,d".format(it.price.toInt()) +" "+ getString(R.string.tooman)
             binding.ratingDetail.progress = it.averageRating.toInt()
             binding.txvRateCountDetail.text = " (${it.ratingCount}) رأی "
         }
