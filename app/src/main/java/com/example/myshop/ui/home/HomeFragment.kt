@@ -62,11 +62,8 @@ class HomeFragment : Fragment() {
     private fun initViews() {
 //        val header: RecyclerView.ItemDecoration = layoutInflater.inflate(layoutInflater,R.layout.category_list_item,false)
 //        binding.recyclerLastHome.addItemDecoration(header)
-        val lastAdapter=HomeListsAdapter{
         val lastAdapter=HomeListsAdapter(Orientation.HORIZONTAL){
             goToDetail(it.id)}
-        val mostSeenAdapter=HomeListsAdapter{ goToDetail(it.id) }
-        val favoriteAdapter=HomeListsAdapter{ goToDetail(it.id) }
         val mostSeenAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
         val favoriteAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
         binding.lifecycleOwner = viewLifecycleOwner

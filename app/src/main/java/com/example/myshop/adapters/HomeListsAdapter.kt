@@ -99,7 +99,7 @@ class HomeListsAdapter(
 
                 txvTitle.text = "name"
                 txvPrice.text = "%,d".format(0)+ " تومان"
-                txvRate.text = "0"
+                txvRate.text = " "
 
                 imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
 
