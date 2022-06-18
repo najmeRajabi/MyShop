@@ -36,15 +36,17 @@ class HomeViewModel @Inject constructor(
         fun getLastProducts(){
             viewModelScope.launch(Dispatchers.IO) {
                 state.postValue(State.LOADING)
-                try {
-                    delay(2000)
-                    recentProducts.postValue( productRepository.getLastProducts())
-                    state.postValue(State.SUCCESS)
-                }catch (e: Exception){
-                    state.postValue(State.FAILED)
-                    serverError.postValue(false)
-                    Log.d("HomeViewModel----tag", "getProducts: $e")
-                }
+                recentProducts.postValue( productRepository.getLastProducts().data!!)
+                state.postValue(productRepository.getLastProducts().status)
+                message.postValue(productRepository.getLastProducts().message)
+//                try {
+//                    recentProducts.postValue( productRepository.getLastProducts().data!!)
+//                    state.postValue(State.SUCCESS)
+//                }catch (e: Exception){
+//                    state.postValue(State.FAILED)
+//                    serverError.postValue(false)
+//                    Log.d("HomeViewModel----tag", "getProducts: $e")
+//                }
             }
         }
 

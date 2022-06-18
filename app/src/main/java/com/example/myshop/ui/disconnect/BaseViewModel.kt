@@ -16,6 +16,7 @@ enum class State{ LOADING , SUCCESS , FAILED }
 open class BaseViewModel @Inject constructor():ViewModel() {
 
     val isConnected = MutableLiveData<Boolean>()
+    val message = MutableLiveData<String>()
 
     fun checkForInternet(context: Context){
         isConnected.value = checkForConnection(context)

@@ -2,13 +2,14 @@ package com.example.myshop.data
 
 import com.example.myshop.model.Category
 import com.example.myshop.model.Product
+import com.example.myshop.ui.disconnect.State
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(
     val productRemoteDataSource: ProductRemoteDataSource
 ) {
 
-    suspend fun getLastProducts(): List<Product>{
+    suspend fun getLastProducts(): Resource<List<Product>> {
         return productRemoteDataSource.getLastProducts()
     }
 
@@ -36,3 +37,4 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.getProductsByCategory(categoryId)
     }
 }
+data class Resource<T>(var status: State, var data: T?, var message: String? = null)

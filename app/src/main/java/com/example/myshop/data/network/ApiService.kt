@@ -2,6 +2,7 @@ package com.example.myshop.data.network
 
 import com.example.myshop.model.Category
 import com.example.myshop.model.Product
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -15,7 +16,7 @@ interface ApiService {
     suspend fun getLastProducts(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ): List<Product>
+    ): Response<List<Product>>
 
     @GET("products/{id}")
     suspend fun getProduct(

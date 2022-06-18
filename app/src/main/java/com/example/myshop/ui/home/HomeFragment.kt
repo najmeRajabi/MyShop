@@ -14,6 +14,7 @@ import com.example.myshop.R
 import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.ui.disconnect.State
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -83,7 +84,7 @@ class HomeFragment : Fragment() {
             when (it){
                 State.LOADING -> { showLoading() }
                 State.SUCCESS -> { hideLoading() }
-                State.FAILED  -> {}
+                State.FAILED  -> { showErrorMessage()}
                 else -> {}
             }
         }
@@ -91,6 +92,15 @@ class HomeFragment : Fragment() {
         binding.fabGoToListHome.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
         }
+    }
+
+    private fun showErrorMessage() {
+        val snackbar = Snackbar.make(binding.coordinator
+            ,vModel.message.value.toString(),Snackbar.LENGTH_SHORT)
+        snackbar.setAction("تلاش دوباره", View.OnClickListener {
+
+            snackbar.dismiss()
+        }).show()
     }
 
     private fun hideLoading() {
