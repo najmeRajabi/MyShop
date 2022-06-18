@@ -35,7 +35,7 @@
                 android:id="@+id/indicator_detail"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                app:ci_drawable="@color/golden"
+                app:ci_drawable="@drawable/bg_circle"
                 app:layout_constraintBottom_toTopOf="@+id/guideline3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
