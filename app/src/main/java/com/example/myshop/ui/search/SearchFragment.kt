@@ -53,7 +53,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun search() {
-        binding.searchMenu.searchEdtHome.addTextChangedListener{ text ->
+        binding.searchEdtSearch.addTextChangedListener{ text ->
             vModel.searchInProducts(text.toString())
         }
     }
