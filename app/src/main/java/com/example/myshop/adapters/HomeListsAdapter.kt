@@ -16,20 +16,34 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.example.myshop.R
 import com.example.myshop.model.Product
+import com.example.myshop.ui.home.HomeFragment
 
+enum class Orientation {
+    VERTICAL,
+    HORIZONTAL
+}
 
 typealias ClickHandler = (product: Product) -> Unit
 
-class HomeListsAdapter(var clickHandler: ClickHandler) :
+class HomeListsAdapter(
+    var orientation: Orientation,
+    var clickHandler: ClickHandler
+                        ) :
     ListAdapter<Product, HomeListsAdapter.ViewHolder>(ProductDiffCallback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeListsAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.home_list_item, parent, false)
+        val viewRow = LayoutInflater.from(parent.context)
+            .inflate(R.layout.product_item_row, parent, false)
 
+        return if (orientation == Orientation.HORIZONTAL){
+            ViewHolder(view)
+        }else{
+            ViewHolder(viewRow)
+        }
 
-        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: HomeListsAdapter.ViewHolder, position: Int) {

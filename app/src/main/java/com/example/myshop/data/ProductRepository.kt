@@ -36,5 +36,9 @@ class ProductRepository @Inject constructor(
     suspend fun getProductsByCategory(categoryId: String): List<Product> {
         return productRemoteDataSource.getProductsByCategory(categoryId)
     }
+
+    suspend fun searchInProducts(searchKey: String): List<Product> {
+        return productRemoteDataSource.searchInProducts(searchKey)
+    }
 }
 data class Resource<T>(var status: State, var data: T?, var message: String? = null)

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.search.SearchFragment">
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_menu_edtField_home"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            app:startIconDrawable="@drawable/ic_baseline_search_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:hint="@string/search"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_edt_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/txv_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter"
+            android:textSize="@dimen/titleSizeCategoryItem"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_menu_edtField_home"
+            android:layout_marginEnd="18dp"
+            android:layout_marginTop="5dp"
+            app:drawableEndCompat="@drawable/filter"
+            android:drawablePadding="3dp"/>
+
+        <TextView
+            android:id="@+id/txv_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort"
+            android:textSize="@dimen/titleSizeCategoryItem"
+            app:layout_constraintEnd_toStartOf="@id/txv_filter"
+            app:layout_constraintTop_toBottomOf="@id/search_menu_edtField_home"
+            android:layout_marginEnd="18dp"
+            android:layout_marginTop="5dp"
+            app:drawableEndCompat="@drawable/sort_ascending"
+            android:drawablePadding="3dp"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txv_filter" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

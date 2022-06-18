@@ -6,4 +6,7 @@
     <string name="mostSeenProducts">پر بازدید ترین ها</string>
     <string name="favoriteProducts">محبوب ترین ها</string>
     <string name="tooman">  تومان </string>
+    <string name="search">جستجو در فروشگاه من</string>
+    <string name="filter">فیلتر</string>
+    <string name="sort">جدید ترین</string>
 </resources>

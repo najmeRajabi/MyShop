@@ -61,4 +61,11 @@ interface ApiService {
         @Query("per_page") perPage: Int = 100
     ): List<Product>
 
+    @GET("products/")
+    suspend fun searchInProducts(
+        @Query("search") searchKey : String,
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+    ): List<Product>
+
 }

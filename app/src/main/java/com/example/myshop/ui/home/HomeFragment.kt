@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.HeaderViewListAdapter
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +17,7 @@ import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.snackbar.Snackbar
+import com.example.myshop.adapters.Orientation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,9 +63,13 @@ class HomeFragment : Fragment() {
 //        val header: RecyclerView.ItemDecoration = layoutInflater.inflate(layoutInflater,R.layout.category_list_item,false)
 //        binding.recyclerLastHome.addItemDecoration(header)
         val lastAdapter=HomeListsAdapter{
+        val lastAdapter=HomeListsAdapter(Orientation.HORIZONTAL){
             goToDetail(it.id)}
         val mostSeenAdapter=HomeListsAdapter{ goToDetail(it.id) }
         val favoriteAdapter=HomeListsAdapter{ goToDetail(it.id) }
+        val mostSeenAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
+        val favoriteAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.lastAdaptor = lastAdapter
         binding.mostSeenAdaptor = mostSeenAdapter
         binding.favoriteAdaptor = favoriteAdapter
@@ -91,6 +98,10 @@ class HomeFragment : Fragment() {
 
         binding.fabGoToListHome.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
+        }
+
+        binding.menuSearch.searchEdtHome.setOnClickListener{ text ->
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
     }
 
