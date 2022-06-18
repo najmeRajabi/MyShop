@@ -77,10 +77,11 @@ class ProductDetailFragment : Fragment() {
         vModel.product.observe(viewLifecycleOwner) {
             val sliderAdapter= SliderAdapter(requireContext(),it.images)
             viewPager.adapter = sliderAdapter
+            val indicator: CircleIndicator3 =binding.indicatorDetail
+            indicator.setViewPager(viewPager)
         }
 
-        val indicator: CircleIndicator3 =binding.indicatorDetail
-        indicator.setViewPager(viewPager)
+
     }
 
 }
