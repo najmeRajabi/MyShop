@@ -63,11 +63,13 @@ class HomeListsAdapter(var clickHandler: ClickHandler) :
             clickHandler: ClickHandler
         ) {
 
-            txvTitle.text = product.name
-            txvPrice.text = "%,d".format(product.price.toInt())+ " تومان"
-            txvRate.text = product.averageRating.toString() //+" "+ "(${product.ratingCount}) "
-            rateImage(product.ratingCount,imvRate)
+
             try {
+
+                txvTitle.text = product.name
+                txvPrice.text = "%,d".format(product.price.toInt())+ " تومان"
+                txvRate.text = product.averageRating.toString()
+                rateImage(product.ratingCount,imvRate)
 
                 Glide
                     .with(view)
@@ -80,6 +82,10 @@ class HomeListsAdapter(var clickHandler: ClickHandler) :
                     .into(imvImage)
             } catch (e: Exception) {
                 Log.d("HomeAdaptor---TAG", "bind: $e ")
+
+                txvTitle.text = "name"
+                txvPrice.text = "%,d".format(0)+ " تومان"
+                txvRate.text = "0"
 
                 imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
 
