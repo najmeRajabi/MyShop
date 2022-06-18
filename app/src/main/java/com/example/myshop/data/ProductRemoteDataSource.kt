@@ -53,5 +53,8 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.searchInProducts(searchKey = searchKey)
     }
 
+    suspend fun sortProducts(sortItem: String): List<Product> {
+        return apiService.sortProducts(sortItem)
+    }
 
 }

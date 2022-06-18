@@ -68,4 +68,11 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET,
     ): List<Product>
 
+    @GET("products/")
+    suspend fun sortProducts(
+        @Query("orderby") orderby : String ,
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+    ): List<Product>
+
 }

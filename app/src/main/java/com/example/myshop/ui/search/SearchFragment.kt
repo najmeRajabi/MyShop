@@ -40,6 +40,16 @@ class SearchFragment : Fragment() {
 
         search()
         initViews()
+        sortProducts()
+        filterProducts()
+    }
+
+    private fun filterProducts() {
+
+    }
+
+    private fun sortProducts() {
+
     }
 
     private fun initViews() {
