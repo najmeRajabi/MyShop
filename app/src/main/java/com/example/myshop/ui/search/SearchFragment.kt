@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -16,6 +18,7 @@ import com.example.myshop.adapters.Orientation
 import com.example.myshop.databinding.FragmentSearchBinding
 import com.example.myshop.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -40,6 +43,34 @@ class SearchFragment : Fragment() {
 
         search()
         initViews()
+        sortProducts()
+        filterProducts()
+    }
+
+    private fun filterProducts() {
+
+        val items = listOf("Material", "Design", "Components", "Android")
+        val adapter = ArrayAdapter(requireContext(), R.layout.spiner_item, items)
+        (binding.txvFilter as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun sortProducts() {
+
+        val txvSort = binding.txvSort
+        val items = listOf("پربازدید ترین","محبوبترین","جدیدترین","بیشترین قیمت")
+        val adapter = ArrayAdapter(requireContext(), R.layout.spiner_item, items)
+        (txvSort as? AutoCompleteTextView)?.setAdapter(adapter)
+
+        txvSort.setOnItemClickListener { adapterView, view, i, l ->
+            when (i){
+                0 -> vModel.sortProduct(SortItemProduct.POPULARITY.name.lowercase(Locale.getDefault()))
+                1 -> vModel.sortProduct(SortItemProduct.RATING.name.lowercase(Locale.getDefault()))
+                2 -> vModel.sortProduct(SortItemProduct.DATE.name.lowercase(Locale.getDefault()))
+                3 -> vModel.sortProduct(SortItemProduct.PRICE.name.lowercase(Locale.getDefault()))
+            }
+        }
+
+
     }
 
     private fun initViews() {
