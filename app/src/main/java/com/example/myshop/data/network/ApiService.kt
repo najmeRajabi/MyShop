@@ -16,6 +16,7 @@ interface ApiService {
     suspend fun getLastProducts(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
+        @Query("perpage") perPage: Int = 100
     ): Response<List<Product>>
 
     @GET("products/{id}")
@@ -29,14 +30,18 @@ interface ApiService {
     suspend fun getMostSeenProducts(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-        @Query("orderby") orderby : String = "rating"
+        @Query("orderby") orderby : String = "rating",
+        @Query("perpage") perPage: Int = 100
+
     ): List<Product>
 
     @GET("products")
     suspend fun getFavoriteProducts(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-        @Query("orderby") orderby : String ="popularity"
+        @Query("orderby") orderby : String ="popularity",
+        @Query("perpage") perPage: Int = 100
+
     ): List<Product>
 
     @GET("products/categories")

@@ -39,32 +39,82 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <TextView
-            android:id="@+id/txv_filter"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/field_txv_filter"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/filter"
-            android:textSize="@dimen/titleSizeCategoryItem"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/filter"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/field_txv_sort"
             app:layout_constraintTop_toBottomOf="@id/search_menu_edtField_home"
             android:layout_marginEnd="18dp"
             android:layout_marginTop="5dp"
-            app:drawableEndCompat="@drawable/filter"
-            android:drawablePadding="3dp"/>
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
 
-        <TextView
-            android:id="@+id/txv_sort"
-            android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/txv_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:text="@string/filter"
+                android:textSize="15sp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/field_txv_sort"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/sort"
-            android:textSize="@dimen/titleSizeCategoryItem"
-            app:layout_constraintEnd_toStartOf="@id/txv_filter"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/sort_ascending"
+            app:layout_constraintEnd_toStartOf="@id/field_txv_filter"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_menu_edtField_home"
             android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="5dp"
-            app:drawableEndCompat="@drawable/sort_ascending"
-            android:drawablePadding="3dp"/>
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txv_sort"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="@string/sort"
+                        android:textSize="15sp"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--        <TextView-->
+<!--            android:id="@+id/txv_filter"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/filter"-->
+<!--            android:textSize="@dimen/titleSizeCategoryItem"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/search_menu_edtField_home"-->
+<!--            android:layout_marginEnd="18dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            app:drawableEndCompat="@drawable/filter"-->
+<!--            android:drawablePadding="3dp"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/txv_sort"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="18dp"-->
+<!--            android:drawablePadding="3dp"-->
+<!--            android:text="@string/sort"-->
+<!--            android:textSize="@dimen/titleSizeCategoryItem"-->
+<!--            app:drawableEndCompat="@drawable/sort_ascending"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/field_txv_filter"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/search_menu_edtField_home" />-->
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -77,6 +127,6 @@
             android:layout_marginBottom="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txv_filter" />
+            app:layout_constraintTop_toBottomOf="@id/field_txv_filter" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

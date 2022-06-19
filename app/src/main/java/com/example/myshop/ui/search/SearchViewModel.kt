@@ -41,7 +41,7 @@ class SearchViewModel @Inject constructor(
     fun sortProduct(sortItem: String){
         viewModelScope.launch {
             try {
-                sortedList.postValue(productRepository.sortProducts("TITLE".lowercase(Locale.getDefault())))
+                searchList.postValue(productRepository.sortProducts(sortItem))
             }catch (e: Exception){
                 Log.d("searchVM---TAG", "sortProduct: ${e.message}")
             }
