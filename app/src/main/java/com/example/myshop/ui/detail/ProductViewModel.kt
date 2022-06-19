@@ -29,4 +29,8 @@ class ProductViewModel @Inject constructor(
             }
         }
     }
+
+    fun addToCart() {
+        productRepository.addToCart(product)
+    }
 }

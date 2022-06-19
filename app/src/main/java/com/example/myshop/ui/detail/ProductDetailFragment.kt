@@ -43,7 +43,14 @@ class ProductDetailFragment : Fragment() {
 
         checkConnectionInternet()
         initView()
+        addToCart()
 
+    }
+
+    private fun addToCart() {
+        binding.menuDetail.imvAddToCart.setOnClickListener {
+            vModel.addToCart()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -58,6 +65,10 @@ class ProductDetailFragment : Fragment() {
             binding.txvPriceDetail.text= "%,d".format(it.price.toInt()) +" "+ getString(R.string.tooman)
             binding.ratingDetail.progress = it.averageRating.toInt()
             binding.txvRateCountDetail.text = " (${it.ratingCount}) رأی "
+        }
+
+        binding.menuDetail.imvBack.setOnClickListener {
+            requireActivity().onBackPressed()
         }
 
         initImageView()
