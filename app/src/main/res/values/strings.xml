@@ -9,4 +9,7 @@
     <string name="search">جستجو در فروشگاه من</string>
     <string name="filter">فیلتر</string>
     <string name="sort">جدید ترین</string>
+    <string name="list">دسته بندی ها</string>
+    <string name="shoppingBascet">سبد خرید</string>
+    <string name="user">پروفایل</string>
 </resources>

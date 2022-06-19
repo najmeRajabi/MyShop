@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.myshop.R
 import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator3
 
@@ -50,6 +51,7 @@ class ProductDetailFragment : Fragment() {
     private fun addToCart() {
         binding.menuDetail.imvAddToCart.setOnClickListener {
             vModel.addToCart()
+            showMessage()
         }
     }
 
@@ -93,6 +95,12 @@ class ProductDetailFragment : Fragment() {
         }
 
 
+    }
+
+    private fun showMessage() {
+        val snackbar = Snackbar.make(binding.coordinatorDetail
+            ,"به لیست خرید افزوده شد.", Snackbar.LENGTH_SHORT)
+        snackbar.show()
     }
 
 }
