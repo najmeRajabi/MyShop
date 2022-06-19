@@ -96,10 +96,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.fabGoToListHome.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
-        }
-
         binding.menuSearch.searchEdtHome.setOnClickListener{ text ->
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }

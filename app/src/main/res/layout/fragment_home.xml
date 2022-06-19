@@ -193,24 +193,5 @@
             android:id="@+id/menu_search"
             layout="@layout/menu_search"/>
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_goToList_home"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/purple_200"
-            android:src="@drawable/ic_baseline_list_24" />
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:menu="@menu/bottom_nav_menu_home"
-            android:layout_gravity="bottom"
-            android:elevation="5dp"
-            />
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

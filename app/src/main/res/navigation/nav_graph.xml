@@ -12,9 +12,6 @@
             android:id="@+id/action_homeFragment_to_disconnectBlankFragment"
             app:destination="@id/disconnectBlankFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
         <action
