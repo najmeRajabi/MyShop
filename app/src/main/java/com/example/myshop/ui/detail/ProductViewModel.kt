@@ -2,7 +2,6 @@ package com.example.myshop.ui.detail
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Product
@@ -24,7 +23,7 @@ class ProductViewModel @Inject constructor(
     fun getProduct(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                product.postValue( productRepository.getProduct(id))
+                product.postValue( productRepository.getProductById(id))
             }catch (e: Exception){
                 Log.d("ProductViewModel----tag", "getProduct: $e")
             }

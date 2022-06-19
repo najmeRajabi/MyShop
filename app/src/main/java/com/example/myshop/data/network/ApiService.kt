@@ -19,7 +19,7 @@ interface ApiService {
     ): Response<List<Product>>
 
     @GET("products/{id}")
-    suspend fun getProduct(
+    suspend fun getProductById(
         @Path("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,

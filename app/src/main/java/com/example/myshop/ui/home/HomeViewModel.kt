@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
+const val SPECIAL_OFFERS = 608
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val productRepository: ProductRepository
@@ -23,6 +25,7 @@ class HomeViewModel @Inject constructor(
     val recentProducts = MutableLiveData<List<Product>>()
     val mostSeenProducts = MutableLiveData<List<Product>>()
     val favoriteProducts = MutableLiveData<List<Product>>()
+    val specialProduct = MutableLiveData<Product>()
     val state = MutableLiveData<State>()
     val serverError = MutableLiveData<Boolean>()
     var splashFlag = true
@@ -68,6 +71,18 @@ class HomeViewModel @Inject constructor(
             }catch (e: Exception){
                 serverError.postValue(false)
                 Log.d("HomeViewModel----tag", "getFavProducts: $e")
+            }
+        }
+    }
+
+    fun getSpecialOffers(){
+        viewModelScope.launch {
+            try {
+
+                specialProduct.postValue(productRepository.getProductById(SPECIAL_OFFERS))
+                Log.d("HomeViewModel----tag", "getSpecialOffers true: ${productRepository.getProductById(SPECIAL_OFFERS)}")
+            }catch (e: Exception){
+                Log.d("HomeViewModel----tag", "getSpecialOffers: ${e.message}")
             }
         }
     }

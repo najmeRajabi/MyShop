@@ -57,6 +57,24 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
 
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager_home"
+                    android:layout_width="0dp"
+                    android:layout_height="210dp"
+                    android:minHeight="100dp"
+                    app:layout_constraintBottom_toTopOf="@+id/txv_last_home"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/indicator_home"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:ci_drawable="@drawable/bg_circle"
+                    app:layout_constraintBottom_toBottomOf="@id/viewPager_home"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
                 <TextView
@@ -74,7 +92,7 @@
                     android:textStyle="bold"
                     android:layoutDirection="rtl"
                     app:layout_constraintBottom_toTopOf="@id/recycler_last_Home"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewPager_home"
                     android:visibility="invisible"
                     tools:ignore="RtlSymmetry" />
 

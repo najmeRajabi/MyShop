@@ -13,8 +13,8 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.getLastProducts()
     }
 
-    suspend fun getProduct(id: Int): Product {
-        return productRemoteDataSource.getProduct(id)
+    suspend fun getProductById(id: Int): Product {
+        return productRemoteDataSource.getProductById(id)
     }
 
     suspend fun getMostSeenProducts(): List<Product>{

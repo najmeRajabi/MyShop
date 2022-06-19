@@ -12,13 +12,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myshop.R
 import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.snackbar.Snackbar
 import com.example.myshop.adapters.Orientation
+import com.example.myshop.adapters.SliderAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator3
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -44,7 +47,7 @@ class HomeFragment : Fragment() {
 
         checkConnectionInternet()
         initViews()
-
+        initSlider()
 
 
     }
@@ -106,7 +109,7 @@ class HomeFragment : Fragment() {
         val snackbar = Snackbar.make(binding.coordinator
             ,vModel.message.value.toString(),Snackbar.LENGTH_SHORT)
         snackbar.setAction("تلاش دوباره", View.OnClickListener {
-
+            //todo refresh fragment
             snackbar.dismiss()
         }).show()
     }
@@ -124,6 +127,7 @@ class HomeFragment : Fragment() {
     private fun showLoading() {
 
         binding.progressHome.visibility = View.VISIBLE
+
         binding.recyclerMostSeenHome.visibility = View.INVISIBLE
         binding.recyclerFavoriteHome.visibility = View.INVISIBLE
         binding.recyclerLastHome.visibility = View.INVISIBLE
@@ -134,6 +138,20 @@ class HomeFragment : Fragment() {
 
     private fun goToDetail(id: Int) {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(id))
+    }
+
+    private fun initSlider() {
+
+        vModel.getSpecialOffers()
+        val viewPager: ViewPager2 = binding.viewPagerHome
+        vModel.specialProduct.observe(viewLifecycleOwner) {
+            val sliderAdapter= SliderAdapter(requireContext(),it.images)
+            viewPager.adapter = sliderAdapter
+            val indicator: CircleIndicator3 =binding.indicatorHome
+            indicator.setViewPager(viewPager)
+        }
+
+
     }
 
 }
