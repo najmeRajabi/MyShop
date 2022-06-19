@@ -49,6 +49,7 @@
                 android:src="@drawable/ic_baseline_add_24" />
 
             <TextView
+                android:id="@+id/txv_count_product"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
@@ -70,7 +71,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txv_name_list_Home"
+            android:id="@+id/txv_name_list_cart"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -86,7 +87,7 @@
             tools:text="name" />
 
         <TextView
-            android:id="@+id/txv_price_list_Home"
+            android:id="@+id/txv_price_list_cart"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"

@@ -71,4 +71,8 @@
             android:id="@+id/action_searchFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.myshop.ui.cart.CartFragment"
+        android:label="CartFragment" />
 </navigation>
