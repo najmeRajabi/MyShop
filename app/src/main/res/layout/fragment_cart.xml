@@ -7,17 +7,32 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.cart.CartFragment">
 
+        <ScrollView
+            android:id="@+id/scrollView_cart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_cart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_margin="18dp"/>
 
-    </LinearLayout>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/imv_emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/shopping"
+            android:visibility="gone"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

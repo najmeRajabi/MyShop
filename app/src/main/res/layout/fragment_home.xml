@@ -31,6 +31,8 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="?attr/actionBarSize"
+        android:background="@drawable/bg_gray"
         tools:context=".ui.home.HomeFragment">
 
 
@@ -43,14 +45,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="70dp"
-                android:background="@drawable/bg_gray">
+                android:paddingBottom="70dp">
 
-                <androidx.core.widget.ContentLoadingProgressBar
-                    android:id="@+id/progress_home"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:progressTint="@color/golden"
+                <ImageView
+                    android:id="@+id/imv_problem_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/problem"
+                    android:layout_margin="40dp"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

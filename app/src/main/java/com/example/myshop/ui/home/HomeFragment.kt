@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun hideLoading() {
-        binding.progressHome.visibility = View.INVISIBLE
+//        binding.progressHome.visibility = View.INVISIBLE
         binding.recyclerMostSeenHome.visibility = View.VISIBLE
         binding.recyclerFavoriteHome.visibility = View.VISIBLE
         binding.recyclerLastHome.visibility = View.VISIBLE
@@ -122,7 +122,7 @@ class HomeFragment : Fragment() {
 
     private fun showLoading() {
 
-        binding.progressHome.visibility = View.VISIBLE
+//        binding.progressHome.visibility = View.VISIBLE
 
         binding.recyclerMostSeenHome.visibility = View.INVISIBLE
         binding.recyclerFavoriteHome.visibility = View.INVISIBLE
