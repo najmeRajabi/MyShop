@@ -14,7 +14,7 @@ import com.example.myshop.databinding.ImageSliderItemBinding
 import com.example.myshop.model.Image
 
 
-class SliderAdapter(val context: Context, val images: List<Image>) :
+class SliderAdapter(val context: Context, val images: List<Image?>) :
     RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
     inner class SliderViewHolder(val binding: ImageSliderItemBinding) :
@@ -57,7 +57,7 @@ class SliderAdapter(val context: Context, val images: List<Image>) :
 
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
 
-        holder.setData(images[position].src)
+        images[position]?.let { holder.setData(it.src) }
     }
 
 }

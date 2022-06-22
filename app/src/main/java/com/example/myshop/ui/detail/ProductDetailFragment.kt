@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager.widget.ViewPager
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -36,8 +35,14 @@ class ProductDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_product_detail, container, false)
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.GONE
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_product_detail,
+            container,
+            false
+        )
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility =
+            View.GONE
         return binding.root
     }
 
@@ -52,7 +57,8 @@ class ProductDetailFragment : Fragment() {
 
     private fun addToCart() {
         binding.menuDetail.imvAddToCart.setOnClickListener {
-            vModel.addToCart()
+            vModel.createOrder()
+            vModel.saveOrderToSharedPreferences(requireContext())
             showMessage()
         }
     }
@@ -64,10 +70,12 @@ class ProductDetailFragment : Fragment() {
         binding.vModel = vModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        vModel.product.observe(viewLifecycleOwner){
-            binding.txvDescriptionDetail.text = HtmlCompat.fromHtml(it.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            binding.txvPriceDetail.text= "%,d".format(it.price.toInt()) +" "+ getString(R.string.tooman)
-            binding.ratingDetail.progress = it.averageRating.toInt()
+        vModel.product.observe(viewLifecycleOwner) {
+            binding.txvDescriptionDetail.text =
+                it.description?.let { it1 -> HtmlCompat.fromHtml(it1, HtmlCompat.FROM_HTML_MODE_LEGACY) }
+            binding.txvPriceDetail.text =
+                "%,d".format(it.price.toInt()) + " " + getString(R.string.tooman)
+            binding.ratingDetail.progress = it.averageRating?.toInt() ?: 0
             binding.txvRateCountDetail.text = " (${it.ratingCount}) رأی "
         }
 
@@ -80,7 +88,7 @@ class ProductDetailFragment : Fragment() {
 
     private fun checkConnectionInternet() {
         vModel.checkForInternet(requireContext())
-        vModel.isConnected.observe(viewLifecycleOwner){
+        vModel.isConnected.observe(viewLifecycleOwner) {
             if (!it)
                 findNavController().navigate(R.id.action_productDetailFragment_to_disconnectBlankFragment)
         }
@@ -88,11 +96,11 @@ class ProductDetailFragment : Fragment() {
 
     private fun initImageView() {
 
-        val viewPager:ViewPager2 = binding.viewPagerDetail
+        val viewPager: ViewPager2 = binding.viewPagerDetail
         vModel.product.observe(viewLifecycleOwner) {
-            val sliderAdapter= SliderAdapter(requireContext(),it.images)
+            val sliderAdapter = SliderAdapter(requireContext(), it.images)
             viewPager.adapter = sliderAdapter
-            val indicator: CircleIndicator3 =binding.indicatorDetail
+            val indicator: CircleIndicator3 = binding.indicatorDetail
             indicator.setViewPager(viewPager)
         }
 
@@ -100,9 +108,11 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun showMessage() {
-        val snackbar = Snackbar.make(binding.coordinatorDetail
-            ,"به لیست خرید افزوده شد.", Snackbar.LENGTH_SHORT)
-        snackbar.show()
+        vModel.orderMessage.observe(viewLifecycleOwner) {
+            val snackbar =
+                Snackbar.make(binding.coordinatorDetail, it, Snackbar.LENGTH_SHORT)
+            snackbar.show()
+        }
     }
 
 }

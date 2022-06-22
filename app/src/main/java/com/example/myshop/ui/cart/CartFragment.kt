@@ -13,13 +13,14 @@ import com.example.myshop.adapters.CartAdapter
 import com.example.myshop.databinding.FragmentCartBinding
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.ui.detail.ProductViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
 
     lateinit var binding: FragmentCartBinding
-    val vModel : ProductViewModel by viewModels()
+    val vModel: CartViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -29,6 +30,8 @@ class CartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_cart, container, false)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility =
+            View.VISIBLE
         return binding.root
     }
 
@@ -36,24 +39,30 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        vModel.getShoppingList()
+//        binding.imvEmptyList.visibility = View.VISIBLE
+
     }
 
     private fun initView() {
-        val adapter = CartAdapter{
+        vModel.getOrderFromSharedPreferences(requireContext())
+        val adapter = CartAdapter {
             //todo delete from list
         }
         binding.recyclerCart.adapter = adapter
 
-        vModel.shoppingProduct.observe(viewLifecycleOwner){
-//            if (it.isNullOrEmpty()){
-//                binding.imvEmptyList.visibility = View.VISIBLE
-//                binding.scrollViewCart.visibility = View.INVISIBLE
-//            }else{
+        if (vModel.shoppingList.value.isNullOrEmpty()) {
+            binding.imvEmptyList.visibility = View.VISIBLE
+            binding.scrollViewCart.visibility = View.INVISIBLE
+        } else {
+
+            vModel.shoppingList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
-            Log.d("TAG", "initView: $it")
+                Log.d("TAG", "initView: $it")
                 binding.imvEmptyList.visibility = View.GONE
                 binding.scrollViewCart.visibility = View.VISIBLE
-//            }
+
+            }
         }
 
     }

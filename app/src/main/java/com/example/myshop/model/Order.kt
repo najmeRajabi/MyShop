@@ -2,39 +2,26 @@ package com.example.myshop.model
 
 import com.squareup.moshi.Json
 
-data class Product(
+data class Order (
 
     @Json(name = "id")
     val id: Int,
 
-    @Json(name = "images")
-    val images: List<Image?> = listOf(),
+//    @Json(name = "name")
+//    val name: String
+//    val number: String,
+//    val status: String = "pending",
+//    val customer_id: Int,
+//    val total : String,
+//    val billing : Billing,//پرداخت
 
-    @Json(name = "name")
-    val name: String,
+    @Json(name = "line_items")
+    val line_items: List<Product>,
 
-    @Json(name = "price")
-    val price: String,
-
-    @Json(name = "categories")
-    val categories: List<Category?> = listOf(),
-
-    @Json(name = "average_rating")
-    val averageRating: Float? = null,
-
-    @Json(name = "description")
-    val description: String?,
-
-    @Json(name = "rating_count")
-    val ratingCount: Int?,
-
-    @Json(name = "attributes")
-    val attributes: List<Any?> = listOf(),
-)
+    ){
+}
 /*
-class Product : ArrayList<ProductItem>()
-
-data class ProductItem(
+data class orders(
     val _links: Links,
     val attributes: List<Any>,
     val average_rating: String,
@@ -145,8 +132,4 @@ data class Collection(
 data class Self(
     val href: String
 )
-
-
-
-
- */
+*/

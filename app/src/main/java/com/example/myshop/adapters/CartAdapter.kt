@@ -75,7 +75,7 @@ class CartAdapter(
 
                 Glide
                     .with(view)
-                    .load(product.images[0].src)
+                    .load(product.images[0]?.src)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .transform(CenterInside(), RoundedCorners(25))

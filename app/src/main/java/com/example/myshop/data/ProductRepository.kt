@@ -1,7 +1,9 @@
 package com.example.myshop.data
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.myshop.model.Category
+import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
 import javax.inject.Inject
@@ -10,7 +12,7 @@ class ProductRepository @Inject constructor(
     val productRemoteDataSource: ProductRemoteDataSource
 ) {
 
-    val shoppingList = arrayListOf<Product>()
+    val shoppingList = MutableLiveData<Order>()
 
     suspend fun getLastProducts(): Resource<List<Product>> {
         return productRemoteDataSource.getLastProducts()
@@ -48,8 +50,13 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.sortProducts(sortItem)
     }
 
-    fun addToCart(product: MutableLiveData<Product>) {
-        product.value?.let { shoppingList.add(it) }
+    suspend fun createOrder(order: Order): Order? {
+        shoppingList.postValue(productRemoteDataSource.createOrder(order)[1])
+        return shoppingList.value
+    }
+
+    suspend fun retrieveOrder(id: Int):Order{
+        return productRemoteDataSource.retrieveOrder(id)[0]
     }
 }
 data class Resource<T>(var status: State, var data: T?, var message: String? = null)

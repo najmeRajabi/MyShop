@@ -2,6 +2,7 @@ package com.example.myshop.data
 
 import com.example.myshop.data.network.ApiService
 import com.example.myshop.model.Category
+import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
 import com.example.myshop.ui.handleRequestCode
@@ -12,8 +13,8 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     suspend fun getLastProducts(): Resource<List<Product>>{
      //   return apiService.getLastProducts()
        return try {
-            var response = apiService.getLastProducts()
-            var message=handleRequestCode(response.code())
+            val response = apiService.getLastProducts()
+            val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
@@ -55,6 +56,14 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun sortProducts(sortItem: String): List<Product> {
         return apiService.sortProducts(sortItem)
+    }
+
+    suspend fun createOrder(order: Order): List<Order> {
+        return apiService.createOrder(order = order)
+    }
+
+    suspend fun retrieveOrder(id: Int): List<Order> {
+        return apiService.retrieveOrder(id)
     }
 
 }

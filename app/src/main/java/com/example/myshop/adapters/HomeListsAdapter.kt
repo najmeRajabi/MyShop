@@ -83,11 +83,11 @@ class HomeListsAdapter(
                 txvTitle.text = product.name
                 txvPrice.text = "%,d".format(product.price.toInt())+ " تومان"
                 txvRate.text = product.averageRating.toString()
-                rateImage(product.ratingCount,imvRate)
+                product.ratingCount?.let { rateImage(it,imvRate) }
 
                 Glide
                     .with(view)
-                    .load(product.images[0].src)
+                    .load(product.images[0]?.src)
                     .centerCrop()
                     .transition(withCrossFade())
                     .transform(CenterInside(), RoundedCorners(25))

@@ -5,13 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.HeaderViewListAdapter
-import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myshop.R
 import com.example.myshop.adapters.HomeListsAdapter
@@ -20,6 +16,7 @@ import com.example.myshop.ui.disconnect.State
 import com.google.android.material.snackbar.Snackbar
 import com.example.myshop.adapters.Orientation
 import com.example.myshop.adapters.SliderAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator3
 
@@ -37,6 +34,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.VISIBLE
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vModel = vModel
         return binding.root
