@@ -1,7 +1,10 @@
 package com.example.myshop.model
 
 import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
 
+@Serializable
 data class Order (
 
     @Json(name = "id")

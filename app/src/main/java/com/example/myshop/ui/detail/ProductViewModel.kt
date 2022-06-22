@@ -13,11 +13,14 @@ import com.example.myshop.ui.disconnect.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
 import java.lang.Exception
 import javax.inject.Inject
 
 const val ORDER= "order"
 const val ORDER_ID= "orderId"
+const val ORDER_OBJECT= "orderObject"
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
@@ -59,6 +62,7 @@ class ProductViewModel @Inject constructor(
             val sharedPreferences = context.getSharedPreferences(ORDER,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putInt(ORDER_ID, orderCallback.value!!.id)
+//            editor.putString(ORDER_OBJECT, orderCallback.value!!.line_items[0].name)
             editor.apply()
         }
     }
