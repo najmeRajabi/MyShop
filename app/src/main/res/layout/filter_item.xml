@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/checkbox_filter_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"/>
+        <TextView
+            android:id="@+id/txv_filter_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="amount"
+            android:textSize="@dimen/titleSizeCategoryItem"/>
+
+    </LinearLayout>
+</layout>
