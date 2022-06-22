@@ -19,6 +19,6 @@
 
     <item
         android:icon="@drawable/ic_baseline_person_24"
-        android:id="@+id/userFragment"
+        android:id="@+id/customerFragment"
         android:title="@string/user"/>
 </menu>

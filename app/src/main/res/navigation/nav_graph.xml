@@ -75,4 +75,12 @@
         android:id="@+id/cartFragment"
         android:name="com.example.myshop.ui.cart.CartFragment"
         android:label="CartFragment" />
+    <fragment
+        android:id="@+id/customerFragment"
+        android:name="com.example.myshop.ui.customer.CustomerFragment"
+        android:label="CustomerFragment" >
+        <action
+            android:id="@+id/action_customerFragment_to_disconnectBlankFragment"
+            app:destination="@id/disconnectBlankFragment" />
+    </fragment>
 </navigation>
