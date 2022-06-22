@@ -48,10 +48,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun filterProducts() {
-
-        val items = listOf("Material", "Design", "Components", "Android")
-        val adapter = ArrayAdapter(requireContext(), R.layout.spiner_item, items)
-        (binding.txvFilter as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.txvFilterSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
+        }
     }
 
     private fun sortProducts() {
@@ -63,10 +62,10 @@ class SearchFragment : Fragment() {
 
         txvSort.setOnItemClickListener { adapterView, view, i, l ->
             when (i){
-                0 -> vModel.sortProduct(SortItemProduct.POPULARITY.name.lowercase(Locale.getDefault()))
-                1 -> vModel.sortProduct(SortItemProduct.RATING.name.lowercase(Locale.getDefault()))
-                2 -> vModel.sortProduct(SortItemProduct.DATE.name.lowercase(Locale.getDefault()))
-                3 -> vModel.sortProduct(SortItemProduct.PRICE.name.lowercase(Locale.getDefault()))
+                0 -> vModel.sortItem = SortItemProduct.POPULARITY.name.lowercase(Locale.getDefault())
+                1 -> vModel.sortItem = SortItemProduct.RATING.name.lowercase(Locale.getDefault())
+                2 -> vModel.sortItem = SortItemProduct.DATE.name.lowercase(Locale.getDefault())
+                3 -> vModel.sortItem = SortItemProduct.PRICE.name.lowercase(Locale.getDefault())
             }
         }
 
@@ -74,6 +73,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun initViews() {
+        binding.searchMenuEdtFieldHome.setEndIconOnClickListener{
+            vModel.searchInProducts()
+        }
         val searchAdapter= HomeListsAdapter(Orientation.VERTICAL){
             goToDetail(it.id)
         }
@@ -85,7 +87,7 @@ class SearchFragment : Fragment() {
 
     private fun search() {
         binding.searchEdtSearch.addTextChangedListener{ text ->
-            vModel.searchInProducts(text.toString())
+            vModel.searchKey = text.toString()
         }
     }
 

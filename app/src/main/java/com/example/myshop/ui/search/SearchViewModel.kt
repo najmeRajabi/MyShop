@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
+import com.example.myshop.model.Attribute
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,13 +24,22 @@ class SearchViewModel @Inject constructor(
 
     val searchList = MutableLiveData<List<Product>>()
     val sortedList = MutableLiveData<List<Product>>()
+    val attributes = MutableLiveData<List<Attribute>>()
+
+    var searchKey = ""
+    var sortItem = "date"
+    var filter = ""
+
+    init {
+        retrieveAllProductAttribute()
+    }
 
 
-    fun searchInProducts(searchKey: String) {
+    fun searchInProducts() {
         viewModelScope.launch {
             try {
-                searchList.postValue(productRepository.searchInProducts(searchKey))
-                Log.d("searchVM---TAG", "searchInProducts: ${productRepository.searchInProducts(searchKey)[1]}")
+                searchList.postValue(productRepository.searchInProducts(searchKey , sortItem,filter))
+//                Log.d("searchVM---TAG", "searchInProducts: ${productRepository.searchInProducts(searchKey)[1]}")
 
             }catch (e: Exception){
                 Log.d("searchVM---TAG", "searchInProducts: ${e.message}")
@@ -38,12 +48,13 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun sortProduct(sortItem: String){
+
+    fun retrieveAllProductAttribute() {
         viewModelScope.launch {
             try {
-                searchList.postValue(productRepository.sortProducts(sortItem))
+                attributes.postValue(productRepository.retrieveAllProductAttribute())
             }catch (e: Exception){
-                Log.d("searchVM---TAG", "sortProduct: ${e.message}")
+
             }
         }
     }

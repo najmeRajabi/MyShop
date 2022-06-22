@@ -1,5 +1,6 @@
 package com.example.myshop.data
 
+import com.example.myshop.model.Attribute
 import com.example.myshop.model.Category
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
@@ -37,12 +38,13 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.getProductsByCategory(categoryId)
     }
 
-    suspend fun searchInProducts(searchKey: String): List<Product> {
-        return productRemoteDataSource.searchInProducts(searchKey)
+    suspend fun searchInProducts(searchKey: String, sortItem: String , attribute: String): List<Product> {
+        return productRemoteDataSource.searchInProducts(searchKey,sortItem, attribute)
     }
 
-    suspend fun sortProducts(sortItem: String): List<Product> {
-        return productRemoteDataSource.sortProducts(sortItem)
+
+    suspend fun retrieveAllProductAttribute(): List<Attribute> {
+        return productRemoteDataSource.retrieveAllProductAttribute()
     }
 }
 data class Resource<T>(var status: State, var data: T?, var message: String? = null)

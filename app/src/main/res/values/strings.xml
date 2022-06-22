@@ -9,4 +9,6 @@
     <string name="search">جستجو در فروشگاه من</string>
     <string name="filter">فیلتر</string>
     <string name="sort">جدید ترین</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

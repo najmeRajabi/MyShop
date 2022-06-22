@@ -1,6 +1,7 @@
 package com.example.myshop.data
 
 import com.example.myshop.data.network.ApiService
+import com.example.myshop.model.Attribute
 import com.example.myshop.model.Category
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
@@ -49,12 +50,12 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.getProductsByCategory(categoryId = categoryId)
     }
 
-    suspend fun searchInProducts(searchKey: String): List<Product> {
-        return apiService.searchInProducts(searchKey = searchKey)
+    suspend fun searchInProducts(searchKey: String, sortItem: String , attribute: String): List<Product> {
+        return apiService.searchInProducts(searchKey = searchKey,sortItem,attribute)
     }
 
-    suspend fun sortProducts(sortItem: String): List<Product> {
-        return apiService.sortProducts(sortItem)
+    suspend fun retrieveAllProductAttribute(): List<Attribute> {
+        return apiService.retrieveAllProductAttribute()
     }
 
 }
