@@ -2,10 +2,7 @@ package com.example.myshop.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.myshop.model.Category
-import com.example.myshop.model.Customer
-import com.example.myshop.model.Order
-import com.example.myshop.model.Product
+import com.example.myshop.model.*
 import com.example.myshop.ui.disconnect.State
 import javax.inject.Inject
 
@@ -66,6 +63,10 @@ class ProductRepository @Inject constructor(
 
     suspend fun login(id: Int): Customer {
         return productRemoteDataSource.login(id)
+    }
+
+    suspend fun retrieveReview(): List<Review> {
+        return productRemoteDataSource.retrieveReview()
     }
 }
 data class Resource<T>(var status: State, var data: T?, var message: String? = null)

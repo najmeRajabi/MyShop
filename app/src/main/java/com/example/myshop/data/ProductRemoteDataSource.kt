@@ -1,10 +1,7 @@
 package com.example.myshop.data
 
 import com.example.myshop.data.network.ApiService
-import com.example.myshop.model.Category
-import com.example.myshop.model.Customer
-import com.example.myshop.model.Order
-import com.example.myshop.model.Product
+import com.example.myshop.model.*
 import com.example.myshop.ui.disconnect.State
 import com.example.myshop.ui.handleRequestCode
 import javax.inject.Inject
@@ -73,6 +70,10 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun login(id: Int): Customer {
         return apiService.login(id)
+    }
+
+    suspend fun retrieveReview(): List<Review> {
+        return apiService.retrieveReview()
     }
 
 }

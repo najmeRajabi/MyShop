@@ -13,8 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myshop.R
+import com.example.myshop.adapters.ReviewAdapter
 import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
+import com.example.myshop.model.Review
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +54,17 @@ class ProductDetailFragment : Fragment() {
         checkConnectionInternet()
         initView()
         addToCart()
+        initReviews()
 
+    }
+
+    private fun initReviews() {
+        val adapter = ReviewAdapter()
+        binding.recyclerReview.adapter = adapter
+
+        vModel.reviews.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+        }
     }
 
     private fun addToCart() {

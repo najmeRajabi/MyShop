@@ -143,10 +143,19 @@
                 android:padding="10dp"
                 android:textColor="@color/desc_color"
                 android:textSize="@dimen/descSizeHomeItem"
-                app:layout_constraintBottom_toBottomOf="@id/rating_detail"
+                app:layout_constraintBottom_toTopOf="@id/recycler_review"
                 app:layout_constraintStart_toEndOf="@id/rating_detail"
                 app:layout_constraintTop_toTopOf="@id/rating_detail" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/txv_rateCount_detail"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline3"

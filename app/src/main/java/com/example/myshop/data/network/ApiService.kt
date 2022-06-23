@@ -1,9 +1,6 @@
 package com.example.myshop.data.network
 
-import com.example.myshop.model.Category
-import com.example.myshop.model.Customer
-import com.example.myshop.model.Order
-import com.example.myshop.model.Product
+import com.example.myshop.model.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -116,4 +113,11 @@ interface ApiService {
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
     ): Customer
+
+    @GET("products/reviews/")
+    suspend fun retrieveReview(
+ //       @Query("id") id: Int,
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+        ):List<Review>
 }

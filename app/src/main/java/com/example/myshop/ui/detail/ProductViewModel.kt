@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
+import com.example.myshop.model.Review
 import com.example.myshop.ui.disconnect.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,7 @@ class ProductViewModel @Inject constructor(
     val product = MutableLiveData<Product>()
     val orderMessage= MutableLiveData<String>()
     val orderCallback= MutableLiveData<Order>()
+    val reviews= MutableLiveData<List<Review>>()
 
 
     fun getProduct(id: Int){
@@ -40,6 +42,7 @@ class ProductViewModel @Inject constructor(
                 Log.d("ProductViewModel----tag", "getProduct: $e")
             }
         }
+        retrieveReview()
     }
 
     fun createOrder() {
@@ -65,5 +68,24 @@ class ProductViewModel @Inject constructor(
 //            editor.putString(ORDER_OBJECT, orderCallback.value!!.line_items[0].name)
             editor.apply()
         }
+    }
+
+
+    fun retrieveReview() {
+        viewModelScope.launch {
+            try {
+                var mReviews = arrayListOf<Review>()
+//                for (review in productRepository.retrieveReview()){
+//                    if (review.product_id == product.value?.id){
+//                        mReviews.add(review)
+//                    }
+//                }
+//                reviews.postValue(mReviews)
+                reviews.postValue(productRepository.retrieveReview())
+            }catch (e: Exception){
+
+            }
+        }
+
     }
 }
