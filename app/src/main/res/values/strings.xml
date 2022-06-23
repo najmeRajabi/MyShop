@@ -18,4 +18,6 @@
     <string name="register">ثبت نام</string>
     <string name="signin">ورود</string>
     <string name="emailAddress">آدرس ایمیل</string>
+    <string name="password">پسورد</string>
+    <string name="id">آیدی</string>
 </resources>

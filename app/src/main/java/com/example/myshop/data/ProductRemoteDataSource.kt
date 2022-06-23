@@ -2,6 +2,7 @@ package com.example.myshop.data
 
 import com.example.myshop.data.network.ApiService
 import com.example.myshop.model.Category
+import com.example.myshop.model.Customer
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
@@ -64,6 +65,14 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun retrieveOrder(id: Int): List<Order> {
         return apiService.retrieveOrder(id)
+    }
+
+    suspend fun register(customer: Customer): List<Customer> {
+        return apiService.register(customer = customer)
+    }
+
+    suspend fun login(id: Int): Customer {
+        return apiService.login(id)
     }
 
 }

@@ -19,7 +19,7 @@
             <Button
                 android:id="@+id/btn_register_card"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="@string/register"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="@dimen/priceSizeHomeItem"
@@ -34,7 +34,7 @@
             <Button
                 android:id="@+id/btn_singin_card"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="@string/signin"
                 android:textColor="?attr/colorOnSecondary"
                 android:backgroundTint="?attr/colorSecondary"
@@ -77,12 +77,19 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_register"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/txv_customer_message"
                 app:layout_constraintTop_toBottomOf="@id/guideline_H_0.35"
                 app:layout_constraintStart_toEndOf="@id/guideline_V_0.18"
                 app:layout_constraintEnd_toStartOf="@id/guideline_V_0.87"
                 android:backgroundTint="?attr/colorSecondaryVariant">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_edtField_register"
@@ -102,6 +109,23 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_edtField_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/password"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_edt_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/btn_register"
@@ -111,37 +135,63 @@
                     android:layout_gravity="bottom"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"/>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_signin"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toTopOf="@id/txv_customer_message"
                 app:layout_constraintTop_toBottomOf="@id/guideline_H_0.35"
                 app:layout_constraintStart_toEndOf="@id/guideline_V_0.18"
                 app:layout_constraintEnd_toStartOf="@id/guideline_V_0.87"
                 android:backgroundTint="?attr/colorSecondary">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/email_edtField_signIn"
+                    android:id="@+id/id_edtField_signIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginEnd="18dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:hint="@string/emailAddress"
+                    android:hint="@string/id"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/email_edt_signIn"
+                        android:id="@+id/id_edt_signIn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <Button
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/password_edtField_signIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:hint="@string/password"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/password_edt_signIn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <Button
                     android:id="@+id/btn_signIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,7 +199,23 @@
                     android:layout_gravity="bottom"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/txv_customer_message"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="20dp"
+                tools:text="message"
+                android:gravity="center"
+                android:textSize="@dimen/titleSizeCategoryItem"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_signin"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

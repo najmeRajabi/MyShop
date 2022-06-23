@@ -3,6 +3,7 @@ package com.example.myshop.data
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.myshop.model.Category
+import com.example.myshop.model.Customer
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
@@ -57,6 +58,14 @@ class ProductRepository @Inject constructor(
 
     suspend fun retrieveOrder(id: Int):Order{
         return productRemoteDataSource.retrieveOrder(id)[0]
+    }
+
+    suspend fun register(customer: Customer): List<Customer> {
+        return productRemoteDataSource.register(customer = customer)
+    }
+
+    suspend fun login(id: Int): Customer {
+        return productRemoteDataSource.login(id)
     }
 }
 data class Resource<T>(var status: State, var data: T?, var message: String? = null)

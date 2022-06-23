@@ -1,6 +1,7 @@
 package com.example.myshop.data.network
 
 import com.example.myshop.model.Category
+import com.example.myshop.model.Customer
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import retrofit2.Response
@@ -99,4 +100,20 @@ interface ApiService {
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
     ):List<Order>
+
+    // customer
+
+    @POST("customers/")
+    suspend fun register(
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+        @Body customer: Customer
+    ): List<Customer>
+
+    @GET("customers/{id}")
+    suspend fun login(
+        @Query("id") id: Int,
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+    ): Customer
 }
