@@ -64,16 +64,23 @@ class CartAdapter(
             product: Product,
             clickHandler: ClickHandler
         ) {
+            try {
+                txvTitle.text = product.name
+            }catch (e: Exception){
+                txvTitle.text = "نام محصول"
+            }
+            try {
+                txvPrice.text = "%,d".format(product.price.toInt()) + " تومان"
+            }catch (e: Exception){
+                txvPrice.text = "%,d".format(0) + " تومان"
+            }
+                txvCount.text = productCount.toString()
+
 
 
             try {
-
-                txvTitle.text = product.name
-                Log.d("TAG", "bind: ${product.name}")
-                txvPrice.text = "%,d".format(product.price.toInt()) + " تومان"
-                txvCount.text = productCount.toString()
+                Log.d("CartAdapter---TAG", "bind: ${product.name}")
                 counter(product, clickHandler)
-
                 Glide
                     .with(view)
                     .load(product.images[0]?.src)
@@ -85,12 +92,7 @@ class CartAdapter(
                     .into(imvImage)
             } catch (e: Exception) {
                 Log.d("CartAdapter---TAG", "bind: $e ")
-
-                txvTitle.text = "نام محصول"
-                txvPrice.text = "%,d".format(0) + " تومان"
-
                 imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
-
             }
 
             view.setOnClickListener { clickHandler(product) }
