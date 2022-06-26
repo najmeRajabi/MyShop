@@ -143,6 +143,7 @@ class HomeFragment : Fragment() {
             viewPager.adapter = sliderAdapter
             val indicator: CircleIndicator3 =binding.indicatorHome
             indicator.setViewPager(viewPager)
+            binding.progressBarHome.visibility = View.GONE
         }
 
 
