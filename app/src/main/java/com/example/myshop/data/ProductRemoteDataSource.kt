@@ -4,6 +4,7 @@ import com.example.myshop.data.network.ApiService
 import com.example.myshop.model.*
 import com.example.myshop.ui.disconnect.State
 import com.example.myshop.ui.handleRequestCode
+import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
@@ -56,8 +57,20 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.sortProducts(sortItem)
     }
 
-    suspend fun createOrder(order: Order): List<Order> {
-        return apiService.createOrder(order = order)
+    suspend fun createOrder(order: Order): Resource<Order> {
+//        return apiService.createOrder(order = order)
+        return try {
+            val response = apiService.createOrder(order)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, Order(0, arrayListOf()),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, Order(0, arrayListOf()),e.message)
+        }
     }
 
     suspend fun retrieveOrder(id: Int): List<Order> {

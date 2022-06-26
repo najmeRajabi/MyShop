@@ -69,6 +69,7 @@ class CartAdapter(
             try {
 
                 txvTitle.text = product.name
+                Log.d("TAG", "bind: ${product.name}")
                 txvPrice.text = "%,d".format(product.price.toInt()) + " تومان"
                 txvCount.text = productCount.toString()
                 counter(product, clickHandler)
@@ -85,7 +86,7 @@ class CartAdapter(
             } catch (e: Exception) {
                 Log.d("CartAdapter---TAG", "bind: $e ")
 
-                txvTitle.text = "name"
+                txvTitle.text = "نام محصول"
                 txvPrice.text = "%,d".format(0) + " تومان"
 
                 imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
@@ -99,16 +100,24 @@ class CartAdapter(
         private fun counter(product: Product, clickHandler: ClickHandler) {
             imvPlus.setOnClickListener {
                 when (productCount) {
-                    1 -> imvMinus.setImageResource(R.drawable.ic_baseline_minimize_24)
+                    1 -> {
+                        imvMinus.setImageResource(R.drawable.ic_baseline_remove_24)
+                        productCount += 1
+                    }
                     else -> productCount += 1
                 }
+                txvCount.text = productCount.toString()
             }
             imvMinus.setOnClickListener {
                 when (productCount) {
-                    2 -> imvMinus.setImageResource(R.drawable.ic_baseline_delete_outline_24)
+                    2 -> {
+                        imvMinus.setImageResource(R.drawable.ic_baseline_delete_outline_24)
+                        productCount -= 1
+                    }
                     1 -> clickHandler(product)
                     else -> productCount -= 1
                 }
+                txvCount.text = productCount.toString()
             }
         }
     }

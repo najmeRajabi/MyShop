@@ -17,26 +17,24 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
-            android:layoutDirection="rtl"
             app:layout_constraintBottom_toTopOf="@id/guideline80h"
-            app:layout_constraintEnd_toStartOf="@id/guideline60v"
-            app:layout_constraintStart_toEndOf="@id/guideline18vStart"
+            app:layout_constraintStart_toEndOf="@id/guideline60v"
+            app:layout_constraintEnd_toStartOf="@id/guideline18vStart"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="130dp"
+            android:layout_height="45dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_line"
-            android:layoutDirection="rtl"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/guideline60v"
-            app:layout_constraintStart_toEndOf="@id/guideline18vStart"
+            app:layout_constraintStart_toEndOf="@id/guideline60v"
+            app:layout_constraintEnd_toStartOf="@id/guideline18vStart"
             app:layout_constraintTop_toBottomOf="@id/guideline80h">
 
             <ImageView
@@ -76,15 +74,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:layoutDirection="rtl"
             android:maxLines="2"
             android:padding="5dp"
             android:textColor="@color/title_color"
             android:textSize="@dimen/titleSizeHomeItem"
-            app:layout_constraintEnd_toStartOf="@id/guideline18v"
-            app:layout_constraintStart_toEndOf="@id/guideline60v"
+            app:layout_constraintBottom_toTopOf="@+id/guideline80h"
+            app:layout_constraintStart_toEndOf="@id/guideline18v"
+            app:layout_constraintEnd_toStartOf="@id/guideline60v"
             app:layout_constraintTop_toTopOf="@id/imv_list_cart"
-            tools:text="name" />
+            tools:text="name"/>
 
         <TextView
             android:id="@+id/txv_price_list_cart"
@@ -93,15 +91,14 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="8dp"
             android:gravity="start"
-            android:layoutDirection="rtl"
             android:padding="5dp"
             android:textColor="@color/title_color"
             android:textSize="@dimen/priceSizeHomeItem"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/guideline18v"
-            app:layout_constraintStart_toEndOf="@id/guideline60v"
+            app:layout_constraintStart_toEndOf="@id/guideline18v"
+            app:layout_constraintEnd_toStartOf="@id/guideline60v"
             app:layout_constraintTop_toBottomOf="@id/guideline80h"
-            tools:text="price" />
+            tools:text="price"/>
 
         <View
             android:layout_width="match_parent"

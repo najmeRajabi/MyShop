@@ -29,10 +29,10 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (orderId != -1) {
-                    shoppingList.postValue(productRepository.retrieveOrder(orderId).line_items)
+                    shoppingList.postValue(productRepository.retrieveOrder(orderId)[0].line_items)
 
                 }
-                Log.d("cart-----TAG", "getShoppingList  true: ${productRepository.retrieveOrder(orderId).line_items[0]}")
+                Log.d("cart-----TAG", "getShoppingList  true: ${productRepository.retrieveOrder(orderId)[0].line_items[0]}")
             }catch (e: Exception){
 
 //                Log.d("cart-----TAG", "getShoppingList: ${productRepository.retrieveOrder(orderId).line_items[0]}")

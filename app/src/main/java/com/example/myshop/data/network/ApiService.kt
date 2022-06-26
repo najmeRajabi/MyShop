@@ -82,7 +82,7 @@ interface ApiService {
         @Body order: Order,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ):List<Order>
+    ):Response<Order>
 
     @GET("orders/")
     suspend fun updateOrder(

@@ -48,13 +48,13 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.sortProducts(sortItem)
     }
 
-    suspend fun createOrder(order: Order): Order? {
-        shoppingList.postValue(productRemoteDataSource.createOrder(order)[1])
-        return shoppingList.value
+    suspend fun createOrder(order: Order): Resource<Order> {
+//        shoppingList.postValue(productRemoteDataSource.createOrder(order))
+        return productRemoteDataSource.createOrder(order)
     }
 
-    suspend fun retrieveOrder(id: Int):Order{
-        return productRemoteDataSource.retrieveOrder(id)[0]
+    suspend fun retrieveOrder(id: Int): List<Order> {
+        return productRemoteDataSource.retrieveOrder(id)
     }
 
     suspend fun register(customer: Customer): List<Customer> {

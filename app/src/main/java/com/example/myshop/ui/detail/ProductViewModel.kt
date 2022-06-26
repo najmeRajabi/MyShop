@@ -11,6 +11,7 @@ import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.model.Review
 import com.example.myshop.ui.disconnect.BaseViewModel
+import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +33,8 @@ class ProductViewModel @Inject constructor(
     val orderMessage= MutableLiveData<String>()
     val orderCallback= MutableLiveData<Order>()
     val reviews= MutableLiveData<List<Review>>()
+    val state = MutableLiveData<State>()
+
 
 
     fun getProduct(id: Int){
@@ -46,17 +49,26 @@ class ProductViewModel @Inject constructor(
     }
 
     fun createOrder() {
-        Log.d("TAG", "createOrder: ${product.value}")
-        val order = Order(0, listOf(product.value!!))
-        Log.d("TAG", "createOrder: $order")
-        viewModelScope.launch {
-            try {
-                orderCallback.postValue(productRepository.createOrder(order))
-                orderMessage.postValue("به لیست خرید افزوده شد.")
-            }catch (e: Exception){
-                orderMessage.postValue(e.message)
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("TAG", "createOrder: ${product.value}")
+            val order = Order(0, listOf(product.value!!))
+            Log.d("TAG", "createOrder: $order")
+            state.postValue(State.LOADING)
+            orderCallback.postValue( productRepository.createOrder(order).data!!)
+            state.postValue(productRepository.getLastProducts().status)
+            message.postValue(productRepository.getLastProducts().message)
+            orderMessage.postValue(message.value)
         }
+
+
+//        viewModelScope.launch {
+//            try {
+//                orderCallback.postValue(productRepository.createOrder(order))
+//                orderMessage.postValue("به لیست خرید افزوده شد.")
+//            }catch (e: Exception){
+//                orderMessage.postValue(e.message)
+//            }
+//        }
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -75,13 +87,13 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 var mReviews = arrayListOf<Review>()
-//                for (review in productRepository.retrieveReview()){
-//                    if (review.product_id == product.value?.id){
-//                        mReviews.add(review)
-//                    }
-//                }
-//                reviews.postValue(mReviews)
-                reviews.postValue(productRepository.retrieveReview())
+                for (review in productRepository.retrieveReview()){
+                    if (review.product_id == product.value?.id){
+                        mReviews.add(review)
+                    }
+                }
+                reviews.postValue(mReviews)
+//                reviews.postValue(productRepository.retrieveReview())
             }catch (e: Exception){
 
             }
