@@ -84,12 +84,13 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET,
     ):Response<Order>
 
-    @GET("orders/")
+    @PUT("orders/{id}")
     suspend fun updateOrder(
-        @Query("create_order") order: Order,
+        @Body order: Order,
+        @Query("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ):Order
+    ):Response<Order>
 
     @GET("orders/")
     suspend fun retrieveOrder(
@@ -116,7 +117,6 @@ interface ApiService {
 
     @GET("products/reviews/")
     suspend fun retrieveReview(
- //       @Query("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
         ):List<Review>

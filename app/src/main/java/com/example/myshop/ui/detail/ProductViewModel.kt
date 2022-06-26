@@ -20,64 +20,83 @@ import kotlinx.serialization.Serializer
 import java.lang.Exception
 import javax.inject.Inject
 
-const val ORDER= "order"
-const val ORDER_ID= "orderId"
-const val ORDER_OBJECT= "orderObject"
+const val ORDER = "order"
+const val ORDER_ID = "orderId"
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
     val productRepository: ProductRepository
-): BaseViewModel() {
+) : BaseViewModel() {
 
     val product = MutableLiveData<Product>()
-    val orderMessage= MutableLiveData<String>()
-    val orderCallback= MutableLiveData<Order>()
-    val reviews= MutableLiveData<List<Review>>()
+    val orderMessage = MutableLiveData<String>()
+    val orderCallback = MutableLiveData<Order>()
+    val reviews = MutableLiveData<List<Review>>()
     val state = MutableLiveData<State>()
+    var hasOrder = false
 
 
-
-    fun getProduct(id: Int){
+    fun getProduct(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                product.postValue( productRepository.getProductById(id))
-            }catch (e: Exception){
+                product.postValue(productRepository.getProductById(id))
+            } catch (e: Exception) {
                 Log.d("ProductViewModel----tag", "getProduct: $e")
             }
         }
         retrieveReview()
     }
 
-    fun createOrder() {
+    fun createOrder(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("TAG", "createOrder: ${product.value}")
             val order = Order(0, listOf(product.value!!))
             Log.d("TAG", "createOrder: $order")
             state.postValue(State.LOADING)
-            orderCallback.postValue( productRepository.createOrder(order).data!!)
+            if (hasOrder) {
+                updateOrder(context)
+
+            } else {
+                orderCallback.postValue(productRepository.createOrder(order).data!!)
+            }
             state.postValue(productRepository.getLastProducts().status)
             message.postValue(productRepository.getLastProducts().message)
             orderMessage.postValue(message.value)
         }
+    }
 
+    private fun updateOrder(context: Context) {
+        var order = orderCallback.value
+        val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
+        val id = sharedPreferences.getInt(ORDER_ID, -1)
+        viewModelScope.launch {
+            try {
+                order = productRepository.retrieveOrder(id)[0]
+            } catch (e: Exception) {
 
-//        viewModelScope.launch {
-//            try {
-//                orderCallback.postValue(productRepository.createOrder(order))
-//                orderMessage.postValue("به لیست خرید افزوده شد.")
-//            }catch (e: Exception){
-//                orderMessage.postValue(e.message)
-//            }
-//        }
+            }
+            if (order != null &&
+                product.value != null
+            ) {
+                val list = order!!.line_items.plus(product.value)
+                orderCallback.postValue(
+                    Order(
+                        order!!.id,
+                        (list as List<Product>)
+                    )
+                )
+                productRepository.updateOrder(order!!, id)
+            }
+        }
     }
 
     @SuppressLint("CommitPrefEdits")
     fun saveOrderToSharedPreferences(context: Context) {
-        if (orderCallback.value != null){
-            val sharedPreferences = context.getSharedPreferences(ORDER,Context.MODE_PRIVATE)
+        if (orderCallback.value != null) {
+            val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putInt(ORDER_ID, orderCallback.value!!.id)
-//            editor.putString(ORDER_OBJECT, orderCallback.value!!.line_items[0].name)
+            hasOrder = true
             editor.apply()
         }
     }
@@ -87,14 +106,14 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 var mReviews = arrayListOf<Review>()
-                for (review in productRepository.retrieveReview()){
-                    if (review.product_id == product.value?.id){
+                for (review in productRepository.retrieveReview()) {
+                    if (review.product_id == product.value?.id) {
                         mReviews.add(review)
                     }
                 }
                 reviews.postValue(mReviews)
 //                reviews.postValue(productRepository.retrieveReview())
-            }catch (e: Exception){
+            } catch (e: Exception) {
 
             }
         }

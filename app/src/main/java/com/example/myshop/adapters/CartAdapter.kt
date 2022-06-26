@@ -17,9 +17,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.myshop.R
 import com.example.myshop.model.Product
 
+typealias ClickHandlerOrder = (product: Product , count: Int) -> Unit
 
 class CartAdapter(
-    var clickHandler: ClickHandler
+    var clickHandler: ClickHandlerOrder
 ) :
     ListAdapter<Product, CartAdapter.ViewHolder>(ProductDiffCallback) {
 
@@ -62,7 +63,7 @@ class CartAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(
             product: Product,
-            clickHandler: ClickHandler
+            clickHandler: ClickHandlerOrder
         ) {
             try {
                 txvTitle.text = product.name
@@ -95,11 +96,11 @@ class CartAdapter(
                 imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
             }
 
-            view.setOnClickListener { clickHandler(product) }
+//            view.setOnClickListener { clickHandler(product , productCount) }
 
         }
 
-        private fun counter(product: Product, clickHandler: ClickHandler) {
+        private fun counter(product: Product, clickHandler: ClickHandlerOrder) {
             imvPlus.setOnClickListener {
                 when (productCount) {
                     1 -> {
@@ -109,6 +110,7 @@ class CartAdapter(
                     else -> productCount += 1
                 }
                 txvCount.text = productCount.toString()
+                clickHandler(product , productCount)
             }
             imvMinus.setOnClickListener {
                 when (productCount) {
@@ -116,10 +118,11 @@ class CartAdapter(
                         imvMinus.setImageResource(R.drawable.ic_baseline_delete_outline_24)
                         productCount -= 1
                     }
-                    1 -> clickHandler(product)
+                    1 -> clickHandler(product , 0)
                     else -> productCount -= 1
                 }
                 txvCount.text = productCount.toString()
+                clickHandler(product , productCount)
             }
         }
     }

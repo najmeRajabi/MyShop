@@ -69,7 +69,7 @@ class ProductDetailFragment : Fragment() {
 
     private fun addToCart() {
         binding.menuDetail.imvAddToCart.setOnClickListener {
-            vModel.createOrder()
+            vModel.createOrder(requireContext())
             vModel.saveOrderToSharedPreferences(requireContext())
             showMessage()
         }
