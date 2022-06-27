@@ -5,4 +5,6 @@
     <dimen name="titleSizeCategoryItem">20sp</dimen>
     <dimen name="descSizeHomeItem">12sp</dimen>
     <dimen name="txv_rate_item">11sp</dimen>
+    <dimen name="defultMargin">18dp</dimen>
+    <dimen name="paddingDefult">5dp</dimen>
 </resources>

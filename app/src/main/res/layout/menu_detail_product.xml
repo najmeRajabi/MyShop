@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Toolbar
+            android:id="@+id/toolbar_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp">
+
+            <ImageView
+                android:id="@+id/imv_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
+
+            <ImageView
+                android:id="@+id/imv_add_to_cart"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="18dp"
+                android:src="@drawable/ic_baseline_add_shopping_cart_24" />
+
+
+        </Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+</layout>

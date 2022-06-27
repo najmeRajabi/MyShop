@@ -31,6 +31,8 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="?attr/actionBarSize"
+        android:background="@drawable/bg_gray"
         tools:context=".ui.home.HomeFragment">
 
 
@@ -43,20 +45,52 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="70dp"
-                android:background="@drawable/bg_gray">
+                android:paddingBottom="70dp">
 
-                <androidx.core.widget.ContentLoadingProgressBar
-                    android:id="@+id/progress_home"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:progressTint="@color/golden"
+                <ImageView
+                    android:id="@+id/imv_problem_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/problem"
+                    android:layout_margin="40dp"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
+                <ProgressBar
+                    android:id="@+id/progressBar_home"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progressTint="@color/golden"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:indeterminate="true" />
 
+
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager_home"
+                    android:layout_width="0dp"
+                    android:layout_height="210dp"
+                    android:minHeight="100dp"
+                    app:layout_constraintBottom_toTopOf="@+id/txv_last_home"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/indicator_home"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:ci_drawable="@drawable/bg_circle"
+                    app:layout_constraintBottom_toBottomOf="@id/viewPager_home"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
                 <TextView
@@ -74,7 +108,7 @@
                     android:textStyle="bold"
                     android:layoutDirection="rtl"
                     app:layout_constraintBottom_toTopOf="@id/recycler_last_Home"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewPager_home"
                     android:visibility="invisible"
                     tools:ignore="RtlSymmetry" />
 
@@ -174,17 +208,6 @@
         <include
             android:id="@+id/menu_search"
             layout="@layout/menu_search"/>
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_goToList_home"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/purple_200"
-            android:src="@drawable/ic_baseline_list_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

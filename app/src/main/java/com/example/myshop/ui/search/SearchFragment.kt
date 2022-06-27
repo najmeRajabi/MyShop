@@ -17,6 +17,7 @@ import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.adapters.Orientation
 import com.example.myshop.databinding.FragmentSearchBinding
 import com.example.myshop.ui.home.HomeFragmentDirections
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -35,6 +36,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_search, container, false)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.GONE
         return binding.root
     }
 

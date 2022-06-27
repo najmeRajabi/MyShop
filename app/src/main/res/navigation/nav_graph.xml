@@ -12,9 +12,6 @@
             android:id="@+id/action_homeFragment_to_disconnectBlankFragment"
             app:destination="@id/disconnectBlankFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
         <action
@@ -83,6 +80,18 @@
         android:label="FilterFragment" >
         <action
             android:id="@+id/action_filterFragment_to_disconnectBlankFragment"
+            app:destination="@id/disconnectBlankFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.myshop.ui.cart.CartFragment"
+        android:label="CartFragment" />
+    <fragment
+        android:id="@+id/customerFragment"
+        android:name="com.example.myshop.ui.customer.CustomerFragment"
+        android:label="CustomerFragment" >
+        <action
+            android:id="@+id/action_customerFragment_to_disconnectBlankFragment"
             app:destination="@id/disconnectBlankFragment" />
     </fragment>
 </navigation>

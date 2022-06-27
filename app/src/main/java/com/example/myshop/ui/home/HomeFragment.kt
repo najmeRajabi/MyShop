@@ -5,20 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.HeaderViewListAdapter
-import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myshop.R
 import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.snackbar.Snackbar
 import com.example.myshop.adapters.Orientation
+import com.example.myshop.adapters.SliderAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator3
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -34,6 +34,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.VISIBLE
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vModel = vModel
         return binding.root
@@ -44,7 +45,7 @@ class HomeFragment : Fragment() {
 
         checkConnectionInternet()
         initViews()
-
+        initSlider()
 
 
     }
@@ -62,8 +63,7 @@ class HomeFragment : Fragment() {
     private fun initViews() {
 //        val header: RecyclerView.ItemDecoration = layoutInflater.inflate(layoutInflater,R.layout.category_list_item,false)
 //        binding.recyclerLastHome.addItemDecoration(header)
-        val lastAdapter=HomeListsAdapter(Orientation.HORIZONTAL){
-            goToDetail(it.id)}
+        val lastAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id)}
         val mostSeenAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
         val favoriteAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
         binding.lifecycleOwner = viewLifecycleOwner
@@ -93,10 +93,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.fabGoToListHome.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
-        }
-
         binding.menuSearch.searchEdtHome.setOnClickListener{ text ->
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
@@ -106,24 +102,31 @@ class HomeFragment : Fragment() {
         val snackbar = Snackbar.make(binding.coordinator
             ,vModel.message.value.toString(),Snackbar.LENGTH_SHORT)
         snackbar.setAction("تلاش دوباره", View.OnClickListener {
-
+            //todo refresh fragment
             snackbar.dismiss()
         }).show()
+        showLoading()
+        binding.progressBarHome.visibility= View.GONE
+        binding.imvProblemHome.visibility = View.VISIBLE
+
     }
 
     private fun hideLoading() {
-        binding.progressHome.visibility = View.INVISIBLE
+        binding.progressBarHome.visibility= View.GONE
         binding.recyclerMostSeenHome.visibility = View.VISIBLE
         binding.recyclerFavoriteHome.visibility = View.VISIBLE
         binding.recyclerLastHome.visibility = View.VISIBLE
         binding.txvFavoriteHome.visibility = View.VISIBLE
         binding.txvLastHome.visibility = View.VISIBLE
         binding.txvMostSeenHome.visibility = View.VISIBLE
+        binding.imvProblemHome.visibility = View.GONE
     }
 
     private fun showLoading() {
 
-        binding.progressHome.visibility = View.VISIBLE
+        binding.progressBarHome.visibility = View.VISIBLE
+        binding.progressBarHome.isIndeterminate = true
+        binding.imvProblemHome.visibility = View.GONE
         binding.recyclerMostSeenHome.visibility = View.INVISIBLE
         binding.recyclerFavoriteHome.visibility = View.INVISIBLE
         binding.recyclerLastHome.visibility = View.INVISIBLE
@@ -134,6 +137,20 @@ class HomeFragment : Fragment() {
 
     private fun goToDetail(id: Int) {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(id))
+    }
+
+    private fun initSlider() {
+
+        vModel.getSpecialOffers()
+        val viewPager: ViewPager2 = binding.viewPagerHome
+        vModel.specialProduct.observe(viewLifecycleOwner) {
+            val sliderAdapter= SliderAdapter(requireContext(),it.images)
+            viewPager.adapter = sliderAdapter
+            val indicator: CircleIndicator3 =binding.indicatorHome
+            indicator.setViewPager(viewPager)
+        }
+
+
     }
 
 }

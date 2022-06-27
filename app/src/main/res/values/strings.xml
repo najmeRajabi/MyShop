@@ -9,6 +9,18 @@
     <string name="search">جستجو در فروشگاه من</string>
     <string name="filter">فیلتر</string>
     <string name="sort">جدید ترین</string>
+    <string name="list">دسته بندی ها</string>
+    <string name="shoppingBascet">سبد خرید</string>
+    <string name="user">پروفایل</string>
+    <string name="home">خانه</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register">ثبت نام</string>
+    <string name="signin">ورود</string>
+    <string name="emailAddress">آدرس ایمیل</string>
+    <string name="password">پسورد</string>
+    <string name="id">آیدی</string>
+    <string name="allPrice">جمع سبد خرید</string>
+    <string name="allPrice0">0</string>
+    <string name="continue_shopping">ادامه فرایند خرید</string>
 </resources>

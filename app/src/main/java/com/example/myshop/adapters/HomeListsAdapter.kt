@@ -76,36 +76,39 @@ class HomeListsAdapter(
             product: Product,
             clickHandler: ClickHandler
         ) {
+            if (product.id != 608) {
 
 
-            try {
+                try {
 
-                txvTitle.text = product.name
-                txvPrice.text = "%,d".format(product.price.toInt())+ " تومان"
-                txvRate.text = product.averageRating.toString()
-                rateImage(product.ratingCount,imvRate)
+                    txvTitle.text = product.name
+                    txvPrice.text = "%,d".format(product.price.toInt()) + " تومان"
+                    txvRate.text = product.averageRating.toString()
+                    product.ratingCount?.let { rateImage(it, imvRate) }
 
-                Glide
-                    .with(view)
-                    .load(product.images[0].src)
-                    .centerCrop()
-                    .transition(withCrossFade())
-                    .transform(CenterInside(), RoundedCorners(25))
-                    .placeholder(R.drawable.ic_baseline_more_horiz_24)
-                    .error(R.drawable.ic_baseline_image_not_supported_24)
-                    .into(imvImage)
-            } catch (e: Exception) {
-                Log.d("HomeAdaptor---TAG", "bind: $e ")
+                    Glide
+                        .with(view)
+                        .load(product.images[0]?.src)
+                        .centerCrop()
+                        .transition(withCrossFade())
+                        .transform(CenterInside(), RoundedCorners(25))
+                        .placeholder(R.drawable.ic_baseline_more_horiz_24)
+                        .error(R.drawable.ic_baseline_image_not_supported_24)
+                        .into(imvImage)
+                } catch (e: Exception) {
+                    Log.d("HomeAdaptor---TAG", "bind: $e ")
 
-                txvTitle.text = "name"
-                txvPrice.text = "%,d".format(0)+ " تومان"
-                txvRate.text = " "
+                    txvTitle.text = "name"
+                    txvPrice.text = "%,d".format(0) + " تومان"
+                    txvRate.text = " "
 
-                imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
+                    imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
+
+                }
+
+                view.setOnClickListener { clickHandler(product) }
 
             }
-
-            view.setOnClickListener { clickHandler(product) }
 
         }
 

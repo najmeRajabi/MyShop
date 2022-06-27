@@ -11,6 +11,7 @@ import com.example.myshop.R
 import com.example.myshop.databinding.FragmentDisconnectBinding
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.ui.home.HomeViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DisconnectBlankFragment : Fragment() {
 
@@ -26,6 +27,7 @@ class DisconnectBlankFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_disconnect, container, false)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.GONE
         return binding.root
     }
 

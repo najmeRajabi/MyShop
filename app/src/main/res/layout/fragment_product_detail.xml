@@ -10,15 +10,24 @@
 
     </data>
 
-    <ScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="3dp"
         tools:context=".ui.detail.ProductDetailFragment">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp">
+            android:paddingBottom="?attr/actionBarSize"
+            android:paddingTop="?attr/actionBarSize"
+            >
 
 
 
@@ -135,10 +144,19 @@
                 android:padding="10dp"
                 android:textColor="@color/desc_color"
                 android:textSize="@dimen/descSizeHomeItem"
-                app:layout_constraintBottom_toBottomOf="@id/rating_detail"
+                app:layout_constraintBottom_toTopOf="@id/recycler_review"
                 app:layout_constraintStart_toEndOf="@id/rating_detail"
                 app:layout_constraintTop_toTopOf="@id/rating_detail" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/txv_rateCount_detail"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline3"
@@ -150,5 +168,33 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+        </ScrollView>
+
+        <include
+            android:id="@+id/menu_detail"
+            layout="@layout/menu_detail_product"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar_detail"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            android:progressTint="@color/golden"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+        <ImageView
+            android:id="@+id/imv_problem_detail"
+            android:src="@drawable/problem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:visibility="gone"
+            android:progressTint="@color/golden"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

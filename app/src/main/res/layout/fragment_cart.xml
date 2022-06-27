@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vModel"
+            type="com.example.myshop.ui.cart.CartViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="?attr/actionBarSize"
+        tools:context=".ui.cart.CartFragment">
+
+        <ScrollView
+            android:id="@+id/scrollView_cart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_margin="18dp"/>
+
+        </ScrollView>
+        <LinearLayout
+            android:id="@+id/ll_all_price_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/bg_white"
+            android:layout_gravity="bottom">
+
+            <Button
+                android:id="@+id/btn_continue_shopping"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:layout_gravity="center_vertical"
+                android:text="@string/continue_shopping"
+                android:padding="@dimen/paddingDefult"
+                android:layout_marginStart="@dimen/defultMargin"
+                android:layout_marginEnd="@dimen/defultMargin"/>
+
+            <TextView
+                android:id="@+id/txv_all_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{vModel.price}"
+                android:padding="@dimen/paddingDefult"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:textSize="@dimen/titleSizeCategoryItem"
+                android:layout_marginStart="@dimen/defultMargin"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/allPrice"
+                android:layout_weight="1"
+                android:textSize="@dimen/priceSizeHomeItem"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/paddingDefult"
+                android:layout_marginEnd="@dimen/defultMargin"
+                android:layout_marginStart="@dimen/paddingDefult"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imv_emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/shopping"
+            android:visibility="gone"/>
+        <ProgressBar
+            android:id="@+id/progressBar_cart"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:progressTint="@color/golden"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
