@@ -1,5 +1,6 @@
 package com.example.myshop.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.R
 import com.example.myshop.model.Attribute
+import com.example.myshop.ui.search.SearchViewModel
 
 typealias ClickCategoryFilter = (attribute: Attribute ) -> Unit
 
@@ -47,6 +49,7 @@ class FilterCategoryAdapter (
         val txvListFilter = view.findViewById<TextView>(R.id.txv_category_filter_item)
 
 
+        @SuppressLint("ResourceAsColor")
         fun bind(
             attribute: Attribute,
             clickHandler: ClickCategoryFilter,
@@ -54,6 +57,7 @@ class FilterCategoryAdapter (
         ) {
 
             view.setOnClickListener {
+                view.setBackgroundResource(R.color._white)
                 clickHandler(attribute)
             }
 

@@ -40,28 +40,22 @@ class FilterFragment : Fragment() {
     }
 
     private fun initViews() {
-        val adapter = FilterAdapter{clickHandler , checked ->
+        val adapter = FilterAdapter{ option, checked ->
 
         }
         val adapterCategoryFilter = FilterCategoryAdapter{
-            adapter.submitList(listOf(it))
+            adapter.submitList(it.options)
         }
 
         binding.recyclerFilter.adapter = adapter
         binding.recyclerFilterName.adapter = adapterCategoryFilter
-        adapterCategoryFilter.submitList(listOf(
-            Attribute(1,"aaa", listOf("a","b","c")),
-            Attribute(2,"aj", listOf("a","b","c")),
-        ))
-//        adapter.submitList(listOf(
+//        adapterCategoryFilter.submitList(listOf(
 //            Attribute(1,"aaa", listOf("a","b","c")),
-//            Attribute(2,"aj", listOf("a","b","c")),
-//            Attribute(3,"agf", listOf("a","b","c")),
-//            Attribute(4,"agdfga", listOf("a","b","c")),
+//            Attribute(2,"aj", listOf("a","b","k","b","k")),
 //        ))
 
         vModel.attributes.observe(viewLifecycleOwner){
-            adapter.submitList(it)
+            adapterCategoryFilter.submitList(it)
         }
     }
 

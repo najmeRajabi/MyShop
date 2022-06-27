@@ -39,8 +39,6 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 searchList.postValue(productRepository.searchInProducts(searchKey , sortItem,filter))
-//                Log.d("searchVM---TAG", "searchInProducts: ${productRepository.searchInProducts(searchKey)[1]}")
-
             }catch (e: Exception){
                 Log.d("searchVM---TAG", "searchInProducts: ${e.message}")
 
@@ -54,7 +52,7 @@ class SearchViewModel @Inject constructor(
             try {
                 attributes.postValue(productRepository.retrieveAllProductAttribute())
             }catch (e: Exception){
-
+                Log.d("search----TAG", "retrieveAllProductAttribute: ${e.message}")
             }
         }
     }

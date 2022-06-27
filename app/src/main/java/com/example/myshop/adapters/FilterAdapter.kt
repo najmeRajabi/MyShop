@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.R
-import com.example.myshop.model.Attribute
+import com.example.myshop.model.Options
 
-typealias ClickHandlerFilter = (attribute: Attribute , isChecked: Boolean) -> Unit
+typealias ClickHandlerFilter = (option: String , checked: Boolean) -> Unit
 
 class FilterAdapter (
     var clickHandler: ClickHandlerFilter
     ):
-    ListAdapter<Attribute, FilterAdapter .ViewHolder>(AttributeDiffCallback){
+    ListAdapter<String, FilterAdapter .ViewHolder>(OptionDiffCallback){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterAdapter.ViewHolder {
@@ -27,18 +27,18 @@ class FilterAdapter (
     }
 
     override fun onBindViewHolder(holder: FilterAdapter.ViewHolder, position: Int) {
-        holder.bind(getItem(position)  ,clickHandler,position)
+        holder.bind(getItem(position)  ,clickHandler)
 
 
     }
 
-    object AttributeDiffCallback : DiffUtil.ItemCallback<Attribute>() {
-        override fun areItemsTheSame(oldItem: Attribute, newItem: Attribute): Boolean {
+    object OptionDiffCallback : DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Attribute, newItem: Attribute): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+            return oldItem == newItem
         }
     }
 
@@ -49,13 +49,12 @@ class FilterAdapter (
 
 
         fun bind(
-            attribute: Attribute,
-            clickHandler: ClickHandlerFilter,
-            position: Int
+            options: String,
+            clickHandler: ClickHandlerFilter
         ) {
-                txvFilterItem.text = attribute.options[position]
+                txvFilterItem.text = options
                 checkBoxFilter.setOnCheckedChangeListener{attri , checked ->
-                    clickHandler(attribute , checked)
+                    clickHandler(options, checked)
 
             }
 
