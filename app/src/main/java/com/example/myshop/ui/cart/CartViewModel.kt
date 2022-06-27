@@ -46,7 +46,11 @@ class CartViewModel @Inject constructor(
     fun getShoppingList() {
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
-            shoppingList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
+            try {
+                shoppingList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
+            }catch (e: Exception){
+                state.postValue(State.FAILED)
+            }
             state.postValue(productRepository.retrieveOrder(orderId).status)
             message.postValue(productRepository.retrieveOrder(orderId).message)
         }

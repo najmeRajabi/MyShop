@@ -49,12 +49,14 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun sortProduct(orderBy: String){
+    fun sortProduct(orderBy: String) {
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
-            searchList.postValue( productRepository.getSortedProducts(orderBy).data!!)
+            searchList.postValue(productRepository.getSortedProducts(orderBy).data!!)
             state.postValue(productRepository.getSortedProducts(orderBy).status)
             message.postValue(productRepository.getSortedProducts(orderBy).message)
+        }
+    }
 
     fun retrieveAllProductAttribute() {
         viewModelScope.launch {

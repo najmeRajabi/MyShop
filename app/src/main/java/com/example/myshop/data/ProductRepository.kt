@@ -53,7 +53,7 @@ class ProductRepository @Inject constructor(
     }
 
     suspend fun retrieveReview(): Resource<List<Review>> {
-        return productRemoteDataSource.retrieveReview()
+        return productRemoteDataSource.retrieveReview()}
 
     suspend fun retrieveAllProductAttribute(): List<Attribute> {
         return productRemoteDataSource.retrieveAllProductAttribute()

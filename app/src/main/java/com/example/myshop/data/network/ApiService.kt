@@ -101,7 +101,7 @@ interface ApiService {
     suspend fun retrieveReview(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ):Review
+    ):Response<List<Review>>
 
     @GET("products/attributes/{id}/terms")
     suspend fun retrieveProductAttribute(

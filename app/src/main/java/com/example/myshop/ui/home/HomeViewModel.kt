@@ -56,7 +56,11 @@ class HomeViewModel @Inject constructor(
     fun getSpecialOffers(){
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
-            specialProduct.postValue (productRepository.getProductById(SPECIAL_OFFERS).data!!)
+            if (productRepository.getProductById(SPECIAL_OFFERS).data == null){
+                state.postValue(State.FAILED)
+            }else{
+                specialProduct.postValue (productRepository.getProductById(SPECIAL_OFFERS).data!!)
+            }
             state.postValue(productRepository.getProductById(SPECIAL_OFFERS).status)
             message.postValue(productRepository.getProductById(SPECIAL_OFFERS).message)
         }
