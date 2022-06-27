@@ -4,15 +4,14 @@ import com.example.myshop.data.network.ApiService
 import com.example.myshop.model.*
 import com.example.myshop.ui.disconnect.State
 import com.example.myshop.ui.handleRequestCode
-import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
-    suspend fun getLastProducts(orderby: String): Resource<List<Product>>{
+    suspend fun getSortedProducts(orderby: String): Resource<List<Product>>{
      //   return apiService.getLastProducts()
        return try {
-            val response = apiService.getLastProducts(orderby)
+            val response = apiService.getSortedProducts(orderby)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
@@ -56,23 +55,7 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun getProductList(id: Int): Resource<List<Product>> {
-        return try {
-            val response = apiService.getProductList(id)
-            val message=handleRequestCode(response.code())
-            if (response.isSuccessful){
-                Resource(State.SUCCESS,response.body(),message)
-            }else{
-                Resource(State.FAILED, arrayListOf(),message)
-            }
-
-        } catch (e: Exception) {
-            Resource(State.FAILED, arrayListOf(),e.message)
-        }
-    }
-
     suspend fun getProductsByCategory(categoryId: String): Resource<List<Product>> {
-//        return apiService.getProductsByCategory(categoryId = categoryId)
         return try {
             val response = apiService.getProductsByCategory(categoryId)
             val message=handleRequestCode(response.code())
@@ -91,9 +74,6 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.searchInProducts(searchKey = searchKey)
     }
 
-    suspend fun sortProducts(sortItem: String): List<Product> {
-        return apiService.sortProducts(sortItem)
-    }
 
     suspend fun createOrder(order: Order): Resource<Order> {
         return try {
@@ -141,16 +121,49 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun register(customer: Customer): List<Customer> {
-        return apiService.register(customer = customer)
+    suspend fun register(customer: Customer): Resource<List<Customer>> {
+        return try {
+            val response = apiService.register(customer = customer)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
-    suspend fun login(id: Int): Customer {
-        return apiService.login(id)
+    suspend fun login(id: Int): Resource<List<Customer>> {
+        return try {
+            val response = apiService.login(id)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
-    suspend fun retrieveReview(): List<Review> {
-        return apiService.retrieveReview()
+    suspend fun retrieveReview(): Resource<List<Review>> {
+        return try {
+            val response = apiService.retrieveReview()
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
 

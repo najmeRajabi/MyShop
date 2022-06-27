@@ -9,7 +9,7 @@ private const val SECRET = "cs_28f528089254ed3dc6bc8cbd0ffeb34a52f69547"
 interface ApiService {
 
     @GET("products")
-    suspend fun getLastProducts(
+    suspend fun getSortedProducts(
         @Query("orderby") orderby : String ,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
@@ -29,13 +29,6 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET
     ): Response<List<Category>>
 
-    @GET("products/categories/{id}")
-    suspend fun getProductList(
-        @Path("id") id: Int,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-    ): Response<List<Product>>
-
     @GET("products/")
     suspend fun getProductsByCategory(
         @Query("category") categoryId: String,
@@ -52,12 +45,7 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET,
     ): List<Product>
 
-    @GET("products/")
-    suspend fun sortProducts(
-        @Query("orderby") orderby : String ,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-    ): List<Product>
+    // order ....................................................
 
     @Headers("Content-Type: application/json")
     @POST("orders/")
@@ -82,25 +70,27 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET,
     ):Response<List<Order>>
 
-    // customer
+    //.... customer...................................................
 
     @POST("customers/")
     suspend fun register(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
         @Body customer: Customer
-    ): List<Customer>
+    ): Response<List<Customer>>
 
-    @GET("customers/{id}")
+    @GET("customers/")
     suspend fun login(
         @Query("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ): Customer
+    ): Response<List<Customer>>
+
+    //...... review.................................................
 
     @GET("products/reviews/")
     suspend fun retrieveReview(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-        ):List<Review>
+        ):Response<List<Review>>
 }

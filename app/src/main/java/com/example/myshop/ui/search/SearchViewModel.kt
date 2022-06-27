@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.BaseViewModel
+import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
@@ -23,6 +25,7 @@ class SearchViewModel @Inject constructor(
 
     val searchList = MutableLiveData<List<Product>>()
     val sortedList = MutableLiveData<List<Product>>()
+    val state = MutableLiveData<State>()
 
 
     fun searchInProducts(searchKey: String) {
@@ -38,13 +41,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun sortProduct(sortItem: String){
-        viewModelScope.launch {
-            try {
-                searchList.postValue(productRepository.sortProducts(sortItem))
-            }catch (e: Exception){
-                Log.d("searchVM---TAG", "sortProduct: ${e.message}")
-            }
+    fun sortProduct(orderBy: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            state.postValue(State.LOADING)
+            searchList.postValue( productRepository.getSortedProducts(orderBy).data!!)
+            state.postValue(productRepository.getSortedProducts(orderBy).status)
+            message.postValue(productRepository.getSortedProducts(orderBy).message)
         }
     }
 }

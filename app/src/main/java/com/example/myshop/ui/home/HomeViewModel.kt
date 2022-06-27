@@ -1,8 +1,6 @@
 package com.example.myshop.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Product
@@ -10,9 +8,7 @@ import com.example.myshop.ui.disconnect.BaseViewModel
 import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 const val SPECIAL_OFFERS = 608
@@ -39,9 +35,9 @@ class HomeViewModel @Inject constructor(
     fun getProductByOrder(orderBy: String , list: MutableLiveData<List<Product>>){
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
-            list.postValue( productRepository.getLastProducts(orderBy).data!!)
-            state.postValue(productRepository.getLastProducts(orderBy).status)
-            message.postValue(productRepository.getLastProducts(orderBy).message)
+            list.postValue( productRepository.getSortedProducts(orderBy).data!!)
+            state.postValue(productRepository.getSortedProducts(orderBy).status)
+            message.postValue(productRepository.getSortedProducts(orderBy).message)
         }
     }
 

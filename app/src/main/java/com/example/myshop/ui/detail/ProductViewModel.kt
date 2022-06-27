@@ -103,19 +103,17 @@ class ProductViewModel @Inject constructor(
 
 
     fun retrieveReview() {
-        viewModelScope.launch {
-            try {
-                var mReviews = arrayListOf<Review>()
-                for (review in productRepository.retrieveReview()) {
-                    if (review.product_id == product.value?.id) {
-                        mReviews.add(review)
-                    }
+        viewModelScope.launch(Dispatchers.IO) {
+            var mReviews = arrayListOf<Review>()
+            state.postValue(State.LOADING)
+            for (review in productRepository.retrieveReview().data!!) {
+                if (review.product_id == product.value?.id) {
+                    mReviews.add(review)
                 }
-                reviews.postValue(mReviews)
-//                reviews.postValue(productRepository.retrieveReview())
-            } catch (e: Exception) {
-
             }
+            reviews.postValue( mReviews)
+            state.postValue(productRepository.retrieveReview().status)
+            message.postValue(productRepository.retrieveReview().message)
         }
 
     }

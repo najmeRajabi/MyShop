@@ -13,6 +13,7 @@ import com.example.myshop.R
 import com.example.myshop.databinding.FragmentListBinding
 import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.adapters.Orientation
+import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,6 +56,29 @@ class ListFragment : Fragment() {
 
         vModel.productList.observe(viewLifecycleOwner){
             adapter.submitList(it)
+        }
+        observeState()
+    }
+
+    private fun observeState() {
+        vModel.state.observe(viewLifecycleOwner){
+            when (it){
+                State.LOADING -> {
+                    binding.recyclerList.visibility = View.INVISIBLE
+                    binding.progressBarList.visibility = View.VISIBLE
+                    binding.imvProblemList.visibility = View.GONE
+                }
+                State.SUCCESS -> {
+                    binding.recyclerList.visibility = View.VISIBLE
+                    binding.progressBarList.visibility = View.GONE
+                    binding.imvProblemList.visibility = View.GONE
+                }
+                State.FAILED -> {
+                    binding.recyclerList.visibility = View.INVISIBLE
+                    binding.progressBarList.visibility = View.INVISIBLE
+                    binding.imvProblemList.visibility = View.VISIBLE
+                }
+            }
         }
     }
 

@@ -1,7 +1,5 @@
 package com.example.myshop.data
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.example.myshop.model.*
 import com.example.myshop.ui.disconnect.State
 import javax.inject.Inject
@@ -11,8 +9,8 @@ class ProductRepository @Inject constructor(
 ) {
 
 
-    suspend fun getLastProducts(orderBy: String): Resource<List<Product>> {
-        return productRemoteDataSource.getLastProducts(orderBy)
+    suspend fun getSortedProducts(orderBy: String): Resource<List<Product>> {
+        return productRemoteDataSource.getSortedProducts(orderBy)
     }
 
     suspend fun getProductById(id: Int): Resource<Product> {
@@ -31,10 +29,6 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.searchInProducts(searchKey)
     }
 
-    suspend fun sortProducts(sortItem: String): List<Product> {
-        return productRemoteDataSource.sortProducts(sortItem)
-    }
-
     suspend fun createOrder(order: Order): Resource<Order> {
         return productRemoteDataSource.createOrder(order)
     }
@@ -47,15 +41,15 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.retrieveOrder(id)
     }
 
-    suspend fun register(customer: Customer): List<Customer> {
+    suspend fun register(customer: Customer): Resource<List<Customer>> {
         return productRemoteDataSource.register(customer = customer)
     }
 
-    suspend fun login(id: Int): Customer {
+    suspend fun login(id: Int): Resource<List<Customer>> {
         return productRemoteDataSource.login(id)
     }
 
-    suspend fun retrieveReview(): List<Review> {
+    suspend fun retrieveReview(): Resource<List<Review>> {
         return productRemoteDataSource.retrieveReview()
     }
 }

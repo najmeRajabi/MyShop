@@ -47,8 +47,8 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
             shoppingList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
-            state.postValue(productRepository.getLastProducts("date").status)
-            message.postValue(productRepository.getLastProducts("date").message)
+            state.postValue(productRepository.retrieveOrder(orderId).status)
+            message.postValue(productRepository.retrieveOrder(orderId).message)
         }
 
     }

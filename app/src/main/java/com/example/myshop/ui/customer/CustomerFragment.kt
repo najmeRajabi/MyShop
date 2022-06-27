@@ -11,6 +11,7 @@ import com.example.myshop.R
 import com.example.myshop.databinding.FragmentCustomerBinding
 import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.model.Customer
+import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +42,7 @@ class CustomerFragment : Fragment() {
     }
 
     private fun initViews() {
+        observeState()
         binding.btnRegister.setOnClickListener {
             if (checked()) {
 
@@ -54,6 +56,7 @@ class CustomerFragment : Fragment() {
             }
         }
         binding.btnSignIn.setOnClickListener {
+            binding.txvCustomerMessage.text = ""
             if (!binding.idEdtSignIn.text.isNullOrBlank() &&
                     !binding.passwordEdtSignIn.text.isNullOrBlank()){
                 vModel.login(
@@ -63,10 +66,11 @@ class CustomerFragment : Fragment() {
             }
         }
         binding.btnRegisterCard.setOnClickListener {
+            binding.txvCustomerMessage.text = ""
             binding.cardRegister.visibility = View.VISIBLE
             binding.cardSignin.visibility = View.GONE
         }
-        binding.btnSinginCard.setOnClickListener {
+        binding.btnSigninCard.setOnClickListener {
             binding.cardRegister.visibility = View.GONE
             binding.cardSignin.visibility = View.VISIBLE
         }
@@ -80,4 +84,22 @@ class CustomerFragment : Fragment() {
                !binding.passwordEdtRegister.text.isNullOrBlank())
     }
 
+    private fun observeState() {
+        vModel.state.observe(viewLifecycleOwner){
+            when (it){
+                State.LOADING -> {
+                    binding.txvCustomerMessage.visibility = View.INVISIBLE
+                    binding.progressBarProfile.visibility = View.VISIBLE
+                }
+                State.SUCCESS -> {
+                    binding.txvCustomerMessage.visibility = View.VISIBLE
+                    binding.progressBarProfile.visibility = View.GONE
+                }
+                State.FAILED -> {
+                    binding.txvCustomerMessage.visibility = View.VISIBLE
+                    binding.progressBarProfile.visibility = View.INVISIBLE
+                }
+            }
+        }
+    }
 }
