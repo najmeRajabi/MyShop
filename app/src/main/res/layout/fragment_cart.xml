@@ -80,5 +80,13 @@
             android:layout_height="match_parent"
             android:src="@drawable/shopping"
             android:visibility="gone"/>
+        <ProgressBar
+            android:id="@+id/progressBar_cart"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:progressTint="@color/golden"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

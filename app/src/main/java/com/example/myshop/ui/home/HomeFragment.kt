@@ -63,8 +63,7 @@ class HomeFragment : Fragment() {
     private fun initViews() {
 //        val header: RecyclerView.ItemDecoration = layoutInflater.inflate(layoutInflater,R.layout.category_list_item,false)
 //        binding.recyclerLastHome.addItemDecoration(header)
-        val lastAdapter=HomeListsAdapter(Orientation.HORIZONTAL){
-            goToDetail(it.id)}
+        val lastAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id)}
         val mostSeenAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
         val favoriteAdapter=HomeListsAdapter(Orientation.HORIZONTAL){ goToDetail(it.id) }
         binding.lifecycleOwner = viewLifecycleOwner
@@ -106,22 +105,28 @@ class HomeFragment : Fragment() {
             //todo refresh fragment
             snackbar.dismiss()
         }).show()
+        showLoading()
+        binding.progressBarHome.visibility= View.GONE
+        binding.imvProblemHome.visibility = View.VISIBLE
+
     }
 
     private fun hideLoading() {
-//        binding.progressHome.visibility = View.INVISIBLE
+        binding.progressBarHome.visibility= View.GONE
         binding.recyclerMostSeenHome.visibility = View.VISIBLE
         binding.recyclerFavoriteHome.visibility = View.VISIBLE
         binding.recyclerLastHome.visibility = View.VISIBLE
         binding.txvFavoriteHome.visibility = View.VISIBLE
         binding.txvLastHome.visibility = View.VISIBLE
         binding.txvMostSeenHome.visibility = View.VISIBLE
+        binding.imvProblemHome.visibility = View.GONE
     }
 
     private fun showLoading() {
 
-//        binding.progressHome.visibility = View.VISIBLE
-
+        binding.progressBarHome.visibility = View.VISIBLE
+        binding.progressBarHome.isIndeterminate = true
+        binding.imvProblemHome.visibility = View.GONE
         binding.recyclerMostSeenHome.visibility = View.INVISIBLE
         binding.recyclerFavoriteHome.visibility = View.INVISIBLE
         binding.recyclerLastHome.visibility = View.INVISIBLE
@@ -143,7 +148,6 @@ class HomeFragment : Fragment() {
             viewPager.adapter = sliderAdapter
             val indicator: CircleIndicator3 =binding.indicatorHome
             indicator.setViewPager(viewPager)
-            binding.progressBarHome.visibility = View.GONE
         }
 
 

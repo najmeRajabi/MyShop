@@ -17,6 +17,7 @@ import com.example.myshop.adapters.ReviewAdapter
 import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
 import com.example.myshop.model.Review
+import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,6 +97,35 @@ class ProductDetailFragment : Fragment() {
         }
 
         initImageView()
+        observState()
+    }
+
+    private fun observState() {
+        vModel.state.observe(viewLifecycleOwner){
+            when (it){
+                State.LOADING -> { showLoading() }
+                State.SUCCESS -> { hideLoading() }
+                State.FAILED  -> { showErrorMessage()}
+            }
+        }
+    }
+
+    private fun showErrorMessage() {
+        binding.progressBarDetail.visibility = View.GONE
+        binding.constraintDetail.visibility= View.GONE
+        binding.imvProblemDetail.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.progressBarDetail.visibility = View.GONE
+        binding.constraintDetail.visibility= View.VISIBLE
+        binding.imvProblemDetail.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        binding.progressBarDetail.visibility = View.VISIBLE
+        binding.constraintDetail.visibility= View.GONE
+        binding.imvProblemDetail.visibility = View.GONE
     }
 
     private fun checkConnectionInternet() {
