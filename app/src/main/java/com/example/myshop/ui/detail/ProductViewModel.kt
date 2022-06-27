@@ -38,11 +38,10 @@ class ProductViewModel @Inject constructor(
 
     fun getProduct(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                product.postValue(productRepository.getProductById(id))
-            } catch (e: Exception) {
-                Log.d("ProductViewModel----tag", "getProduct: $e")
-            }
+            state.postValue(State.LOADING)
+            product.postValue (productRepository.getProductById(id).data!!)
+            state.postValue(productRepository.getProductById(id).status)
+            message.postValue(productRepository.getProductById(id).message)
         }
         retrieveReview()
     }
@@ -59,8 +58,8 @@ class ProductViewModel @Inject constructor(
             } else {
                 orderCallback.postValue(productRepository.createOrder(order).data!!)
             }
-            state.postValue(productRepository.getLastProducts().status)
-            message.postValue(productRepository.getLastProducts().message)
+            state.postValue(productRepository.createOrder(order).status)
+            message.postValue(productRepository.createOrder(order).message)
             orderMessage.postValue(message.value)
         }
     }
@@ -70,11 +69,12 @@ class ProductViewModel @Inject constructor(
         val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt(ORDER_ID, -1)
         viewModelScope.launch {
-            try {
-                order = productRepository.retrieveOrder(id)[0]
-            } catch (e: Exception) {
 
-            }
+            state.postValue(State.LOADING)
+            order = (productRepository.retrieveOrder(id).data!![0])
+            state.postValue(productRepository.retrieveOrder(id).status)
+            message.postValue(productRepository.retrieveOrder(id).message)
+
             if (order != null &&
                 product.value != null
             ) {

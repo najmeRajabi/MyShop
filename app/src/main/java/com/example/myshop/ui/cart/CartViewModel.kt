@@ -10,7 +10,9 @@ import com.example.myshop.model.Product
 import com.example.myshop.ui.detail.ORDER
 import com.example.myshop.ui.detail.ORDER_ID
 import com.example.myshop.ui.disconnect.BaseViewModel
+import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +23,7 @@ class CartViewModel @Inject constructor(
 
     val shoppingList = MutableLiveData<List<Product>>()
     val order = MutableLiveData<Order>()
+    val state = MutableLiveData<State>(State.FAILED)
     val price = MutableLiveData<String>()
     var count = MutableLiveData<Int>(1)
     var orderId =-1
@@ -41,18 +44,11 @@ class CartViewModel @Inject constructor(
     }
 
     fun getShoppingList() {
-        viewModelScope.launch {
-            try {
-                if (orderId != -1) {
-                    shoppingList.postValue(productRepository.retrieveOrder(orderId)[0].line_items)
-                    order.postValue(productRepository.retrieveOrder(orderId)[0])
-                }
-
-                Log.d("cart-----TAG", "getShoppingList  true: ${productRepository.retrieveOrder(orderId)[0].line_items[0]}")
-            }catch (e: Exception){
-
-//                Log.d("cart-----TAG", "getShoppingList: ${productRepository.retrieveOrder(orderId).line_items[0]}")
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            state.postValue(State.LOADING)
+            shoppingList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
+            state.postValue(productRepository.getLastProducts("date").status)
+            message.postValue(productRepository.getLastProducts("date").message)
         }
 
     }

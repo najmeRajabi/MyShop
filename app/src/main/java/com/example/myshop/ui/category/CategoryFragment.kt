@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentCategoryBinding
 import com.example.myshop.adapters.CategoryAdaptor
+import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,6 +53,26 @@ class CategoryFragment : Fragment() {
 
         vModel.categories.observe(viewLifecycleOwner){
             adaptor.submitList(it)
+        }
+
+        vModel.state.observe(viewLifecycleOwner){
+            when(it){
+                State.LOADING -> {
+                    binding.recyclerCategory.visibility = View.INVISIBLE
+                    binding.progressBarCategory.visibility=View.VISIBLE
+                    binding.imvProblemCategory.visibility = View.GONE
+                }
+                State.SUCCESS -> {
+                    binding.recyclerCategory.visibility = View.VISIBLE
+                    binding.progressBarCategory.visibility=View.GONE
+                    binding.imvProblemCategory.visibility = View.GONE
+                }
+                State.FAILED -> {
+                    binding.recyclerCategory.visibility = View.INVISIBLE
+                    binding.progressBarCategory.visibility=View.INVISIBLE
+                    binding.imvProblemCategory.visibility = View.VISIBLE
+                }
+            }
         }
 
 

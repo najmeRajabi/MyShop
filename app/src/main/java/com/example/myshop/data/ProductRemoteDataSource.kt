@@ -9,10 +9,10 @@ import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
-    suspend fun getLastProducts(): Resource<List<Product>>{
+    suspend fun getLastProducts(orderby: String): Resource<List<Product>>{
      //   return apiService.getLastProducts()
        return try {
-            val response = apiService.getLastProducts()
+            val response = apiService.getLastProducts(orderby)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
@@ -25,28 +25,66 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun getProductById(id: Int): Product {
-        return apiService.getProductById(id)
+    suspend fun getProductById(id: Int): Resource<Product> {
+        return try {
+            val response = apiService.getProductById(id)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, null,message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, null,e.message)
+        }
     }
 
-    suspend fun getMostSeenProducts(): List<Product>{
-        return apiService.getMostSeenProducts()
+
+    suspend fun getCategories(): Resource<List<Category>>{
+        return try {
+            val response = apiService.getCategories()
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
-    suspend fun getFavoriteProducts(): List<Product>{
-        return apiService.getFavoriteProducts()
+    suspend fun getProductList(id: Int): Resource<List<Product>> {
+        return try {
+            val response = apiService.getProductList(id)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
-    suspend fun getCategories(): List<Category>{
-        return apiService.getCategories()
-    }
+    suspend fun getProductsByCategory(categoryId: String): Resource<List<Product>> {
+//        return apiService.getProductsByCategory(categoryId = categoryId)
+        return try {
+            val response = apiService.getProductsByCategory(categoryId)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
 
-    suspend fun getProductList(id: Int): List<Product> {
-        return apiService.getProductList(id)
-    }
-
-    suspend fun getProductsByCategory(categoryId: String): List<Product> {
-        return apiService.getProductsByCategory(categoryId = categoryId)
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
     suspend fun searchInProducts(searchKey: String): List<Product> {
@@ -87,8 +125,20 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun retrieveOrder(id: Int): List<Order> {
-        return apiService.retrieveOrder(id)
+    suspend fun retrieveOrder(id: Int): Resource<List<Order>> {
+
+        return try {
+            val response = apiService.retrieveOrder(id)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
     suspend fun register(customer: Customer): List<Customer> {
@@ -102,5 +152,6 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     suspend fun retrieveReview(): List<Review> {
         return apiService.retrieveReview()
     }
+
 
 }

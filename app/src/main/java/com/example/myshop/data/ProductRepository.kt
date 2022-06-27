@@ -10,33 +10,20 @@ class ProductRepository @Inject constructor(
     val productRemoteDataSource: ProductRemoteDataSource
 ) {
 
-    val shoppingList = MutableLiveData<Order>()
 
-    suspend fun getLastProducts(): Resource<List<Product>> {
-        return productRemoteDataSource.getLastProducts()
+    suspend fun getLastProducts(orderBy: String): Resource<List<Product>> {
+        return productRemoteDataSource.getLastProducts(orderBy)
     }
 
-    suspend fun getProductById(id: Int): Product {
+    suspend fun getProductById(id: Int): Resource<Product> {
         return productRemoteDataSource.getProductById(id)
     }
 
-    suspend fun getMostSeenProducts(): List<Product>{
-        return productRemoteDataSource.getMostSeenProducts()
-    }
-
-    suspend fun getFavoriteProducts(): List<Product>{
-        return productRemoteDataSource.getFavoriteProducts()
-    }
-
-    suspend fun getCategories(): List<Category>{
+    suspend fun getCategories(): Resource<List<Category>> {
         return productRemoteDataSource.getCategories()
     }
 
-    suspend fun getProductList(id: Int): List<Product> {
-        return productRemoteDataSource.getProductList(id)
-    }
-
-    suspend fun getProductsByCategory(categoryId: String): List<Product> {
+    suspend fun getProductsByCategory(categoryId: String): Resource<List<Product>> {
         return productRemoteDataSource.getProductsByCategory(categoryId)
     }
 
@@ -56,7 +43,7 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.updateOrder(id,order)
     }
 
-    suspend fun retrieveOrder(id: Int): List<Order> {
+    suspend fun retrieveOrder(id: Int): Resource<List<Order>> {
         return productRemoteDataSource.retrieveOrder(id)
     }
 

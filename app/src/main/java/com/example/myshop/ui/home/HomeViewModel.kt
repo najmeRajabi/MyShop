@@ -27,7 +27,6 @@ class HomeViewModel @Inject constructor(
     val favoriteProducts = MutableLiveData<List<Product>>()
     val specialProduct = MutableLiveData<Product>()
     val state = MutableLiveData<State>()
-    val serverError = MutableLiveData<Boolean>()
     var splashFlag = true
 
     init {
@@ -36,55 +35,36 @@ class HomeViewModel @Inject constructor(
         getFavoriteProducts()
     }
 
-        fun getLastProducts(){
-            viewModelScope.launch(Dispatchers.IO) {
-                state.postValue(State.LOADING)
-                recentProducts.postValue( productRepository.getLastProducts().data!!)
-                state.postValue(productRepository.getLastProducts().status)
-                message.postValue(productRepository.getLastProducts().message)
-//                try {
-//                    recentProducts.postValue( productRepository.getLastProducts().data!!)
-//                    state.postValue(State.SUCCESS)
-//                }catch (e: Exception){
-//                    state.postValue(State.FAILED)
-//                    serverError.postValue(false)
-//                    Log.d("HomeViewModel----tag", "getProducts: $e")
-//                }
-            }
+
+    fun getProductByOrder(orderBy: String , list: MutableLiveData<List<Product>>){
+        viewModelScope.launch(Dispatchers.IO) {
+            state.postValue(State.LOADING)
+            list.postValue( productRepository.getLastProducts(orderBy).data!!)
+            state.postValue(productRepository.getLastProducts(orderBy).status)
+            message.postValue(productRepository.getLastProducts(orderBy).message)
         }
+    }
+
+    fun getLastProducts(){
+        getProductByOrder("date",recentProducts)
+    }
 
     fun getMostSeenProducts(){
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                mostSeenProducts.postValue( productRepository.getMostSeenProducts())
-            }catch (e: Exception){
-                serverError.postValue(false)
-                Log.d("HomeViewModel----tag", "getMostSeenProducts: $e")
-            }
-        }
+        getProductByOrder("rating",mostSeenProducts)
     }
 
     fun getFavoriteProducts(){
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                favoriteProducts.postValue( productRepository.getFavoriteProducts())
-            }catch (e: Exception){
-                serverError.postValue(false)
-                Log.d("HomeViewModel----tag", "getFavProducts: $e")
-            }
-        }
+        getProductByOrder("popularity",favoriteProducts)
     }
 
     fun getSpecialOffers(){
-        viewModelScope.launch {
-            try {
-
-                specialProduct.postValue(productRepository.getProductById(SPECIAL_OFFERS))
-                Log.d("HomeViewModel----tag", "getSpecialOffers true: ${productRepository.getProductById(SPECIAL_OFFERS)}")
-            }catch (e: Exception){
-                Log.d("HomeViewModel----tag", "getSpecialOffers: ${e.message}")
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            state.postValue(State.LOADING)
+            specialProduct.postValue (productRepository.getProductById(SPECIAL_OFFERS).data!!)
+            state.postValue(productRepository.getProductById(SPECIAL_OFFERS).status)
+            message.postValue(productRepository.getProductById(SPECIAL_OFFERS).message)
         }
+
     }
 
 

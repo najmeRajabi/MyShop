@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.myshop.R
 import com.example.myshop.adapters.CartAdapter
 import com.example.myshop.databinding.FragmentCartBinding
+import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +32,7 @@ class CartFragment : Fragment() {
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility =
             View.VISIBLE
         binding.vModel = vModel
-        binding.lifecycleOwner= viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -45,7 +46,7 @@ class CartFragment : Fragment() {
 
     private fun initView() {
         vModel.getOrderFromSharedPreferences(requireContext())
-        val adapter = CartAdapter { product , count ->
+        val adapter = CartAdapter { product, count ->
             if (count == 0)
                 vModel.removeProduct(product)
             vModel.count.value = count
@@ -53,20 +54,33 @@ class CartFragment : Fragment() {
         }
         binding.recyclerCart.adapter = adapter
 
-        if (vModel.shoppingList.value.isNullOrEmpty()) {
-            binding.imvEmptyList.visibility = View.VISIBLE
-            binding.scrollViewCart.visibility = View.INVISIBLE
-            binding.llAllPriceCart.visibility =View.INVISIBLE
-        } else {
+        vModel.shoppingList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+            Log.d("TAG", "initView: $it")
+            vModel.calculatePrice()
 
-            vModel.shoppingList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
-                Log.d("TAG", "initView: $it")
-                binding.imvEmptyList.visibility = View.GONE
-                binding.scrollViewCart.visibility = View.VISIBLE
-                binding.llAllPriceCart.visibility =View.VISIBLE
-                vModel.calculatePrice()
+        }
 
+        vModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                State.LOADING -> {
+                    binding.scrollViewCart.visibility = View.INVISIBLE
+                    binding.llAllPriceCart.visibility = View.INVISIBLE
+                    binding.progressBarCart.visibility = View.VISIBLE
+                    binding.imvEmptyList.visibility = View.GONE
+                }
+                State.SUCCESS -> {
+                    binding.scrollViewCart.visibility = View.VISIBLE
+                    binding.llAllPriceCart.visibility = View.VISIBLE
+                    binding.progressBarCart.visibility = View.GONE
+                    binding.imvEmptyList.visibility = View.GONE
+                }
+                State.FAILED -> {
+                    binding.scrollViewCart.visibility = View.INVISIBLE
+                    binding.llAllPriceCart.visibility = View.INVISIBLE
+                    binding.progressBarCart.visibility = View.INVISIBLE
+                    binding.imvEmptyList.visibility = View.VISIBLE
+                }
             }
         }
 

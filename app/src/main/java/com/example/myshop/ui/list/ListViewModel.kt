@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.BaseViewModel
+import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,14 +19,13 @@ class ListViewModel @Inject constructor(
 ) : BaseViewModel(){
 
     val productList = MutableLiveData<List<Product>>()
+    val state = MutableLiveData<State>()
 
     fun getProductList(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                productList.postValue( productRepository.getProductsByCategory(id.toString()))
-            }catch (e: Exception){
-                Log.d("ListViewModel----tag", "getProducts: $e")
-            }
-        }
+            state.postValue(State.LOADING)
+            productList.postValue( productRepository.getProductsByCategory(id.toString()).data!!)
+            state.postValue(productRepository.getProductsByCategory(id.toString()).status)
+            message.postValue(productRepository.getProductsByCategory(id.toString()).message)}
     }
 }

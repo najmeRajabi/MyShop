@@ -8,6 +8,7 @@ import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Category
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.BaseViewModel
+import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +21,7 @@ class CategoryViewModel@Inject constructor(
     ): BaseViewModel() {
 
     val categories = MutableLiveData<List<Category>>()
+    val state = MutableLiveData<State>()
 
     init {
         getCategories()
@@ -27,11 +29,9 @@ class CategoryViewModel@Inject constructor(
 
     fun getCategories(){
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                categories.postValue( productRepository.getCategories())
-            }catch (e: Exception){
-                Log.d("CategoryViewModel---tag", "getCategories: $e")
-            }
-        }
+            state.postValue(State.LOADING)
+            categories.postValue( productRepository.getCategories().data!!)
+            state.postValue(productRepository.getCategories().status)
+            message.postValue(productRepository.getCategories().message)}
     }
 }

@@ -10,6 +10,7 @@ interface ApiService {
 
     @GET("products")
     suspend fun getLastProducts(
+        @Query("orderby") orderby : String ,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
         @Query("per_page") perPage: Int = 100
@@ -20,47 +21,29 @@ interface ApiService {
         @Path("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ): Product
-
-    @GET("products")
-    suspend fun getMostSeenProducts(
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-        @Query("orderby") orderby : String = "rating",
-        @Query("per_page") perPage: Int = 100
-
-    ): List<Product>
-
-    @GET("products")
-    suspend fun getFavoriteProducts(
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-        @Query("orderby") orderby : String ="popularity",
-        @Query("per_page") perPage: Int = 100
-
-    ): List<Product>
+    ): Response<Product>
 
     @GET("products/categories")
     suspend fun getCategories(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET
-    ): List<Category>
+    ): Response<List<Category>>
 
     @GET("products/categories/{id}")
     suspend fun getProductList(
         @Path("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ): List<Product>
+    ): Response<List<Product>>
 
     @GET("products/")
     suspend fun getProductsByCategory(
+        @Query("category") categoryId: String,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-        @Query("category") categoryId: String,
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 100
-    ): List<Product>
+    ): Response<List<Product>>
 
     @GET("products/")
     suspend fun searchInProducts(
@@ -97,7 +80,7 @@ interface ApiService {
         @Query("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ):List<Order>
+    ):Response<List<Order>>
 
     // customer
 
