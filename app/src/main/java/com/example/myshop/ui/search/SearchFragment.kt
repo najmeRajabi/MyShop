@@ -58,17 +58,34 @@ class SearchFragment : Fragment() {
     private fun sortProducts() {
 
         val txvSort = binding.txvSort
-        val items = listOf("پربازدید ترین","محبوبترین","جدیدترین","بیشترین قیمت")
+        val items = listOf("پربازدید ترین","محبوبترین","جدیدترین","گران ترین","ارزانترین")
         val adapter = ArrayAdapter(requireContext(), R.layout.spiner_item, items)
         (txvSort as? AutoCompleteTextView)?.setAdapter(adapter)
 
         txvSort.setOnItemClickListener { adapterView, view, i, l ->
             when (i){
-                0 -> vModel.sortItem = SortItemProduct.POPULARITY.name.lowercase(Locale.getDefault())
-                1 -> vModel.sortItem = SortItemProduct.RATING.name.lowercase(Locale.getDefault())
-                2 -> vModel.sortItem = SortItemProduct.DATE.name.lowercase(Locale.getDefault())
-                3 -> vModel.sortItem = SortItemProduct.PRICE.name.lowercase(Locale.getDefault())
+                0 -> {
+                    vModel.sortItem = SortItemProduct.POPULARITY.name.lowercase(Locale.getDefault())
+                    vModel.searchInProducts()
+                }
+                1 -> {
+                    vModel.sortItem = SortItemProduct.RATING.name.lowercase(Locale.getDefault())
+                    vModel.searchInProducts()
+                }
+                2 -> {
+                    vModel.sortItem = SortItemProduct.DATE.name.lowercase(Locale.getDefault())
+                    vModel.searchInProducts()
+                }
+                3 -> {
+                    vModel.sortItem = SortItemProduct.PRICE.name.lowercase(Locale.getDefault())
+                    vModel.searchInProducts()
+                }
+                4 -> {
+                    vModel.sortItem = SortItemProduct.DESC.name.lowercase(Locale.getDefault())
+                    vModel.searchInProducts()
+                }
             }
+
         }
 
 
@@ -90,6 +107,7 @@ class SearchFragment : Fragment() {
     private fun search() {
         binding.searchEdtSearch.addTextChangedListener{ text ->
             vModel.searchKey = text.toString()
+            vModel.searchInProducts()
         }
     }
 

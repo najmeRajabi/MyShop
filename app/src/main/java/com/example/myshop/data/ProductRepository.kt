@@ -28,7 +28,7 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.getProductsByCategory(categoryId)
     }
 
-    suspend fun searchInProducts(searchKey: String, sortItem: String , attribute: String): List<Product> {
+    suspend fun searchInProducts(searchKey: String?, sortItem: String? , attribute: String?): Resource<List<Product>?> {
         return productRemoteDataSource.searchInProducts(searchKey,sortItem, attribute)
     }
 
@@ -55,7 +55,7 @@ class ProductRepository @Inject constructor(
     suspend fun retrieveReview(): Resource<List<Review>> {
         return productRemoteDataSource.retrieveReview()}
 
-    suspend fun retrieveAllProductAttribute(): List<Attribute> {
+    suspend fun retrieveAllProductAttribute(): Resource<List<Attribute>> {
         return productRemoteDataSource.retrieveAllProductAttribute()
     }
 }

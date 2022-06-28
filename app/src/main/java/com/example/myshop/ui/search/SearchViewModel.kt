@@ -16,7 +16,7 @@ import java.util.*
 import javax.inject.Inject
 
 enum class SortItemProduct{
-    DATE , INCLUDE , TITLE , SLUG , ID , PRICE , POPULARITY , RATING
+    DATE , INCLUDE , TITLE , SLUG , ID , PRICE , POPULARITY , RATING , DESC
 }
 
 @HiltViewModel
@@ -29,8 +29,8 @@ class SearchViewModel @Inject constructor(
     val state = MutableLiveData<State>()
     val attributes = MutableLiveData<List<Attribute>>()
 
-    var searchKey = ""
-    var sortItem = "date"
+    var searchKey : String? = null
+    var sortItem : String? = null
     var filter = ""
 
     init {
@@ -40,11 +40,15 @@ class SearchViewModel @Inject constructor(
 
     fun searchInProducts() {
         viewModelScope.launch {
+            state.postValue(State.LOADING)
             try {
-                searchList.postValue(productRepository.searchInProducts(searchKey , sortItem,filter))
+                searchList.postValue(productRepository.searchInProducts(searchKey , sortItem,filter).data!!)
+                state.postValue(productRepository.searchInProducts(searchKey,sortItem,filter).status)
+                message.postValue(productRepository.searchInProducts(searchKey,sortItem,filter).message)
             }catch (e: Exception){
                 Log.d("searchVM---TAG", "searchInProducts: ${e.message}")
-
+                state.postValue(State.FAILED)
+                message.postValue(productRepository.searchInProducts(searchKey,sortItem,filter).message + e.message)
             }
         }
     }
@@ -59,12 +63,11 @@ class SearchViewModel @Inject constructor(
     }
 
     fun retrieveAllProductAttribute() {
-        viewModelScope.launch {
-            try {
-                attributes.postValue(productRepository.retrieveAllProductAttribute())
-            }catch (e: Exception){
-                Log.d("search----TAG", "retrieveAllProductAttribute: ${e.message}")
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            state.postValue(State.LOADING)
+            attributes.postValue(productRepository.retrieveAllProductAttribute().data!!)
+            state.postValue(productRepository.retrieveAllProductAttribute().status)
+            message.postValue(productRepository.retrieveAllProductAttribute().message)
         }
     }
 }

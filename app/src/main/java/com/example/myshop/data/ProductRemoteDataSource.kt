@@ -73,8 +73,22 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun searchInProducts(searchKey: String, sortItem: String , attribute: String): List<Product> {
-        return apiService.searchInProducts(searchKey = searchKey,sortItem,attribute)
+    suspend fun searchInProducts(
+        searchKey: String?, sortItem: String? , attribute: String?
+    ): Resource<List<Product>?> {
+//        return apiService.searchInProducts(searchKey = searchKey,sortItem,attribute)
+        return try {
+            val response = apiService.searchInProducts(searchKey,sortItem,attribute)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED,  arrayListOf(),e.message)
+        }
     }
 
 
@@ -169,8 +183,20 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun retrieveAllProductAttribute(): List<Attribute> {
-        return apiService.retrieveAllProductAttribute()
+    suspend fun retrieveAllProductAttribute(): Resource<List<Attribute>> {
+//        return apiService.retrieveAllProductAttribute()
+        return try {
+            val response = apiService.retrieveAllProductAttribute()
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
     }
 
 }

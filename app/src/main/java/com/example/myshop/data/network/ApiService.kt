@@ -1,18 +1,15 @@
 package com.example.myshop.data.network
 
 import com.example.myshop.model.*
-import com.example.myshop.model.Attribute
-import com.example.myshop.model.Category
-import com.example.myshop.model.Product
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 
-private const val KEY = "ck_4e34eda4882e044742e643e35060ab5234231ab3"
-private const val SECRET = "cs_28f528089254ed3dc6bc8cbd0ffeb34a52f69547"
+//private const val KEY = "ck_4e34eda4882e044742e643e35060ab5234231ab3"
+private const val KEY = "ck_63f4c52da932ddad1570283b31f3c96c4bd9fd6f"
+//private const val SECRET = "cs_28f528089254ed3dc6bc8cbd0ffeb34a52f69547"
+private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
 interface ApiService {
 
     @GET("products")
@@ -47,12 +44,12 @@ interface ApiService {
 
     @GET("products/")
     suspend fun searchInProducts(
-        @Query("search") searchKey : String,
-        @Query("order_by") orderby : String = "date",
-        @Query("attribute") attribute : String ,
+        @Query("search") searchKey : String? = null,
+        @Query("orderby") orderby : String? = "date",
+        @Query("attribute") attribute : String? ,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ): List<Product>
+    ): Response<List<Product>>
 
     // order ....................................................
 
@@ -116,7 +113,7 @@ interface ApiService {
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
         @Query("per_page") perPage: Int = 100
-    ): List<Attribute>
+    ): Response<List<Attribute>>
 
     @GET("products")
     suspend fun searchProducts(
@@ -124,4 +121,69 @@ interface ApiService {
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
         ):Response<List<Review>>
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GET("products")
+    suspend fun getProducts(
+        @Query("search") searchText: String?,
+        @Query("attribute") attribute: String?,
+        @Query("attribute_term") terms: String?,
+        @Query("per_page") perPage: Int,
+        @Query("page") numberOfPage: Int,
+        @Query("orderby") baseOn: String?,
+        @Query("order") order: String?
+    ): Response<List<Product>>
+
+//    @GET("products")
+//    fun getProducts(
+//        @Query("search") searchText: String?,
+//        @Query("attribute") attribute: String?,
+//        @Query("attribute_term") terms: String?,
+//        @Query("per_page") perPage: Int,
+//        @Query("page") numberOfPage: Int
+//    ): Call<List<Product?>?>?
+
+
+//    @GET("products")
+//    fun getProducts(
+//        @Query("attribute") attribute: String?,
+//        @Query("attribute_term") terms: String?,
+//        @Query("per_page") perPage: Int,
+//        @Query("page") numberOfPage: Int
+//    ): Call<List<Product?>?>?
+
+
+//    @GET("products")
+//    fun getProducts(
+//        @Query("per_page") perPage: Int,
+//        @Query("page") numberOfPage: Int,
+//        @Query("orderby") baseOn: String?
+//    ): Call<List<Product?>?>?
+
+    ///// With Category
+
+    ///// With Category
+    @GET( "products")
+    suspend fun getProducts(
+        @Query("category") category: String? = null,
+        @Query("search") searchText: String? = null,
+        @Query("attribute") attribute: String? = null,
+        @Query("attribute_term") terms: String? = null,
+        @Query("per_page") perPage: Int = 100,
+        @Query("page") numberOfPage: Int,
+        @Query("orderby") baseOn: String? = "date",
+        @Query("order") order: String? = null
+    ): Response<List<Product>>
+
+//    @GET("products")
+//    fun getProducts(
+//        @Query("category") category: String?,
+//        @Query("search") searchText: String?,
+//        @Query("attribute") attribute: String?,
+//        @Query("attribute_term") terms: String?,
+//        @Query("per_page") perPage: Int,
+//        @Query("page") numberOfPage: Int
+//    ): Call<List<Product?>?>?
+
 }
