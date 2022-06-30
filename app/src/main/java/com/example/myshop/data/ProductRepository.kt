@@ -28,8 +28,8 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.getProductsByCategory(categoryId)
     }
 
-    suspend fun searchInProducts(searchKey: String?, sortItem: String? , attribute: String?): Resource<List<Product>?> {
-        return productRemoteDataSource.searchInProducts(searchKey,sortItem, attribute)
+    suspend fun searchInProducts(category: String?, searchKey: String?, sortItem: String? , attribute: String? , terms: Int?): Resource<List<Product>?> {
+        return productRemoteDataSource.searchInProducts(category,searchKey,sortItem, attribute , terms)
     }
 
     suspend fun createOrder(order: Order): Resource<Order> {
@@ -57,6 +57,9 @@ class ProductRepository @Inject constructor(
 
     suspend fun retrieveAllProductAttribute(): Resource<List<Attribute>> {
         return productRemoteDataSource.retrieveAllProductAttribute()
+    }
+    suspend fun retrieveAttributeTerm(id: Int): Resource<List<Terms>> {
+        return productRemoteDataSource.retrieveAttributeTerm(id)
     }
 }
 data class Resource<T>(var status: State, var data: T?, var message: String? = null)

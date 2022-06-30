@@ -74,11 +74,11 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
     suspend fun searchInProducts(
-        searchKey: String?, sortItem: String? , attribute: String?
+        category: String?,searchKey: String?, sortItem: String? , attribute: String? , terms: Int?
     ): Resource<List<Product>?> {
 //        return apiService.searchInProducts(searchKey = searchKey,sortItem,attribute)
         return try {
-            val response = apiService.searchInProducts(searchKey,sortItem,attribute)
+            val response = apiService.searchInProducts(category,searchKey,sortItem,attribute , terms)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
@@ -198,5 +198,21 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
             Resource(State.FAILED, arrayListOf(),e.message)
         }
     }
+
+    suspend fun retrieveAttributeTerm(id: Int): Resource<List<Terms>> {
+        return try {
+            val response = apiService.retrieveAttributeTerm(id)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
+    }
+
 
 }

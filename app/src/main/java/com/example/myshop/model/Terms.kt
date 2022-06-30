@@ -1,7 +1,8 @@
 package com.example.myshop.model
 
-data class Options (
+data class Terms (
     val id: Int? = null,
     val name: String,
-    val isChecked: Boolean
+    val menu_order : Int
+//    val isChecked: Boolean
         )

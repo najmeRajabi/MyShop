@@ -10,12 +10,14 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.adapters.Orientation
 import com.example.myshop.databinding.FragmentSearchBinding
+import com.example.myshop.ui.disconnect.State
 import com.example.myshop.ui.home.HomeFragmentDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +27,7 @@ import java.util.*
 class SearchFragment : Fragment() {
 
     lateinit var binding: FragmentSearchBinding
-    val vModel: SearchViewModel by viewModels()
+    val vModel: SearchViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,7 +61,7 @@ class SearchFragment : Fragment() {
 
         val txvSort = binding.txvSort
         val items = listOf("پربازدید ترین","محبوبترین","جدیدترین","گران ترین","ارزانترین")
-        val adapter = ArrayAdapter(requireContext(), R.layout.spiner_item, items)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spiner_item, vModel.sortedItems)
         (txvSort as? AutoCompleteTextView)?.setAdapter(adapter)
 
         txvSort.setOnItemClickListener { adapterView, view, i, l ->
@@ -92,9 +94,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun initViews() {
-        binding.searchMenuEdtFieldHome.setEndIconOnClickListener{
-            vModel.searchInProducts()
+        observeState()
+        if (vModel.term != null){
+            binding.txvFilterSearch.text = vModel.term.toString()
         }
+//        if (vModel.color != null){
+//            binding.txvFilterSearch.text = vModel.color
+//        }else if (vModel.size != null){
+//            binding.txvFilterSearch.text = vModel.size
+//        }
+
         val searchAdapter= HomeListsAdapter(Orientation.VERTICAL){
             goToDetail(it.id)
         }
@@ -113,6 +122,28 @@ class SearchFragment : Fragment() {
 
     private fun goToDetail(id: Int) {
         findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductDetailFragment(id))
+    }
+
+    private fun observeState() {
+        vModel.state.observe(viewLifecycleOwner){
+            when (it){
+                State.LOADING -> {
+                    binding.recyclerSearch.visibility = View.INVISIBLE
+                    binding.progressBarSearch.visibility = View.VISIBLE
+                    binding.imvProblemSearch.visibility = View.GONE
+                }
+                State.SUCCESS -> {
+                    binding.recyclerSearch.visibility = View.VISIBLE
+                    binding.progressBarSearch.visibility = View.GONE
+                    binding.imvProblemSearch.visibility = View.GONE
+                }
+                State.FAILED -> {
+                    binding.recyclerSearch.visibility = View.INVISIBLE
+                    binding.progressBarSearch.visibility = View.INVISIBLE
+                    binding.imvProblemSearch.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
 }

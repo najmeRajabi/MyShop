@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="STATE"
+            type="com.example.myshop.ui.disconnect.State" />
+        <variable
+            name="vModel"
+            type="com.example.myshop.ui.search.SearchViewModel" />
 
     </data>
 
@@ -47,14 +54,15 @@
             android:layout_marginEnd="18dp"
             android:layout_marginStart="18dp"
             android:layoutDirection="rtl"
+            android:background="@drawable/bg_line"
             android:text="@string/filter"
             android:textSize="15sp"
             android:gravity="center_vertical"
             android:padding="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_search"
+            app:layout_constraintBottom_toBottomOf="@id/field_txv_sort"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/field_txv_sort"
-            app:layout_constraintTop_toBottomOf="@id/search_menu_edtField_home"
+            app:layout_constraintTop_toTopOf="@id/field_txv_sort"
             app:drawableStartCompat="@drawable/filter" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -62,6 +70,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_box"
+            app:boxCornerRadiusBottomStart="@dimen/corner_box"
+            app:boxCornerRadiusTopStart="@dimen/corner_box"
+            app:boxCornerRadiusTopEnd="@dimen/corner_box"
             app:startIconDrawable="@drawable/sort_ascending"
             app:layout_constraintEnd_toStartOf="@id/txv_filter_search"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,6 +106,26 @@
             android:layout_marginBottom="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/field_txv_sort" />
+            app:layout_constraintTop_toBottomOf="@id/field_txv_sort"/>
+
+        <ImageView
+            android:id="@+id/imv_problem_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/defultMargin"
+            android:visibility="gone"
+            android:src="@drawable/problem"/>
+        <ProgressBar
+            android:id="@+id/progressBar_search"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:progressTint="@color/golden"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/field_txv_sort"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminate="true" />
+   
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

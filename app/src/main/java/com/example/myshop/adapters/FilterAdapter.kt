@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.R
-import com.example.myshop.model.Options
+import com.example.myshop.model.Terms
 
-typealias ClickHandlerFilter = (option: String , checked: Boolean) -> Unit
+typealias ClickHandlerFilter = (term: Terms , checked: Boolean) -> Unit
 
 class FilterAdapter (
     var clickHandler: ClickHandlerFilter
     ):
-    ListAdapter<String, FilterAdapter .ViewHolder>(OptionDiffCallback){
+    ListAdapter<Terms, FilterAdapter .ViewHolder>(OptionDiffCallback){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterAdapter.ViewHolder {
@@ -32,12 +32,12 @@ class FilterAdapter (
 
     }
 
-    object OptionDiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+    object OptionDiffCallback : DiffUtil.ItemCallback<Terms>() {
+        override fun areItemsTheSame(oldItem: Terms, newItem: Terms): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: Terms, newItem: Terms): Boolean {
             return oldItem == newItem
         }
     }
@@ -49,12 +49,12 @@ class FilterAdapter (
 
 
         fun bind(
-            options: String,
+            terms: Terms,
             clickHandler: ClickHandlerFilter
         ) {
-                txvFilterItem.text = options
+                txvFilterItem.text = terms.name
                 checkBoxFilter.setOnCheckedChangeListener{attri , checked ->
-                    clickHandler(options, checked)
+                    clickHandler(terms, checked)
 
             }
 

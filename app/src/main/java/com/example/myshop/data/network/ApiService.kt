@@ -44,11 +44,14 @@ interface ApiService {
 
     @GET("products/")
     suspend fun searchInProducts(
+        @Query("category") category: String? = null,
         @Query("search") searchKey : String? = null,
         @Query("orderby") orderby : String? = "date",
-        @Query("attribute") attribute : String? ,
+        @Query("attribute") attribute : String?  = null,
+        @Query("attribute_term") terms: Int? = null,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
+        @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
 
     // order ....................................................
@@ -100,40 +103,47 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET,
     ):Response<List<Review>>
 
-    @GET("products/attributes/{id}/terms")
-    suspend fun retrieveProductAttribute(
-        @Path("id") id: Int,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-        @Query("per_page") perPage: Int = 20
-    ): Attribute
+//    @GET("products/attributes/{id}/terms")
+//    suspend fun retrieveProductAttribute(
+//        @Path("id") id: Int,
+//        @Query("consumer_key") key : String = KEY,
+//        @Query("consumer_secret") secret : String = SECRET,
+//        @Query("per_page") perPage: Int = 20
+//    ): Attribute
 
     @GET("products/attributes")
     suspend fun retrieveAllProductAttribute(
         @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-        @Query("per_page") perPage: Int = 100
+        @Query("consumer_secret") secret : String = SECRET
     ): Response<List<Attribute>>
 
-    @GET("products")
-    suspend fun searchProducts(
-        @Query("search") searchText: String?,
+    @GET("products/attributes/{id}/terms")
+    suspend fun retrieveAttributeTerm(
+        @Path("id") attributeId: Int,
         @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-        ):Response<List<Review>>
+        @Query("consumer_secret") secret : String = SECRET
+    ): Response<List<Terms>>
+
+
+//    @GET("products")
+//    suspend fun searchProducts(
+//        @Query("search") searchText: String?,
+//        @Query("consumer_key") key : String = KEY,
+//        @Query("consumer_secret") secret : String = SECRET,
+//        ):Response<List<Review>>
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    @GET("products")
-    suspend fun getProducts(
-        @Query("search") searchText: String?,
-        @Query("attribute") attribute: String?,
-        @Query("attribute_term") terms: String?,
-        @Query("per_page") perPage: Int,
-        @Query("page") numberOfPage: Int,
-        @Query("orderby") baseOn: String?,
-        @Query("order") order: String?
-    ): Response<List<Product>>
+//    @GET("products")
+//    suspend fun getProducts(
+//        @Query("search") searchText: String?,
+//        @Query("attribute") attribute: String?,
+//        @Query("attribute_term") terms: String?,
+//        @Query("per_page") perPage: Int,
+//        @Query("page") numberOfPage: Int,
+//        @Query("orderby") baseOn: String?,
+//        @Query("order") order: String?
+//    ): Response<List<Product>>
 
 //    @GET("products")
 //    fun getProducts(

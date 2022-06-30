@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Attribute
 import com.example.myshop.model.Product
+import com.example.myshop.model.Terms
 import com.example.myshop.ui.disconnect.BaseViewModel
 import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,13 +29,18 @@ class SearchViewModel @Inject constructor(
     val sortedList = MutableLiveData<List<Product>>()
     val state = MutableLiveData<State>()
     val attributes = MutableLiveData<List<Attribute>>()
+    val terms = MutableLiveData<List<Terms>>()
+    val sortedItems = listOf("پربازدید ترین","محبوبترین","جدیدترین","گران ترین","ارزانترین")
 
+    var category : String? = null
     var searchKey : String? = null
     var sortItem : String? = null
-    var filter = ""
+    var filter : String? = null
+    var term : Int? = null
 
     init {
         retrieveAllProductAttribute()
+
     }
 
 
@@ -42,32 +48,47 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             state.postValue(State.LOADING)
             try {
-                searchList.postValue(productRepository.searchInProducts(searchKey , sortItem,filter).data!!)
-                state.postValue(productRepository.searchInProducts(searchKey,sortItem,filter).status)
-                message.postValue(productRepository.searchInProducts(searchKey,sortItem,filter).message)
+                searchList.postValue(productRepository.searchInProducts(category,searchKey , sortItem,filter,term).data!!)
+                state.postValue(productRepository.searchInProducts(category,searchKey,sortItem,filter,term).status)
+                message.postValue(productRepository.searchInProducts(category,searchKey,sortItem,filter,term).message)
             }catch (e: Exception){
                 Log.d("searchVM---TAG", "searchInProducts: ${e.message}")
                 state.postValue(State.FAILED)
-                message.postValue(productRepository.searchInProducts(searchKey,sortItem,filter).message + e.message)
+                message.postValue(productRepository.searchInProducts(category,searchKey,sortItem,filter,term).message + e.message)
             }
         }
     }
 
-    fun sortProduct(orderBy: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            state.postValue(State.LOADING)
-            searchList.postValue(productRepository.getSortedProducts(orderBy).data!!)
-            state.postValue(productRepository.getSortedProducts(orderBy).status)
-            message.postValue(productRepository.getSortedProducts(orderBy).message)
-        }
-    }
 
     fun retrieveAllProductAttribute() {
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
-            attributes.postValue(productRepository.retrieveAllProductAttribute().data!!)
-            state.postValue(productRepository.retrieveAllProductAttribute().status)
-            message.postValue(productRepository.retrieveAllProductAttribute().message)
+            try {
+                Log.d(
+                    "attri----TAG",
+                    "retrieveAllProductAttribute: ${productRepository.retrieveAllProductAttribute().data}")
+                attributes.postValue(productRepository.retrieveAllProductAttribute().data!!)
+                state.postValue(productRepository.retrieveAllProductAttribute().status)
+                message.postValue(productRepository.retrieveAllProductAttribute().message)
+            }catch (e: Exception){
+                state.postValue(State.FAILED)
+                message.postValue(productRepository.retrieveAllProductAttribute().message + e.message)
+            }
+
+        }
+    }
+
+    fun retrieveTerms(attribute: Attribute){
+        viewModelScope.launch {
+            state.postValue(State.LOADING)
+            try {
+                terms.postValue(productRepository.retrieveAttributeTerm(attribute.id).data!!)
+                state.postValue(productRepository.retrieveAttributeTerm(attribute.id).status)
+                message.postValue(productRepository.retrieveAttributeTerm(attribute.id).message)
+            }catch (e: Exception){
+                state.postValue(State.FAILED)
+                message.postValue(productRepository.retrieveAttributeTerm(attribute.id).message + e.message)
+            }
         }
     }
 }
