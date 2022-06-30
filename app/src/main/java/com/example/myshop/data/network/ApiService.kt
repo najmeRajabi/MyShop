@@ -103,13 +103,6 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET,
     ):Response<List<Review>>
 
-//    @GET("products/attributes/{id}/terms")
-//    suspend fun retrieveProductAttribute(
-//        @Path("id") id: Int,
-//        @Query("consumer_key") key : String = KEY,
-//        @Query("consumer_secret") secret : String = SECRET,
-//        @Query("per_page") perPage: Int = 20
-//    ): Attribute
 
     @GET("products/attributes")
     suspend fun retrieveAllProductAttribute(
@@ -124,13 +117,6 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET
     ): Response<List<Terms>>
 
-
-//    @GET("products")
-//    suspend fun searchProducts(
-//        @Query("search") searchText: String?,
-//        @Query("consumer_key") key : String = KEY,
-//        @Query("consumer_secret") secret : String = SECRET,
-//        ):Response<List<Review>>
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 

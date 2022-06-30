@@ -57,6 +57,11 @@ class ListFragment : Fragment() {
         vModel.productList.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
+        binding.menuSearchList.searchEdtFieldHome.setOnClickListener {
+            findNavController().navigate(ListFragmentDirections.actionListFragmentToSearchFragment(
+                categoryId.toString()
+            ))
+        }
         observeState()
     }
 

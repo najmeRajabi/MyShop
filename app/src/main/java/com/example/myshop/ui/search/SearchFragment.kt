@@ -13,12 +13,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.myshop.R
 import com.example.myshop.adapters.HomeListsAdapter
 import com.example.myshop.adapters.Orientation
 import com.example.myshop.databinding.FragmentSearchBinding
 import com.example.myshop.ui.disconnect.State
 import com.example.myshop.ui.home.HomeFragmentDirections
+import com.example.myshop.ui.list.ListFragmentArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -26,6 +28,7 @@ import java.util.*
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
+    private val args: SearchFragmentArgs by navArgs()
     lateinit var binding: FragmentSearchBinding
     val vModel: SearchViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,15 +97,14 @@ class SearchFragment : Fragment() {
     }
 
     private fun initViews() {
+        val categoryId = args.categoryArg
+        if (!categoryId.isNullOrBlank()){
+            vModel.category = categoryId
+        }
         observeState()
         if (vModel.term != null){
             binding.txvFilterSearch.text = vModel.term.toString()
         }
-//        if (vModel.color != null){
-//            binding.txvFilterSearch.text = vModel.color
-//        }else if (vModel.size != null){
-//            binding.txvFilterSearch.text = vModel.size
-//        }
 
         val searchAdapter= HomeListsAdapter(Orientation.VERTICAL){
             goToDetail(it.id)
