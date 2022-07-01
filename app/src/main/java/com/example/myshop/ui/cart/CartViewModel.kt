@@ -25,7 +25,7 @@ class CartViewModel @Inject constructor(
     val order = MutableLiveData<Order>()
     val state = MutableLiveData<State>(State.FAILED)
     val price = MutableLiveData<String>()
-    var count = MutableLiveData<Int>(1)
+    var count = MutableLiveData<List<Int>>()
     var orderId =-1
 
     init {
@@ -34,9 +34,9 @@ class CartViewModel @Inject constructor(
 
     fun calculatePrice() {
         var counter = 0L
-        if (shoppingList.value != null) {
-            for (mProduct in shoppingList.value!!) {
-                counter += (mProduct.price.toLong())* count.value!!
+        if (shoppingList.value != null && count.value != null) {
+            for (index in 0 until shoppingList.value!!.size) {
+                counter += (shoppingList.value!![index].price.toLong()).times(count.value!![index])
             }
             price.value = "%,d".format(counter) + " تومان"
             Log.d("cart---TAG", "calculatePrice: ${"%,d".format(counter) + " تومان"}")
@@ -44,6 +44,15 @@ class CartViewModel @Inject constructor(
     }
 
     fun getShoppingList() {
+//        val fakeList = arrayListOf(
+//            Product(0, arrayListOf(),"n1","200", arrayListOf(),1.0f,"de1",2,
+//                arrayListOf(),),
+//            Product(1, arrayListOf(),"n2","10", arrayListOf(),1.0f,"de2",2,
+//                arrayListOf(),),
+//            Product(2, arrayListOf(),"n1","100", arrayListOf(),1.0f,"de3",2,
+//                arrayListOf(),)
+//        )
+//        shoppingList.postValue(fakeList)
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
             try {

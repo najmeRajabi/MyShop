@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.myshop.R
 import com.example.myshop.adapters.CartAdapter
 import com.example.myshop.databinding.FragmentCartBinding
+import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +47,7 @@ class CartFragment : Fragment() {
 
     private fun initView() {
         vModel.getOrderFromSharedPreferences(requireContext())
+        val ordersCount = arrayListOf<Int>()
         val adapter = CartAdapter { product, count ->
             if (count == 0)
                 vModel.removeProduct(product)
@@ -64,19 +66,19 @@ class CartFragment : Fragment() {
         vModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 State.LOADING -> {
-                    binding.scrollViewCart.visibility = View.INVISIBLE
+//                    binding.scrollViewCart.visibility = View.INVISIBLE
                     binding.llAllPriceCart.visibility = View.INVISIBLE
                     binding.progressBarCart.visibility = View.VISIBLE
                     binding.imvEmptyList.visibility = View.GONE
                 }
                 State.SUCCESS -> {
-                    binding.scrollViewCart.visibility = View.VISIBLE
+//                    binding.scrollViewCart.visibility = View.VISIBLE
                     binding.llAllPriceCart.visibility = View.VISIBLE
                     binding.progressBarCart.visibility = View.GONE
                     binding.imvEmptyList.visibility = View.GONE
                 }
                 State.FAILED -> {
-                    binding.scrollViewCart.visibility = View.INVISIBLE
+//                    binding.scrollViewCart.visibility = View.INVISIBLE
                     binding.llAllPriceCart.visibility = View.INVISIBLE
                     binding.progressBarCart.visibility = View.INVISIBLE
                     binding.imvEmptyList.visibility = View.VISIBLE

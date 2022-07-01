@@ -16,7 +16,6 @@ import com.example.myshop.R
 import com.example.myshop.adapters.ReviewAdapter
 import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
-import com.example.myshop.model.Review
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -97,10 +96,10 @@ class ProductDetailFragment : Fragment() {
         }
 
         initImageView()
-        observState()
+        observeState()
     }
 
-    private fun observState() {
+    private fun observeState() {
         vModel.state.observe(viewLifecycleOwner){
             when (it){
                 State.LOADING -> { showLoading() }
