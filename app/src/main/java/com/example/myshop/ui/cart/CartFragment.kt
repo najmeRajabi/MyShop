@@ -51,7 +51,8 @@ class CartFragment : Fragment() {
         val adapter = CartAdapter { product, count ->
             if (count == 0)
                 vModel.removeProduct(product)
-            vModel.count.value = count
+            ordersCount.add(count)
+            vModel.count.value = ordersCount
             vModel.calculatePrice()
         }
         binding.recyclerCart.adapter = adapter
