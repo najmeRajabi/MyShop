@@ -68,15 +68,24 @@ interface ApiService {
     suspend fun updateOrder(
         @Body order: Order,
         @Query("id") id: Int,
+        @Body status: String = "completed",
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ):Response<Order>
+    ):Response<List<Order>>
 
     @GET("orders/")
     suspend fun retrieveOrder(
         @Query("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
+    ):Response<List<Order>>
+
+    @DELETE("orders/")
+    suspend fun deleteOrder(
+        @Query("id") id: Int,
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+        @Query("force") force: Boolean = true
     ):Response<List<Order>>
 
     //.... customer...................................................

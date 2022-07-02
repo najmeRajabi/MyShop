@@ -17,12 +17,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.myshop.R
 import com.example.myshop.model.Product
 
-typealias ClickHandlerOrder = (product: Product , count: Int) -> Unit
+typealias ClickHandlerOrder = (product: Product , count: Int , position: Int) -> Unit
 
 class CartAdapter(
     var clickHandler: ClickHandlerOrder
 ) :
     ListAdapter<Product, CartAdapter.ViewHolder>(ProductDiffCallback) {
+
+    private var productItem:Product? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartAdapter.ViewHolder {
@@ -33,7 +35,8 @@ class CartAdapter(
     }
 
     override fun onBindViewHolder(holder: CartAdapter.ViewHolder, position: Int) {
-        holder.bind(getItem(position), clickHandler)
+        productItem = getItem(position)
+        holder.bind(getItem(position),position, clickHandler)
 
 
     }
@@ -63,6 +66,7 @@ class CartAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(
             product: Product,
+            position: Int,
             clickHandler: ClickHandlerOrder
         ) {
             try {
@@ -81,7 +85,7 @@ class CartAdapter(
 
             try {
                 Log.d("CartAdapter---TAG", "bind: ${product.name}")
-                counter(product, clickHandler)
+                counter(product,position, clickHandler)
                 Glide
                     .with(view)
                     .load(product.images[0]?.src)
@@ -100,7 +104,7 @@ class CartAdapter(
 
         }
 
-        private fun counter(product: Product, clickHandler: ClickHandlerOrder) {
+        private fun counter(product: Product, position: Int,clickHandler: ClickHandlerOrder) {
             imvPlus.setOnClickListener {
                 when (productCount) {
                     1 -> {
@@ -110,7 +114,7 @@ class CartAdapter(
                     else -> productCount += 1
                 }
                 txvCount.text = productCount.toString()
-                clickHandler(product , productCount)
+                clickHandler(product , productCount, position)
             }
             imvMinus.setOnClickListener {
                 when (productCount) {
@@ -118,13 +122,20 @@ class CartAdapter(
                         imvMinus.setImageResource(R.drawable.ic_baseline_delete_outline_24)
                         productCount -= 1
                     }
-                    1 -> clickHandler(product , 0)
+                    1 -> {
+                        clickHandler(product , 0 , position)
+                    }
                     else -> productCount -= 1
                 }
                 txvCount.text = productCount.toString()
-                clickHandler(product , productCount)
+                clickHandler(product , productCount , position)
             }
         }
+//        fun removeItem(position: Int) {
+//
+//            .remove(position)
+//            notifyDataSetChanged()
+//        }
     }
 
 }

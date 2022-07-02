@@ -34,13 +34,17 @@ class CartViewModel @Inject constructor(
 
     fun calculatePrice() {
         var counter = 0L
-        if (shoppingList.value != null && count.value != null) {
+        if (!shoppingList.value.isNullOrEmpty() && !count.value.isNullOrEmpty()) {
             for (index in 0 until shoppingList.value!!.size) {
                 counter += (shoppingList.value!![index].price.toLong()).times(count.value!![index])
             }
             price.value = "%,d".format(counter) + " تومان"
             Log.d("cart---TAG", "calculatePrice: ${"%,d".format(counter) + " تومان"}")
         }
+        if (counter == 0L){
+            state.postValue(State.FAILED)
+        }else
+            state.postValue(State.SUCCESS)
     }
 
     fun getShoppingList() {
@@ -53,6 +57,7 @@ class CartViewModel @Inject constructor(
 //                arrayListOf(),)
 //        )
 //        shoppingList.postValue(fakeList)
+//        state.postValue(State.SUCCESS)
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
             try {
@@ -72,14 +77,63 @@ class CartViewModel @Inject constructor(
 
     }
 
-    fun removeProduct(product: Product ) {
+    fun deleteOrderFromSharedPreferences(context: Context) {
+        val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
+        sharedPreferences.edit().remove(ORDER_ID).apply()
+
+    }
+
+    fun removeProduct(product: Product , context: Context) {
         var productList = shoppingList.value?.minus(product)
         val mOrder = productList?.let { Order(orderId , it) }
+        if (mOrder != null) {
+            shoppingList.postValue(mOrder.line_items)
+        }
 
         viewModelScope.launch {
             try {
-                shoppingList.postValue(mOrder?.let { productRepository.updateOrder(it,orderId).data }!!.line_items)
+                state.postValue(State.LOADING)
+                if (mOrder?.line_items.isNullOrEmpty()){
+                    deleteOrderFromSharedPreferences(context )
+                    shoppingList.postValue(mOrder?.let {
+                        productRepository.deleteOrder(
+                            orderId
+                        ).data!![0]
+                    }?.line_items)
+                    state.postValue(mOrder?.let {
+                        productRepository.deleteOrder(
+                            orderId
+                        ).status
+                    })
+                    message.postValue(mOrder?.let {
+                        productRepository.deleteOrder(
+                            orderId
+                        ).message
+                    })
+                }else {
+                    shoppingList.postValue(mOrder?.let {
+                        productRepository.updateOrder(
+                            it,
+                            orderId
+                        ).data!![0]
+                    }?.line_items)
+                    state.postValue(mOrder?.let {
+                        productRepository.updateOrder(
+                            it,
+                            orderId
+                        ).status
+                    })
+                    message.postValue(mOrder?.let {
+                        productRepository.updateOrder(
+                            it,
+                            orderId
+                        ).message
+                    })
+                }
             }catch (e: Exception){
+                state.postValue(State.FAILED)
+                message.postValue(mOrder?.let {
+                    productRepository.updateOrder(it,orderId).message + e.message })
 
             }
         }

@@ -36,12 +36,16 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.createOrder(order)
     }
 
-    suspend fun updateOrder(order: Order,id: Int): Resource<Order> {
+    suspend fun updateOrder(order: Order,id: Int): Resource<List<Order>> {
         return productRemoteDataSource.updateOrder(id,order)
     }
 
     suspend fun retrieveOrder(id: Int): Resource<List<Order>> {
         return productRemoteDataSource.retrieveOrder(id)
+    }
+
+    suspend fun deleteOrder(id: Int): Resource<List<Order>> {
+        return productRemoteDataSource.deleteOrder(id)
     }
 
     suspend fun register(customer: Customer): Resource<List<Customer>> {

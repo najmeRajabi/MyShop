@@ -107,18 +107,18 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun updateOrder (id: Int,order: Order): Resource<Order> {
+    suspend fun updateOrder (id: Int,order: Order): Resource<List<Order>> {
         return try {
             val response = apiService.updateOrder(order,id)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, Order(0, arrayListOf()),message)
+                Resource(State.FAILED, arrayListOf(),message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, Order(0, arrayListOf()),e.message)
+            Resource(State.FAILED,  arrayListOf(),e.message)
         }
     }
 
@@ -126,6 +126,22 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
         return try {
             val response = apiService.retrieveOrder(id)
+            val message=handleRequestCode(response.code())
+            if (response.isSuccessful){
+                Resource(State.SUCCESS,response.body(),message)
+            }else{
+                Resource(State.FAILED, arrayListOf(),message)
+            }
+
+        } catch (e: Exception) {
+            Resource(State.FAILED, arrayListOf(),e.message)
+        }
+    }
+
+    suspend fun deleteOrder(id: Int): Resource<List<Order>> {
+
+        return try {
+            val response = apiService.deleteOrder(id)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)

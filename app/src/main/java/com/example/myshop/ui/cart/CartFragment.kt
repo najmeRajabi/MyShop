@@ -48,13 +48,15 @@ class CartFragment : Fragment() {
     private fun initView() {
         vModel.getOrderFromSharedPreferences(requireContext())
         val ordersCount = arrayListOf<Int>()
-        val adapter = CartAdapter { product, count ->
+        val adapter = CartAdapter { product, count , position ->
             if (count == 0)
-                vModel.removeProduct(product)
-            ordersCount.add(count)
+                vModel.removeProduct(product , requireContext())
+            else
+                ordersCount[position]=count
             vModel.count.value = ordersCount
             vModel.calculatePrice()
         }
+
         binding.recyclerCart.adapter = adapter
 
         vModel.shoppingList.observe(viewLifecycleOwner) {
@@ -62,7 +64,16 @@ class CartFragment : Fragment() {
             Log.d("TAG", "initView: $it")
             vModel.calculatePrice()
 
+            if (it.size != ordersCount.size) {
+                for (i in it.indices) {
+                    ordersCount.add(1)
+                }
+            }
+            vModel.count.value = ordersCount
+            vModel.calculatePrice()
+
         }
+
 
         vModel.state.observe(viewLifecycleOwner) {
             when (it) {
