@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.myshop.R
 import com.example.myshop.adapters.CartAdapter
 import com.example.myshop.databinding.FragmentCartBinding
+import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -64,13 +65,17 @@ class CartFragment : Fragment() {
             Log.d("TAG", "initView: $it")
             vModel.calculatePrice()
 
-            if (it.size != ordersCount.size) {
+            if (!it.isNullOrEmpty()&&
+                it.size != ordersCount.size) {
                 for (i in it.indices) {
                     ordersCount.add(1)
                 }
             }
             vModel.count.value = ordersCount
             vModel.calculatePrice()
+            binding.btnSetDiscount.setOnClickListener {
+                setDiscount()
+            }
 
         }
 
@@ -101,5 +106,20 @@ class CartFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun setDiscount() {
+        if (binding.edtDiscountCodeCart.text.isNullOrBlank()){
+            binding.edtDiscountCodeCart.error = " کد را وارد کنید! "
+        }else{
+            vModel.discount = binding.edtDiscountCodeCart.text.toString()
+            vModel.setDiscount()
+//            val order = vModel.order.value?.let {
+//                Order(
+//                    vModel.orderId, it.line_items ,
+//                )
+//            }
+//            vModel.updateOrder(Order())
+        }
     }
 }

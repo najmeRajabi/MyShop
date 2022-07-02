@@ -26,6 +26,7 @@ class CartViewModel @Inject constructor(
     val state = MutableLiveData<State>(State.FAILED)
     val price = MutableLiveData<String>()
     var count = MutableLiveData<List<Int>>()
+    var discount: String? = null
     var orderId =-1
 
     init {
@@ -83,6 +84,51 @@ class CartViewModel @Inject constructor(
 
     }
 
+    fun updateOrder(order: Order?){
+        viewModelScope.launch {
+            try {
+                shoppingList.postValue(order?.let {
+                    productRepository.updateOrder(
+                        it, orderId).data!![0]
+                }?.line_items)
+                state.postValue(order?.let {
+                    productRepository.updateOrder(
+                        it, orderId).status
+                })
+                message.postValue(order?.let {
+                    productRepository.updateOrder(
+                        it, orderId).message
+                })
+            }catch (e: Exception){
+                state.postValue(State.FAILED)
+                message.postValue(order?.let {
+                    productRepository.updateOrder(
+                        it, orderId).message + e.message
+                })
+            }
+        }
+    }
+    fun deleteOrder(order: Order?){
+        viewModelScope.launch {
+            try {
+                shoppingList.postValue(order?.let {
+                    productRepository.deleteOrder(
+                        orderId).data!![0]
+                }?.line_items)
+                state.postValue(order?.let {
+                    productRepository.deleteOrder(
+                        orderId).status
+                })
+                message.postValue(order?.let {
+                    productRepository.deleteOrder(
+                        orderId).message
+                })
+            }catch (e: Exception){
+
+            }
+        }
+    }
+
     fun removeProduct(product: Product , context: Context) {
         var productList = shoppingList.value?.minus(product)
         val mOrder = productList?.let { Order(orderId , it) }
@@ -95,40 +141,9 @@ class CartViewModel @Inject constructor(
                 state.postValue(State.LOADING)
                 if (mOrder?.line_items.isNullOrEmpty()){
                     deleteOrderFromSharedPreferences(context )
-                    shoppingList.postValue(mOrder?.let {
-                        productRepository.deleteOrder(
-                            orderId
-                        ).data!![0]
-                    }?.line_items)
-                    state.postValue(mOrder?.let {
-                        productRepository.deleteOrder(
-                            orderId
-                        ).status
-                    })
-                    message.postValue(mOrder?.let {
-                        productRepository.deleteOrder(
-                            orderId
-                        ).message
-                    })
+                    deleteOrder(mOrder)
                 }else {
-                    shoppingList.postValue(mOrder?.let {
-                        productRepository.updateOrder(
-                            it,
-                            orderId
-                        ).data!![0]
-                    }?.line_items)
-                    state.postValue(mOrder?.let {
-                        productRepository.updateOrder(
-                            it,
-                            orderId
-                        ).status
-                    })
-                    message.postValue(mOrder?.let {
-                        productRepository.updateOrder(
-                            it,
-                            orderId
-                        ).message
-                    })
+                    updateOrder(mOrder)
                 }
             }catch (e: Exception){
                 state.postValue(State.FAILED)
@@ -137,6 +152,15 @@ class CartViewModel @Inject constructor(
 
             }
         }
+    }
+
+    fun setDiscount() {
+        val mOrder = order.value?.let {
+            Order(
+                orderId, it.line_items , discount
+            )
+        }
+        updateOrder(mOrder)
     }
 }
 
