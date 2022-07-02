@@ -83,14 +83,12 @@ class CartFragment : Fragment() {
         vModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 State.LOADING -> {
-//                    binding.scrollViewCart.visibility = View.INVISIBLE
                     binding.llAllPriceCart.visibility = View.INVISIBLE
                     binding.llDiscountCart.visibility = View.INVISIBLE
                     binding.progressBarCart.visibility = View.VISIBLE
                     binding.imvEmptyList.visibility = View.GONE
                 }
                 State.SUCCESS -> {
-//                    binding.scrollViewCart.visibility = View.VISIBLE
                     binding.llAllPriceCart.visibility = View.VISIBLE
                     binding.llDiscountCart.visibility = View.VISIBLE
                     binding.progressBarCart.visibility = View.GONE
@@ -114,12 +112,6 @@ class CartFragment : Fragment() {
         }else{
             vModel.discount = binding.edtDiscountCodeCart.text.toString()
             vModel.setDiscount()
-//            val order = vModel.order.value?.let {
-//                Order(
-//                    vModel.orderId, it.line_items ,
-//                )
-//            }
-//            vModel.updateOrder(Order())
         }
     }
 }

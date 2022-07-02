@@ -100,7 +100,6 @@ class CartAdapter(
                 imvImage.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
             }
 
-//            view.setOnClickListener { clickHandler(product , productCount) }
 
         }
 
@@ -131,11 +130,6 @@ class CartAdapter(
                 clickHandler(product , productCount , position)
             }
         }
-//        fun removeItem(position: Int) {
-//
-//            .remove(position)
-//            notifyDataSetChanged()
-//        }
     }
 
 }

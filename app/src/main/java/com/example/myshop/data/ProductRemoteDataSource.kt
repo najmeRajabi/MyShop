@@ -12,7 +12,6 @@ import javax.inject.Inject
 class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun getSortedProducts(orderby: String): Resource<List<Product>>{
-     //   return apiService.getLastProducts()
        return try {
             val response = apiService.getSortedProducts(orderby)
             val message=handleRequestCode(response.code())
@@ -76,7 +75,6 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     suspend fun searchInProducts(
         category: String?,searchKey: String?, sortItem: String? , attribute: String? , terms: Int?
     ): Resource<List<Product>?> {
-//        return apiService.searchInProducts(searchKey = searchKey,sortItem,attribute)
         return try {
             val response = apiService.searchInProducts(category,searchKey,sortItem,attribute , terms)
             val message=handleRequestCode(response.code())
@@ -200,7 +198,6 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
     suspend fun retrieveAllProductAttribute(): Resource<List<Attribute>> {
-//        return apiService.retrieveAllProductAttribute()
         return try {
             val response = apiService.retrieveAllProductAttribute()
             val message=handleRequestCode(response.code())
