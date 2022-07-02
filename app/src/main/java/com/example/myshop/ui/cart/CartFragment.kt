@@ -80,18 +80,21 @@ class CartFragment : Fragment() {
                 State.LOADING -> {
 //                    binding.scrollViewCart.visibility = View.INVISIBLE
                     binding.llAllPriceCart.visibility = View.INVISIBLE
+                    binding.llDiscountCart.visibility = View.INVISIBLE
                     binding.progressBarCart.visibility = View.VISIBLE
                     binding.imvEmptyList.visibility = View.GONE
                 }
                 State.SUCCESS -> {
 //                    binding.scrollViewCart.visibility = View.VISIBLE
                     binding.llAllPriceCart.visibility = View.VISIBLE
+                    binding.llDiscountCart.visibility = View.VISIBLE
                     binding.progressBarCart.visibility = View.GONE
                     binding.imvEmptyList.visibility = View.GONE
                 }
                 State.FAILED -> {
-//                    binding.scrollViewCart.visibility = View.INVISIBLE
+                    binding.recyclerCart.visibility = View.INVISIBLE
                     binding.llAllPriceCart.visibility = View.INVISIBLE
+                    binding.llDiscountCart.visibility = View.INVISIBLE
                     binding.progressBarCart.visibility = View.INVISIBLE
                     binding.imvEmptyList.visibility = View.VISIBLE
                 }

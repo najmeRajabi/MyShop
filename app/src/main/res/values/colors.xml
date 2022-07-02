@@ -21,5 +21,6 @@
     <color name="warningTextColor">#444444</color>
     <color name="bg_white">#eeeeee</color>
     <color name="golden">#FFEB3B</color>
+    <color name="bg_transform">#22aaaaaa</color>
 
 </resources>

@@ -21,6 +21,10 @@ data class Order (
     @Json(name = "line_items")
     val line_items: List<Product>,
 
+    val discount_total : String? = null,
+
+    val customer_id : Int? = null
+
     ){
 }
 /*

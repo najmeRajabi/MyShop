@@ -11,35 +11,71 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="?attr/actionBarSize"
         tools:context=".ui.cart.CartFragment">
-
-<!--        <ScrollView-->
-<!--            android:id="@+id/scrollView_cart"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
-
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_margin="18dp"
-            android:paddingBottom="?attr/actionBarSize"/>
-
-<!--        </ScrollView>-->
+            android:paddingBottom="?attr/actionBarSize"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/ll_discount_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/bg_transform"
+            app:layout_constraintBottom_toTopOf="@id/ll_all_price_cart">
+            <Button
+                android:id="@+id/btn_set_discount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:layout_gravity="center_vertical"
+                android:text="@string/setDiscount"
+                app:strokeColor="?attr/colorPrimary"
+                android:textColor="?attr/colorOnSecondary"
+                android:padding="@dimen/paddingDefult"
+                android:layout_marginStart="@dimen/defultMargin"
+                android:layout_marginEnd="@dimen/defultMargin"
+                style="?attr/materialButtonOutlinedStyle"/>
+            <EditText
+                android:id="@+id/edt_discount_code_cart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/discountHint"
+                android:padding="@dimen/paddingDefult"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:textSize="@dimen/titleSizeCategoryItem"
+                android:layout_marginStart="@dimen/defultMargin"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/discountCode"
+                android:layout_weight="1"
+                android:textSize="@dimen/priceSizeHomeItem"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/paddingDefult"
+                android:layout_marginEnd="@dimen/defultMargin"
+                android:layout_marginStart="@dimen/paddingDefult"/>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_all_price_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@color/bg_white"
-            android:layout_gravity="bottom">
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btn_continue_shopping"
@@ -81,13 +117,18 @@
             android:layout_height="match_parent"
             android:src="@drawable/shopping"
             android:visibility="gone"/>
+
         <ProgressBar
             android:id="@+id/progressBar_cart"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:progressTint="@color/golden"
             android:layout_gravity="center"
-            android:indeterminate="true" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:indeterminate="true"
+            android:progressTint="@color/golden"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

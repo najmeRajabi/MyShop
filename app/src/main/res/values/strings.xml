@@ -23,4 +23,7 @@
     <string name="allPrice">جمع سبد خرید</string>
     <string name="allPrice0">0</string>
     <string name="continue_shopping">ادامه فرایند خرید</string>
+    <string name="discountCode">"کد تخفیف : "</string>
+    <string name="discountHint">...................</string>
+    <string name="setDiscount">اعمال تخفیف</string>
 </resources>
