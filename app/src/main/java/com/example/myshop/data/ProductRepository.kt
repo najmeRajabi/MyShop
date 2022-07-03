@@ -13,7 +13,7 @@ class ProductRepository @Inject constructor(
 
 
     suspend fun getSortedProducts(orderBy: String): Resource<List<Product>> {
-        return productRemoteDataSource.getSortedProducts(orderBy)
+        return productRemoteDataSource.getSortedProducts(orderBy )
     }
 
     suspend fun getProductById(id: Int): Resource<Product> {

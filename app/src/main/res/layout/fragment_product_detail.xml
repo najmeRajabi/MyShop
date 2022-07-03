@@ -150,10 +150,10 @@
                 android:id="@+id/txv_same_product"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/defultMargin"
+                android:layout_marginTop="3dp"
                 android:gravity="start"
                 android:padding="8dp"
-                android:background="@color/white"
+                android:background="@color/bg_transform"
                 android:text="@string/same_product"
                 android:textStyle="bold"
                 android:textColor="@color/desc_color"
@@ -168,17 +168,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layoutDirection="rtl"
-                android:background="@color/white"
+                android:background="@color/bg_transform"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/txv_same_product"
                 app:layout_constraintBottom_toTopOf="@id/txv_users_reviews"/>
 
-            <View
-                style="@style/line_style"
-                tools:ignore="MissingConstraints"
-                android:layout_marginTop="3dp"
-                android:layout_height="5dp"
-                app:layout_constraintTop_toBottomOf="@id/recycler_same_product" />
 
             <TextView
                 android:id="@+id/txv_users_reviews"
@@ -188,7 +182,7 @@
                 android:gravity="start"
                 android:padding="10dp"
                 android:textStyle="bold"
-                android:background="@color/white"
+                android:background="@color/bg_transform"
                 android:text="@string/reviews"
                 android:textColor="@color/desc_color"
                 android:textSize="@dimen/titleSizeHomeItem"
@@ -202,6 +196,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layoutDirection="rtl"
+                android:background="@color/bg_transform"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/txv_users_reviews"/>
 
@@ -213,6 +208,13 @@
                 app:layout_constraintTop_toBottomOf="@id/recycler_review"
                 android:text="@string/addReview"
                 app:drawableStartCompat="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+            <View
+                style="@style/line_style"
+                tools:ignore="MissingConstraints"
+                android:layout_marginTop="3dp"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/txv_add_review" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline3"

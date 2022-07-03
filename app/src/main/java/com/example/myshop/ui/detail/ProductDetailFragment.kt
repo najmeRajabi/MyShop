@@ -13,9 +13,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myshop.R
+import com.example.myshop.adapters.HomeListsAdapter
+import com.example.myshop.adapters.Orientation
 import com.example.myshop.adapters.ReviewAdapter
 import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
+import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -61,7 +64,6 @@ class ProductDetailFragment : Fragment() {
     private fun initReviews() {
         val adapter = ReviewAdapter()
         binding.recyclerReview.adapter = adapter
-        binding.recyclerSameProduct.adapter = adapter
 
         vModel.reviews.observe(viewLifecycleOwner){
             adapter.submitList(it)
@@ -98,6 +100,23 @@ class ProductDetailFragment : Fragment() {
 
         initImageView()
         observeState()
+        initSameProducts()
+    }
+
+    private fun initSameProducts() {
+        val adapterSameProduct = HomeListsAdapter(Orientation.HORIZONTAL){
+            goToDetail(it)
+        }
+        binding.recyclerSameProduct.adapter= adapterSameProduct
+        vModel.sameProducts.observe(viewLifecycleOwner){
+            adapterSameProduct.submitList(it)
+        }
+    }
+
+    private fun goToDetail(product: Product) {
+        findNavController().navigate(
+            ProductDetailFragmentDirections.
+            actionProductDetailFragmentToProductDetailFragment(product.id))
     }
 
     private fun observeState() {

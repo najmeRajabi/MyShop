@@ -11,9 +11,9 @@ import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
 
-    suspend fun getSortedProducts(orderby: String): Resource<List<Product>>{
+    suspend fun getSortedProducts(orderby: String ): Resource<List<Product>>{
        return try {
-            val response = apiService.getSortedProducts(orderby)
+            val response = apiService.getSortedProducts(orderby )
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)

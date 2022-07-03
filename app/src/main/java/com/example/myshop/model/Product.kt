@@ -30,6 +30,9 @@ data class Product(
 
     @Json(name = "attributes")
     val attributes: List<Any?> = listOf(),
+
+    @Json(name = "related_ids")
+    val related_ids: List<Int>,
 )
 /*
 class Product : ArrayList<ProductItem>()
@@ -104,47 +107,7 @@ data class ProductItem(
     val weight: String
 )
 
-data class Links(
-    val collection: List<Collection>,
-    val self: List<Self>
-)
 
-data class Category(
-    val id: Int,
-    val name: String,
-    val slug: String
-)
-
-data class Dimensions(
-    val height: String,
-    val length: String,
-    val width: String
-)
-
-data class Image(
-    val alt: String,
-    val date_created: String,
-    val date_created_gmt: String,
-    val date_modified: String,
-    val date_modified_gmt: String,
-    val id: Int,
-    val name: String,
-    val src: String
-)
-
-data class Tag(
-    val id: Int,
-    val name: String,
-    val slug: String
-)
-
-data class Collection(
-    val href: String
-)
-
-data class Self(
-    val href: String
-)
 
 
 

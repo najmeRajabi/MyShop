@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
@@ -15,9 +14,6 @@ import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
-import java.lang.Exception
 import javax.inject.Inject
 
 const val ORDER = "order"
@@ -32,18 +28,28 @@ class ProductViewModel @Inject constructor(
     val orderMessage = MutableLiveData<String>()
     val orderCallback = MutableLiveData<Order>()
     val reviews = MutableLiveData<List<Review>>()
+    val sameProducts = MutableLiveData<List<Product>>()
     val state = MutableLiveData<State>()
+    var relatedIds: List<Int>? = null
     var hasOrder = false
+
+    init {
+    }
 
 
     fun getProduct(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
-            product.postValue (productRepository.getProductById(id).data!!)
+            product.postValue(productRepository.getProductById(id).data!!)
             state.postValue(productRepository.getProductById(id).status)
             message.postValue(productRepository.getProductById(id).message)
+            Log.d("detailVM---TAG", "getProduct related: ${product.value?.related_ids}")
+            relatedIds = product.value?.related_ids
+
+            getSameProducts()
+            retrieveReview()
         }
-        retrieveReview()
+
     }
 
     fun createOrder(context: Context) {
@@ -111,9 +117,32 @@ class ProductViewModel @Inject constructor(
                     mReviews.add(review)
                 }
             }
-            reviews.postValue( mReviews)
+            reviews.postValue(mReviews)
             state.postValue(productRepository.retrieveReview().status)
             message.postValue(productRepository.retrieveReview().message)
+        }
+
+    }
+
+    fun getSameProducts() {
+        viewModelScope.launch {
+            try {
+                state.postValue(State.LOADING)
+                var sameList = arrayListOf<Product>()
+                if (!relatedIds.isNullOrEmpty()) {
+                    for (id in relatedIds!!) {
+                        sameList.add(productRepository.getProductById(id).data!!)
+                    }
+                    Log.d("detailVM---TAG", "getProduct: ${sameList}")
+                    sameProducts.postValue(sameList)
+                    message.postValue(productRepository.getProductById(relatedIds!![0]).message)
+                    state.postValue(productRepository.getProductById(relatedIds!![0]).status)
+                }
+                Log.d("detailVM---TAG", "getProduct out: ${sameList}")
+            } catch (e: Exception) {
+                state.postValue(State.FAILED)
+                Log.d("detailVM---TAG", "getProduct catch: ${e.message}")
+            }
         }
 
     }

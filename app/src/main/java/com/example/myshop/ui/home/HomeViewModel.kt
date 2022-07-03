@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun getProductByOrder(orderBy: String , list: MutableLiveData<List<Product>>){
+    fun getProductByOrder(orderBy: String , list: MutableLiveData<List<Product>> ){
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
             list.postValue( productRepository.getSortedProducts(orderBy).data!!)
