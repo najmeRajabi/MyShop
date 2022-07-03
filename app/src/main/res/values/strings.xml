@@ -29,4 +29,7 @@
     <string name="same_product">محصولات مشابه</string>
     <string name="reviews">نظرات کاربران</string>
     <string name="addReview">افزودن نظر</string>
+    <string name="yourReview">نظر شما</string>
+    <string name="setReview">ثبت نظر</string>
+    <string name="cancel">انصراف</string>
 </resources>

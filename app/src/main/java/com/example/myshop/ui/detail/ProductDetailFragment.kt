@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -30,7 +32,7 @@ class ProductDetailFragment : Fragment() {
 
     private val args: ProductDetailFragmentArgs by navArgs()
     lateinit var binding: FragmentProductDetailBinding
-    val vModel: ProductViewModel by viewModels()
+    val vModel: ProductViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,10 +99,16 @@ class ProductDetailFragment : Fragment() {
         binding.menuDetail.imvBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
-
         initImageView()
         observeState()
         initSameProducts()
+        addReview()
+    }
+
+    private fun addReview() {
+//        binding.txvAddReview.setOnClickListener {
+//            findNavController().navigate(R.id.action_productDetailFragment_to_addReviewFragment)
+//        }
     }
 
     private fun initSameProducts() {
@@ -174,6 +182,24 @@ class ProductDetailFragment : Fragment() {
                 Snackbar.make(binding.coordinatorDetail, it, Snackbar.LENGTH_SHORT)
             snackbar.show()
         }
+    }
+
+    private fun showDefaultDialog() {
+        val alertDialog = AlertDialog.Builder(requireContext())
+
+        alertDialog.apply {
+            setTitle("not registered !!")
+            setView(R.layout.dialog_view)
+            setMessage("you're not registered yet. please first register")
+            setPositiveButton("register") { _, _ ->
+//                findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+            }
+            setNegativeButton("no thanks") { _, _ ->
+                // dismiss
+            }
+
+        }.create().show()
+
     }
 
 }
