@@ -112,6 +112,13 @@ interface ApiService {
         @Query("consumer_secret") secret : String = SECRET,
     ):Response<List<Review>>
 
+    @POST("products/reviews/")
+    suspend fun createReview(
+        @Body review: Review,
+        @Query("consumer_key") key : String = KEY,
+        @Query("consumer_secret") secret : String = SECRET,
+    ):Response<Review>
+
 
     @GET("products/attributes")
     suspend fun retrieveAllProductAttribute(

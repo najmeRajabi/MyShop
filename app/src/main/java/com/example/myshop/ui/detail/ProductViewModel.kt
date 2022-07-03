@@ -146,4 +146,20 @@ class ProductViewModel @Inject constructor(
         }
 
     }
+
+    fun setReview(review: String) {
+        val review : Review? = product.value?.let { Review(175,"me",review, it.id,3) }
+        viewModelScope.launch {
+            try {
+                state.postValue(State.LOADING)
+                if (review != null) {
+                    productRepository.createReview(review)
+                }
+                state.postValue(review?.let { productRepository.createReview(it).status })
+                message.postValue(review?.let { productRepository.createReview(it).message })
+            }catch (e: Exception){
+
+            }
+        }
+    }
 }

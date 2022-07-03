@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
@@ -23,6 +24,7 @@ import com.example.myshop.databinding.FragmentProductDetailBinding
 import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator3
@@ -106,9 +108,10 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun addReview() {
-//        binding.txvAddReview.setOnClickListener {
-//            findNavController().navigate(R.id.action_productDetailFragment_to_addReviewFragment)
-//        }
+        binding.txvAddReview.setOnClickListener {
+            showDefaultDialog()
+        }
+
     }
 
     private fun initSameProducts() {
@@ -187,15 +190,24 @@ class ProductDetailFragment : Fragment() {
     private fun showDefaultDialog() {
         val alertDialog = AlertDialog.Builder(requireContext())
 
+        val dialogView = LayoutInflater.from(requireContext()).
+        inflate(R.layout.dialog_view , null)
+
+        val btnSetReview = dialogView.findViewById<MaterialButton>(R.id.btn_addReview_dialog)
+        val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btn_cancel_dialog)
+        val edtReview = dialogView.findViewById<EditText>(R.id.edt_dialog_addReview)
+
         alertDialog.apply {
-            setTitle("not registered !!")
-            setView(R.layout.dialog_view)
-            setMessage("you're not registered yet. please first register")
-            setPositiveButton("register") { _, _ ->
-//                findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+            setView(dialogView)
+            btnSetReview.setOnClickListener {
+                if (edtReview.text.isNullOrBlank()){
+                    edtReview.error= " نظر خالی است!!! "
+                }else{
+                    vModel.setReview(edtReview.text.toString())
+                }
             }
-            setNegativeButton("no thanks") { _, _ ->
-                // dismiss
+            btnCancel.setOnClickListener {
+                //dismiss
             }
 
         }.create().show()

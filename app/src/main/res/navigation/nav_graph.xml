@@ -47,9 +47,6 @@
         <action
             android:id="@+id/action_productDetailFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
-        <action
-            android:id="@+id/action_productDetailFragment_to_addReviewFragment"
-            app:destination="@id/addReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
@@ -104,8 +101,4 @@
             android:id="@+id/action_customerFragment_to_disconnectBlankFragment"
             app:destination="@id/disconnectBlankFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/addReviewFragment"
-        android:name="com.example.myshop.ui.detail.AddReviewFragment"
-        android:label="AddReviewFragment" />
 </navigation>
