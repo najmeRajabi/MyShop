@@ -3,10 +3,11 @@
 
     <style name="line_style">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">5dp</item>
+        <item name="android:layout_height">2dp</item>
         <item name="android:layout_marginStart">4dp</item>
         <item name="android:layout_marginEnd">4dp</item>
-        <item name="android:background">@drawable/bg_gray</item>
+        <item name="android:background">@color/gray</item>
+        <item name="android:alpha">0.5</item>
     </style>
     <style name="text_description_product">
         <item name="android:textSize">18sp</item>

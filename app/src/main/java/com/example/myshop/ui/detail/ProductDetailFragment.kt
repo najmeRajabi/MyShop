@@ -61,6 +61,7 @@ class ProductDetailFragment : Fragment() {
     private fun initReviews() {
         val adapter = ReviewAdapter()
         binding.recyclerReview.adapter = adapter
+        binding.recyclerSameProduct.adapter = adapter
 
         vModel.reviews.observe(viewLifecycleOwner){
             adapter.submitList(it)

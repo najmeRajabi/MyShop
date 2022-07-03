@@ -26,4 +26,6 @@
     <string name="discountCode">"کد تخفیف : "</string>
     <string name="discountHint">...................</string>
     <string name="setDiscount">اعمال تخفیف</string>
+    <string name="same_product">محصولات مشابه</string>
+    <string name="reviews">نظرات کاربران</string>
 </resources>
