@@ -3,6 +3,7 @@ package com.example.myshop.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -43,6 +44,8 @@ class ReviewAdapter() :
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private val txvReviewer = view.findViewById<TextView>(R.id.txv_reviewer)
         private val txvReview = view.findViewById<TextView>(R.id.txv_review)
+        private val txvRate = view.findViewById<TextView>(R.id.txv_rateCount_review)
+        private val imvStar = view.findViewById<ImageView>(R.id.imv_rate_review)
 
 
         fun bind(
@@ -57,6 +60,12 @@ class ReviewAdapter() :
                 txvReviewer.text = "خریدار"
             }else
                 txvReviewer.text = review.reviewer
+
+            txvRate.text = review.rating.toString()
+            if (review.rating == 0){
+                imvStar.setImageResource(R.drawable.ic_baseline_star_outline_24)
+            }else
+                imvStar.setImageResource(R.drawable.ic_baseline_star_rate_24)
 
         }
 
