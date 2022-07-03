@@ -39,22 +39,41 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/imv_rate_review"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/ic_baseline_star_rate_24"
             android:paddingBottom="5dp"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|start"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"/>
         <TextView
             android:id="@+id/txv_rateCount_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_gravity="bottom"
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="55dp"
+            android:layout_gravity="bottom|start"
             android:textSize="@dimen/txv_rate_item"
             tools:text="4"/>
+
+        <ImageView
+            android:id="@+id/imv_edit_review"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_baseline_edit_24"
+            android:paddingBottom="5dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"/>
+        <ImageView
+            android:id="@+id/imv_delete_review"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_baseline_delete_outline_24"
+            android:paddingBottom="5dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"/>
 
 
     </androidx.cardview.widget.CardView>

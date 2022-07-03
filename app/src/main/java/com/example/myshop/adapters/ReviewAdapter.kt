@@ -46,6 +46,8 @@ class ReviewAdapter() :
         private val txvReview = view.findViewById<TextView>(R.id.txv_review)
         private val txvRate = view.findViewById<TextView>(R.id.txv_rateCount_review)
         private val imvStar = view.findViewById<ImageView>(R.id.imv_rate_review)
+        private val imvEdit = view.findViewById<ImageView>(R.id.imv_edit_review)
+        private val imvDelete = view.findViewById<ImageView>(R.id.imv_delete_review)
 
 
         fun bind(

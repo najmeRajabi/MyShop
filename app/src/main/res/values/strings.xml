@@ -28,4 +28,5 @@
     <string name="setDiscount">اعمال تخفیف</string>
     <string name="same_product">محصولات مشابه</string>
     <string name="reviews">نظرات کاربران</string>
+    <string name="addReview">افزودن نظر</string>
 </resources>
