@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSecondaryVariant"
+        android:orientation="vertical"
+        tools:context=".ui.customer.CustomerRegisterFragment">
+
+        <ImageView
+            android:id="@+id/imv_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_baseline_person_24"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/txv_username_profile"
+            tools:text="@string/username"
+            style="@style/txv_profile_style"
+            app:drawableEndCompat="@drawable/ic_baseline_person_24" />
+        <TextView
+            android:id="@+id/txv_id_profile"
+            tools:text="@string/id"
+            style="@style/txv_profile_style" />
+        <TextView
+            android:id="@+id/txv_email_profile"
+            tools:text="@string/emailAddress"
+            style="@style/txv_profile_style"
+            app:drawableEndCompat="@drawable/ic_baseline_mail_24" />
+
+        <Button
+            android:id="@+id/btn_deleteAccount_profile"
+            style="@style/txv_profile_style"
+            android:text="@string/deleteAccount"
+            android:textColor="?attr/colorOnPrimary"/>
+    </LinearLayout>
+</layout>
