@@ -27,14 +27,14 @@ open class BaseViewModel @Inject constructor():ViewModel() {
     fun checkRegistered(context: Context) {
         val sharedPreferences =
             context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
-        if (!sharedPreferences.getString(CUSTOMER_ID , "").isNullOrBlank()){
+        if (!sharedPreferences.getString(CUSTOMER_NAME , "").isNullOrBlank()){
             registered = true
 
             val username = sharedPreferences.getString(CUSTOMER_USERNAME , "username")
-            val id = sharedPreferences.getString(CUSTOMER_ID , "username")
+//            val id = sharedPreferences.getString(CUSTOMER_ID , "-1")
             val name = sharedPreferences.getString(CUSTOMER_NAME , "name")
             val email = sharedPreferences.getString(CUSTOMER_EMAIL , "email")
-            val mCustomer = Customer(id,email!!,name!!,username!!,null)
+            val mCustomer = Customer(id = null,email = email!!,first_name = name!!,username = username!!,password = null)
             customer.postValue(mCustomer)
         }
 

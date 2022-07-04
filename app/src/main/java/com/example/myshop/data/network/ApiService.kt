@@ -10,7 +10,20 @@ import retrofit2.http.*
 private const val KEY = "ck_63f4c52da932ddad1570283b31f3c96c4bd9fd6f"
 //private const val SECRET = "cs_28f528089254ed3dc6bc8cbd0ffeb34a52f69547"
 private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
-interface ApiService {
+
+//class NetWorkParams () {
+//
+//    fun getBaseOptions() {
+//        val queryMap: HashMap<String, String> = HashMap()
+//        queryMap[KEY] = query1
+//        queryMap[SECRET] = query2
+//    }
+//}
+    interface ApiService {
+
+
+
+
 
     @GET("products")
     suspend fun getSortedProducts(
@@ -90,19 +103,19 @@ interface ApiService {
 
     //.... customer...................................................
 
-    @POST("customers/")
+    @POST("customers")
     suspend fun register(
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
         @Body customer: Customer
     ): Response<List<Customer>>
 
-    @GET("customers/")
+    @GET("customers/{id}")
     suspend fun login(
-        @Query("id") id: Int,
+        @Path("id") id: Int,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ): Response<List<Customer>>
+    ): Response<Customer>
 
     //...... review.................................................
 

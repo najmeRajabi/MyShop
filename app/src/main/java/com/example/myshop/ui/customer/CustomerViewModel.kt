@@ -1,12 +1,11 @@
 package com.example.myshop.ui.customer
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Customer
-import com.example.myshop.ui.detail.ORDER
-import com.example.myshop.ui.detail.ORDER_ID
 import com.example.myshop.ui.disconnect.BaseViewModel
 import com.example.myshop.ui.disconnect.State
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,19 +29,21 @@ class CustomerViewModel @Inject constructor(
     val registerMessage = MutableLiveData<String>()
     val state = MutableLiveData<State>()
 
-    fun register(iCustomer: Customer) {
+    fun register(iCustomer: Customer , context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 state.postValue(State.LOADING)
-                val listCustomer =productRepository.register(iCustomer).data!!
-                mCustomer.postValue(listCustomer[listCustomer.size-1])
+                mCustomer.postValue(productRepository.register(iCustomer).data!![2])
+                Log.d("list---object", "register : ${productRepository.register(iCustomer).data!!}")
                 state.postValue(productRepository.register(iCustomer).status)
                 message.postValue(productRepository.register(iCustomer).message)
                 registerMessage.postValue(message.value + " آیدی شما:  " + mCustomer.value?.id)
-                customer.postValue(mCustomer.value)
                 registered = true
+                saveCustomerToShearedPreferences(context)
+                customer.postValue(iCustomer)
             }catch (e: Exception){
                 state.postValue(State.FAILED)
+                registerMessage.postValue(message.value + e.message)
             }
 
         }
@@ -53,11 +54,11 @@ class CustomerViewModel @Inject constructor(
             val sharedPreferences =
                 context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
-            editor.putString(CUSTOMER_NAME, mCustomer.value?.first_name)
-            editor.putString(CUSTOMER_ID, mCustomer.value?.id)
-            editor.putString(CUSTOMER_USERNAME, mCustomer.value?.username)
-            editor.putString(CUSTOMER_PASSWORD, mCustomer.value?.password)
-            editor.putString(CUSTOMER_EMAIL, mCustomer.value?.email)
+            editor.putString(CUSTOMER_NAME, customer.value?.first_name)
+            editor.putString(CUSTOMER_ID, customer.value?.id.toString())
+            editor.putString(CUSTOMER_USERNAME, customer.value?.username)
+            editor.putString(CUSTOMER_PASSWORD, customer.value?.password)
+            editor.putString(CUSTOMER_EMAIL, customer.value?.email)
             editor.apply()
         }
     }
@@ -66,12 +67,13 @@ class CustomerViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 state.postValue(State.LOADING)
-                val customer: Customer = productRepository.login(id).data!![0]
+                val iCustomer: Customer = productRepository.login(id).data!!
                 state.postValue(productRepository.login(id).status)
                 message.postValue(productRepository.login(id).message)
-                if (customer.password.toString() == password) {
-                    mCustomer.postValue(customer)
+                if (iCustomer.password.toString() == password) {
+                    mCustomer.postValue(iCustomer)
                     registerMessage.postValue(message.value + "ورود با موفقیت انجام شد. ")
+                    customer.postValue(mCustomer.value)
                     registered = true
                 } else
                     registerMessage.postValue(message.value)

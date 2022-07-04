@@ -1,5 +1,6 @@
 package com.example.myshop.data
 
+import android.util.Log
 import com.example.myshop.data.network.ApiService
 import com.example.myshop.model.*
 import com.example.myshop.model.Attribute
@@ -153,32 +154,33 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
     suspend fun register(customer: Customer): Resource<List<Customer>> {
+        Log.d("list or object", "register rem: ${apiService.register(customer = customer)}")
         return try {
             val response = apiService.register(customer = customer)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, arrayListOf(),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, arrayListOf(),e.message)
+            Resource(State.FAILED, null,e.message)
         }
     }
 
-    suspend fun login(id: Int): Resource<List<Customer>> {
+    suspend fun login(id: Int): Resource<Customer> {
         return try {
             val response = apiService.login(id)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, arrayListOf(),message)
+                Resource(State.FAILED, Customer(null,"e","f","u",null),message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, arrayListOf(),e.message)
+            Resource(State.FAILED, Customer(null,"e","f","u",null),e.message)
         }
     }
 

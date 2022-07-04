@@ -61,7 +61,7 @@ class CustomerFragment : Fragment() {
                         binding.nameEdtRegister.text.toString(),
                         binding.usernameEdtRegister.text.toString(),
                         binding.passwordEdtRegister.text.toString(),
-                    )
+                    ),requireContext()
                 )
             }
         }
@@ -124,7 +124,6 @@ class CustomerFragment : Fragment() {
                 State.SUCCESS -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
                     binding.progressBarProfile.visibility = View.GONE
-                    vModel.saveCustomerToShearedPreferences(requireContext())
                 }
                 State.FAILED -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE

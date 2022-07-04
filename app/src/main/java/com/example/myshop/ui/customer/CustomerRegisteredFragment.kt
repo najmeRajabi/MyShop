@@ -42,7 +42,7 @@ class CustomerRegisteredFragment():Fragment() {
     private fun initView() {
         vModel.customer.observe(viewLifecycleOwner){
             binding.txvUsernameProfile.text = it.username
-            binding.txvIdProfile.text = it.id
+            binding.txvIdProfile.text = it.id.toString()
             binding.txvEmailProfile.text = it.email
         }
     }

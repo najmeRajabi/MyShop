@@ -1,5 +1,6 @@
 package com.example.myshop.data
 
+import android.util.Log
 import com.example.myshop.model.*
 import com.example.myshop.model.Attribute
 import com.example.myshop.model.Category
@@ -49,10 +50,11 @@ class ProductRepository @Inject constructor(
     }
 
     suspend fun register(customer: Customer): Resource<List<Customer>> {
+        Log.d("list or object", "register rep: ${productRemoteDataSource.register(customer = customer)}")
         return productRemoteDataSource.register(customer = customer)
     }
 
-    suspend fun login(id: Int): Resource<List<Customer>> {
+    suspend fun login(id: Int): Resource<Customer> {
         return productRemoteDataSource.login(id)
     }
 
