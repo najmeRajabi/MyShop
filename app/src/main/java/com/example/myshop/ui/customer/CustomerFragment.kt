@@ -82,6 +82,7 @@ class CustomerFragment : Fragment() {
             binding.btnRegisterCard.textSize = 18f
             binding.btnSigninCard.textSize = 12f
         }
+        binding.btnSignIn.isEnabled = false
         binding.btnSigninCard.setOnClickListener {
             binding.txvCustomerMessage.text = ""
             binding.llRegister.visibility = View.GONE
@@ -124,6 +125,7 @@ class CustomerFragment : Fragment() {
                 State.SUCCESS -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
                     binding.progressBarProfile.visibility = View.GONE
+                    findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
                 }
                 State.FAILED -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
