@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.ActivityMainBinding
+import com.example.myshop.ui.disconnect.BaseViewModel
 import com.example.myshop.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,10 +17,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
-    val vModel: HomeViewModel by viewModels()
+    val vModel: BaseViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
+
+        vModel.checkRegistered(this)
 
         supportActionBar?.hide()
         val imvSplash = binding.imvSplashScreen

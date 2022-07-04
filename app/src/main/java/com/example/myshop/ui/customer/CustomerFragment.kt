@@ -1,15 +1,17 @@
 package com.example.myshop.ui.customer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentCustomerBinding
-import com.example.myshop.databinding.FragmentHomeBinding
 import com.example.myshop.model.Customer
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CustomerFragment : Fragment() {
 
     lateinit var binding: FragmentCustomerBinding
-    val vModel: CustomerViewModel by viewModels()
+    val vModel: CustomerViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,6 +34,11 @@ class CustomerFragment : Fragment() {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_customer, container, false)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.VISIBLE
         binding.lifecycleOwner = viewLifecycleOwner
+
+        vModel.checkRegistered(requireContext())
+        if (vModel.registered){
+            findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
+        }
         return binding.root
     }
 
@@ -41,16 +48,19 @@ class CustomerFragment : Fragment() {
         initViews()
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun initViews() {
         observeState()
         binding.btnRegister.setOnClickListener {
-            if (checked()) {
+            if (checkedRegisterField()) {
 
                 vModel.register(
                     Customer(
-                        "0",
+                        null,
                         binding.emailEdtRegister.text.toString(),
-                        binding.passwordEdtRegister.text.toString()
+                        binding.nameEdtRegister.text.toString(),
+                        binding.usernameEdtRegister.text.toString(),
+                        binding.passwordEdtRegister.text.toString(),
                     )
                 )
             }
@@ -67,21 +77,41 @@ class CustomerFragment : Fragment() {
         }
         binding.btnRegisterCard.setOnClickListener {
             binding.txvCustomerMessage.text = ""
-            binding.cardRegister.visibility = View.VISIBLE
-            binding.cardSignin.visibility = View.GONE
+            binding.llRegister.visibility = View.VISIBLE
+            binding.llSignin.visibility = View.GONE
+            binding.btnRegisterCard.textSize = 18f
+            binding.btnSigninCard.textSize = 12f
         }
         binding.btnSigninCard.setOnClickListener {
-            binding.cardRegister.visibility = View.GONE
-            binding.cardSignin.visibility = View.VISIBLE
+            binding.txvCustomerMessage.text = ""
+            binding.llRegister.visibility = View.GONE
+            binding.llSignin.visibility = View.VISIBLE
+            binding.btnSigninCard.textSize = 18f
+            binding.btnRegisterCard.textSize = 12f
         }
         vModel.registerMessage.observe(viewLifecycleOwner){
             binding.txvCustomerMessage.text = it
         }
     }
 
-    private fun checked(): Boolean {
-       return  (!binding.emailEdtRegister.text.isNullOrBlank() &&
-               !binding.passwordEdtRegister.text.isNullOrBlank())
+    private fun checkedRegisterField(): Boolean {
+        var result = false
+        when {
+            binding.nameEdtRegister.text.isNullOrBlank() -> {
+                binding.nameEdtFieldRegister.error = getString(R.string.emptyField)
+            }
+            binding.usernameEdtRegister.text.isNullOrBlank() -> {
+                binding.usernameEdtFieldRegister.error = getString(R.string.emptyField)
+            }
+            binding.emailEdtRegister.text.isNullOrBlank() -> {
+                binding.emailEdtFieldRegister.error = getString(R.string.emptyField)
+            }
+            binding.passwordEdtRegister.text.isNullOrBlank() -> {
+                binding.passwordEdtFieldRegister.error = getString(R.string.emptyField)
+            }
+            else -> result = true
+        }
+       return  result
     }
 
     private fun observeState() {
@@ -94,6 +124,7 @@ class CustomerFragment : Fragment() {
                 State.SUCCESS -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
                     binding.progressBarProfile.visibility = View.GONE
+                    vModel.saveCustomerToShearedPreferences(requireContext())
                 }
                 State.FAILED -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE

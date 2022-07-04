@@ -32,4 +32,8 @@
     <string name="yourReview">نظر شما</string>
     <string name="setReview">ثبت نظر</string>
     <string name="cancel">انصراف</string>
+    <string name="name">نام و نام خانوادگی</string>
+    <string name="username">نام کاربری</string>
+    <string name="emptyField">\" فیلد خالی!! \"</string>
+    <string name="deleteAccount">خروج از حساب</string>
 </resources>

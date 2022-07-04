@@ -100,5 +100,12 @@
         <action
             android:id="@+id/action_customerFragment_to_disconnectBlankFragment"
             app:destination="@id/disconnectBlankFragment" />
+        <action
+            android:id="@+id/action_customerFragment_to_customerRegisteredFragment"
+            app:destination="@id/customerRegisteredFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/customerRegisteredFragment"
+        android:name="com.example.myshop.ui.customer.CustomerRegisteredFragment"
+        android:label="CustomerRegisteredFragment" />
 </navigation>

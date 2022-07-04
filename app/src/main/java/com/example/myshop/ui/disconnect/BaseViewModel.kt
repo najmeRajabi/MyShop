@@ -7,6 +7,8 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myshop.data.ProductRepository
+import com.example.myshop.model.Customer
+import com.example.myshop.ui.customer.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -17,6 +19,28 @@ open class BaseViewModel @Inject constructor():ViewModel() {
 
     val isConnected = MutableLiveData<Boolean>()
     val message = MutableLiveData<String>()
+    var registered = false
+    val customer = MutableLiveData<Customer>()
+    var splashFlag = true
+
+
+    fun checkRegistered(context: Context) {
+        val sharedPreferences =
+            context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
+        if (!sharedPreferences.getString(CUSTOMER_ID , "").isNullOrBlank()){
+            registered = true
+
+            val username = sharedPreferences.getString(CUSTOMER_USERNAME , "username")
+            val id = sharedPreferences.getString(CUSTOMER_ID , "username")
+            val name = sharedPreferences.getString(CUSTOMER_NAME , "name")
+            val email = sharedPreferences.getString(CUSTOMER_EMAIL , "email")
+            val mCustomer = Customer(id,email!!,name!!,username!!,null)
+            customer.postValue(mCustomer)
+        }
+
+
+
+    }
 
     fun checkForInternet(context: Context){
         isConnected.value = checkForConnection(context)
