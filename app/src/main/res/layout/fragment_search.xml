@@ -112,7 +112,7 @@
             android:id="@+id/imv_problem_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/defultMargin"
+            android:layout_margin="@dimen/defaultMargin"
             android:visibility="gone"
             android:src="@drawable/problem"/>
         <ProgressBar
