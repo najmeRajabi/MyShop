@@ -38,7 +38,7 @@ class CustomerViewModel @Inject constructor(
                 state.postValue(productRepository.register(iCustomer).status)
                 message.postValue(productRepository.register(iCustomer).message)
                 registerMessage.postValue(message.value + " آیدی شما:  " + mCustomer.value?.id)
-                registered = true
+                registered.value = true
                 saveCustomerToShearedPreferences(context)
                 customer.postValue(iCustomer)
             }catch (e: Exception){
@@ -50,7 +50,7 @@ class CustomerViewModel @Inject constructor(
     }
 
     fun saveCustomerToShearedPreferences(context: Context) {
-        if (registered) {
+        if (registered.value == true) {
             val sharedPreferences =
                 context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
@@ -74,7 +74,7 @@ class CustomerViewModel @Inject constructor(
                     mCustomer.postValue(iCustomer)
                     registerMessage.postValue(message.value + "ورود با موفقیت انجام شد. ")
                     customer.postValue(mCustomer.value)
-                    registered = true
+                    registered.value = true
                 } else
                     registerMessage.postValue(message.value)
             }catch (e: Exception){

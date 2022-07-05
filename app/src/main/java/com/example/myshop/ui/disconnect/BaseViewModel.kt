@@ -19,7 +19,7 @@ open class BaseViewModel @Inject constructor():ViewModel() {
 
     val isConnected = MutableLiveData<Boolean>()
     val message = MutableLiveData<String>()
-    var registered = false
+    var registered = MutableLiveData<Boolean>(false)
     val customer = MutableLiveData<Customer>()
     var splashFlag = true
 
@@ -28,7 +28,7 @@ open class BaseViewModel @Inject constructor():ViewModel() {
         val sharedPreferences =
             context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
         if (!sharedPreferences.getString(CUSTOMER_NAME , "").isNullOrBlank()){
-            registered = true
+            registered.value = true
 
             val username = sharedPreferences.getString(CUSTOMER_USERNAME , "username")
 //            val id = sharedPreferences.getString(CUSTOMER_ID , "-1")

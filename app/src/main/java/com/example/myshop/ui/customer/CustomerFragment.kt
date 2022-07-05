@@ -36,9 +36,7 @@ class CustomerFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         vModel.checkRegistered(requireContext())
-        if (vModel.registered){
-            findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
-        }
+
         return binding.root
     }
 
@@ -50,6 +48,12 @@ class CustomerFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     private fun initViews() {
+        vModel.registered.observe(viewLifecycleOwner){
+            if (it){
+                findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
+            }
+        }
+
         observeState()
         binding.btnRegister.setOnClickListener {
             if (checkedRegisterField()) {
