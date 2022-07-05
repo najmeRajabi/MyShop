@@ -13,6 +13,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textSize="@dimen/titleSizeCategoryItem"
+        android:textColor="@color/title_color"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:layout_width="match_parent"

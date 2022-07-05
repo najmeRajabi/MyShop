@@ -19,6 +19,7 @@ const val CUSTOMER_ID = "customerId"
 const val CUSTOMER_USERNAME = "customerUserName"
 const val CUSTOMER_PASSWORD = "customerPassword"
 const val CUSTOMER_EMAIL = "customerEmail"
+const val CUSTOMER_REGISTERED = "customerRegistered"
 
 @HiltViewModel
 class CustomerViewModel @Inject constructor(
@@ -38,7 +39,7 @@ class CustomerViewModel @Inject constructor(
                 state.postValue(productRepository.register(iCustomer).status)
                 message.postValue(productRepository.register(iCustomer).message)
                 registerMessage.postValue(message.value + " آیدی شما:  " + mCustomer.value?.id)
-                registered.value = true
+                registered.postValue(true)
                 saveCustomerToShearedPreferences(context)
                 customer.postValue(iCustomer)
             }catch (e: Exception){
@@ -55,15 +56,16 @@ class CustomerViewModel @Inject constructor(
                 context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putString(CUSTOMER_NAME, customer.value?.first_name)
-            editor.putString(CUSTOMER_ID, customer.value?.id.toString())
+            editor.putString(CUSTOMER_ID, mCustomer.value?.id.toString())
             editor.putString(CUSTOMER_USERNAME, customer.value?.username)
             editor.putString(CUSTOMER_PASSWORD, customer.value?.password)
             editor.putString(CUSTOMER_EMAIL, customer.value?.email)
+            editor.putBoolean(CUSTOMER_REGISTERED, true)
             editor.apply()
         }
     }
 
-    fun login(id: Int , password: String) {
+    fun login(id: Int , password: String, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 state.postValue(State.LOADING)
@@ -75,6 +77,7 @@ class CustomerViewModel @Inject constructor(
                     registerMessage.postValue(message.value + "ورود با موفقیت انجام شد. ")
                     customer.postValue(mCustomer.value)
                     registered.value = true
+                    saveCustomerToShearedPreferences(context)
                 } else
                     registerMessage.postValue(message.value)
             }catch (e: Exception){

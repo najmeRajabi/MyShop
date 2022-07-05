@@ -10,7 +10,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_margin="10dp"
+        android:layout_marginStart="@dimen/paddingDefault"
+        android:layout_marginEnd="@dimen/paddingDefault"
+        android:layout_marginTop="@dimen/paddingDefault"
         app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +39,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:padding="5dp"
-                android:textColor="@color/title_color"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="@dimen/titleSizeHomeItem"
                 app:layout_constraintEnd_toStartOf="@id/imv_list_home"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +56,7 @@
                 android:layout_marginBottom="8dp"
                 android:padding="5dp"
                 android:layoutDirection="rtl"
-                android:textColor="@color/title_color"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="@dimen/priceSizeHomeItem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/txv_name_list_Home"

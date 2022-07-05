@@ -5,8 +5,8 @@
     <color name="purple_500">#C65D7B</color>
     <color name="purple_700">#874356</color>
     <color name="teal_700">#E2DEA9</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF222222</color>
+    <color name="white">#FFdddddd</color>
 
     <color name="_purple_200">#FFBB86FC</color>
     <color name="_purple_500">#FF6200EE</color>
@@ -22,5 +22,12 @@
     <color name="bg_white">#eeeeee</color>
     <color name="golden">#FFEB3B</color>
     <color name="bg_transform">#22aaaaaa</color>
+
+
+    <color name="purple_dark">#180A0A</color>
+    <color name="purple_d700">#711A75</color>
+    <color name="pink_500">#F10086</color>
+    <color name="pink_200">#F582A7</color>
+
 
 </resources>

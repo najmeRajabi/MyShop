@@ -10,13 +10,13 @@
     <androidx.cardview.widget.CardView
     android:layout_width="140dp"
     android:layout_height="220dp"
-    android:background="@drawable/bg_gray"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/bg_white"
             android:orientation="vertical">
 
 

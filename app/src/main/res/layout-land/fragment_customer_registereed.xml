@@ -55,10 +55,13 @@
         </LinearLayout>
 
         <ScrollView
-            android:layout_width="match_parent"
+            android:id="@+id/scroll_location"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scroll_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/scroll_profile"
+            app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -147,8 +150,10 @@
 
         <ScrollView
             android:id="@+id/scroll_profile"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/scroll_location"
             app:layout_constraintTop_toBottomOf="@id/ll_changeTheme">
 
         <androidx.cardview.widget.CardView
