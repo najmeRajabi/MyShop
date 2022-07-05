@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="?attr/actionBarSize"
-        android:background="@drawable/bg_gray"
         tools:context=".ui.home.HomeFragment">
 
 
@@ -103,7 +102,7 @@
                     android:paddingStart="20dp"
                     android:paddingTop="10dp"
                     android:text="@string/lastProducts"
-                    android:textColor="?attr/colorPrimary"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:layoutDirection="rtl"
@@ -140,7 +139,7 @@
                     android:paddingTop="10dp"
                     android:layoutDirection="rtl"
                     android:text="@string/mostSeenProducts"
-                    android:textColor="?attr/colorPrimaryVariant"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/recycler_most_seen_Home"
@@ -176,7 +175,7 @@
                     android:paddingTop="10dp"
                     android:layoutDirection="rtl"
                     android:text="@string/favoriteProducts"
-                    android:textColor="?attr/colorSecondary"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/recycler_favorite_Home"

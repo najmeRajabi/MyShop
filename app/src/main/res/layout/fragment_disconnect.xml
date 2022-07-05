@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorSecondary"
+        android:background="?attr/colorPrimary"
         android:orientation="vertical"
         tools:context=".ui.disconnect.DisconnectBlankFragment">
 
@@ -32,7 +32,7 @@
             android:layout_margin="18dp"
             android:gravity="center"
             android:text="@string/messageDisconnection"
-            android:textColor="@color/warningTextColor"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/titleSizeCategoryItem"
             app:layout_constraintBottom_toTopOf="@+id/btn_retry_connection"
             app:layout_constraintTop_toBottomOf="@id/imv_connection"

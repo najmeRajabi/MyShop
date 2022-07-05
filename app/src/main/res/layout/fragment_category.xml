@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="?attr/actionBarSize"
-        android:background="?attr/colorSecondaryVariant">
+        android:background="?attr/colorPrimary">
 
         <ProgressBar
             android:id="@+id/progressBar_category"
@@ -39,8 +39,8 @@
         android:layout_marginEnd="18dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="18dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="3"
         tools:context=".ui.category.CategoryFragment"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -31,7 +31,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:paddingTop="5dp" android:paddingBottom="?attr/actionBarSize"
+            android:paddingTop="5dp"
+            android:paddingBottom="?attr/actionBarSize"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <androidx.constraintlayout.widget.Guideline

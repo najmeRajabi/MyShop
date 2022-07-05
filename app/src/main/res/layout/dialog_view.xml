@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="?attr/colorSecondary"
+        app:cardBackgroundColor="?attr/colorSecondaryVariant"
         app:cardCornerRadius="10dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="@dimen/titleSizeHomeItem"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
+            android:gravity="center"
             android:text="@string/yourReview"
             app:layout_constraintTop_toTopOf="parent"
             />

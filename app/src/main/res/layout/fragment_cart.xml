@@ -43,7 +43,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/setDiscount"
                 app:strokeColor="?attr/colorPrimary"
-                android:textColor="?attr/colorOnSecondary"
+                android:textColor="?attr/colorOnPrimary"
                 android:padding="@dimen/paddingDefault"
                 android:layout_marginStart="@dimen/defaultMargin"
                 android:layout_marginEnd="@dimen/defaultMargin"
