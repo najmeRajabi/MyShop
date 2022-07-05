@@ -37,11 +37,14 @@ class HomeFragment : Fragment() {
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.VISIBLE
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vModel = vModel
+
+        vModel.checkRegistered(requireContext())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         checkConnectionInternet()
         initViews()

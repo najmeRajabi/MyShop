@@ -75,15 +75,19 @@
             android:id="@+id/txv_username_profile"
             tools:text="@string/username"
             style="@style/txv_profile_style"
+            android:background="@drawable/bg_line"
             app:drawableEndCompat="@drawable/ic_baseline_person_24" />
         <TextView
             android:id="@+id/txv_id_profile"
             tools:text="@string/id"
-            style="@style/txv_profile_style" />
+            style="@style/txv_profile_style"
+            android:background="@drawable/bg_line"
+            app:drawableEndCompat="@drawable/check"/>
         <TextView
             android:id="@+id/txv_email_profile"
             tools:text="@string/emailAddress"
             style="@style/txv_profile_style"
+            android:background="@drawable/bg_line"
             app:drawableEndCompat="@drawable/ic_baseline_mail_24" />
 
         <Button
