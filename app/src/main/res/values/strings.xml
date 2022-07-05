@@ -36,4 +36,7 @@
     <string name="username">نام کاربری</string>
     <string name="emptyField">\" فیلد خالی!! \"</string>
     <string name="deleteAccount">خروج از حساب</string>
+    <string name="location1">آدرس 1</string>
+    <string name="location2">آدرس 2</string>
+    <string name="saveLocation">ذخیره آدرس</string>
 </resources>

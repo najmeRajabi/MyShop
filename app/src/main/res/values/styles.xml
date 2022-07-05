@@ -31,5 +31,11 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
+    <style name="icon_location">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_marginStart">@dimen/defaultMargin</item>
+    </style>
+
     <dimen name="paddingMore">10dp</dimen>
 </resources>
