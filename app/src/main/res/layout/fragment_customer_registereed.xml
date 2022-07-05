@@ -10,9 +10,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="?attr/colorSecondaryVariant"
         android:orientation="vertical"
         tools:context=".ui.customer.CustomerRegisterFragment">
+        <LinearLayout
+            android:id="@+id/ll_changeTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/defaultMargin"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:layout_marginTop="@dimen/defaultMargin">
+            <ImageView
+                android:id="@+id/imv_theme"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/palette"
+                android:alpha="0.6"
+               />
+
+            <ImageView
+                android:id="@+id/imv_circle_theme_dark"
+                android:src="@drawable/circle"
+                app:tint="@color/purple_700"
+                style="@style/circle_theme_style"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/imv_circle_theme_purple"
+                android:src="@drawable/circle"
+                app:tint="@color/purple_500"
+                style="@style/circle_theme_style"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            app:cardCornerRadius="@dimen/defaultMargin"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/defaultMargin">
+
 
         <ImageView
             android:id="@+id/imv_profile"
@@ -42,5 +91,11 @@
             style="@style/txv_profile_style"
             android:text="@string/deleteAccount"
             android:textColor="?attr/colorOnPrimary"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        </ScrollView>
+
     </LinearLayout>
 </layout>

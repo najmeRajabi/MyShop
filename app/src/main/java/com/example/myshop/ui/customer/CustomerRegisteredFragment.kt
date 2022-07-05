@@ -1,9 +1,13 @@
 package com.example.myshop.ui.customer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -37,6 +41,32 @@ class CustomerRegisteredFragment():Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        changeTheme()
+    }
+
+    private fun changeTheme() {
+        var open =false
+        binding.imvTheme.setOnClickListener {
+            visibleCircles(open)
+            open = !open
+        }
+        binding.imvCircleThemeDark.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+        }
+        binding.imvCircleThemePurple.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    private fun visibleCircles(open: Boolean) {
+        if (open){
+            binding.imvCircleThemeDark.visibility = View.GONE
+            binding.imvCircleThemePurple.visibility = View.GONE
+        }else {
+            binding.imvCircleThemeDark.visibility = View.VISIBLE
+            binding.imvCircleThemePurple.visibility = View.VISIBLE
+        }
     }
 
     private fun initView() {

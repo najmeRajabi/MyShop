@@ -23,4 +23,11 @@
     <color name="golden">#FFEB3B</color>
     <color name="bg_transform">#22aaaaaa</color>
 
+
+    <color name="pink_100">#FFE6E6</color>
+    <color name="pink_200">#F2D1D1</color>
+    <color name="blue_100">#DAEAF1</color>
+    <color name="blue_200">#C6DCE4</color>
+
+
 </resources>
