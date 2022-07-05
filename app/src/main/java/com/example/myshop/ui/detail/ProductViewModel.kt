@@ -75,11 +75,13 @@ class ProductViewModel @Inject constructor(
         val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt(ORDER_ID, -1)
         viewModelScope.launch {
+            try {
 
-            state.postValue(State.LOADING)
-            order = (productRepository.retrieveOrder(id).data!![0])
-            state.postValue(productRepository.retrieveOrder(id).status)
-            message.postValue(productRepository.retrieveOrder(id).message)
+                state.postValue(State.LOADING)
+                order = (productRepository.retrieveOrder(id).data!![0])
+                state.postValue(productRepository.retrieveOrder(id).status)
+                message.postValue(productRepository.retrieveOrder(id).message)
+            }catch (e: Exception){}
 
             if (order != null &&
                 product.value != null
@@ -147,18 +149,21 @@ class ProductViewModel @Inject constructor(
 
     }
 
-    fun setReview(review: String) {
-        val review : Review? = product.value?.let { Review(175,"me",review, it.id,3) }
+    fun setReview(reviewText: String) {
+        val review : Review = Review(0,"ada",reviewText,product.value!!.id,3)
         viewModelScope.launch {
+            productRepository.createReview(review!!)
             try {
                 state.postValue(State.LOADING)
-                if (review != null) {
-                    productRepository.createReview(review)
-                }
+//                if (review != null) {
+//                    productRepository.createReview(review!!)
+//                }
                 state.postValue(review?.let { productRepository.createReview(it).status })
                 message.postValue(review?.let { productRepository.createReview(it).message })
             }catch (e: Exception){
 
+                state.postValue(State.FAILED)
+//                message.postValue(review?.let { productRepository.createReview(it).message + e.message })
             }
         }
     }

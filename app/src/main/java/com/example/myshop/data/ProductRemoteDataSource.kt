@@ -200,17 +200,18 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
     suspend fun createReview(review: Review): Resource<Review> {
+//        return apiService.createReview(review)
         return try {
             val response = apiService.createReview(review)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, Review(0,"","",1,2),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, Review(0,"","",1,2),e.message)
+            Resource(State.FAILED, null,e.message)
         }
     }
 
