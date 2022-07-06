@@ -19,6 +19,7 @@ const val CUSTOMER_ID = "customerId"
 const val CUSTOMER_USERNAME = "customerUserName"
 const val CUSTOMER_PASSWORD = "customerPassword"
 const val CUSTOMER_EMAIL = "customerEmail"
+const val THEME = "theme"
 
 @HiltViewModel
 class CustomerViewModel @Inject constructor(
@@ -51,15 +52,20 @@ class CustomerViewModel @Inject constructor(
 
     fun saveCustomerToShearedPreferences(context: Context) {
         if (registered) {
-            val sharedPreferences =
-                context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.putString(CUSTOMER_NAME, customer.value?.first_name)
-            editor.putString(CUSTOMER_ID, customer.value?.id.toString())
-            editor.putString(CUSTOMER_USERNAME, customer.value?.username)
-            editor.putString(CUSTOMER_PASSWORD, customer.value?.password)
-            editor.putString(CUSTOMER_EMAIL, customer.value?.email)
-            editor.apply()
+            customer.value?.first_name?.let { saveToSharedPref(context, CUSTOMER_NAME, it) }
+            saveToSharedPref(context,CUSTOMER_ID, customer.value?.id.toString())
+            customer.value?.username?.let { saveToSharedPref(context,CUSTOMER_USERNAME, it) }
+            customer.value?.password?.let { saveToSharedPref(context,CUSTOMER_PASSWORD, it) }
+            customer.value?.email?.let { saveToSharedPref(context,CUSTOMER_EMAIL, it) }
+//            val sharedPreferences =
+//                context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
+//            val editor = sharedPreferences.edit()
+//            editor.putString(CUSTOMER_NAME, customer.value?.first_name)
+//            editor.putString(CUSTOMER_ID, customer.value?.id.toString())
+//            editor.putString(CUSTOMER_USERNAME, customer.value?.username)
+//            editor.putString(CUSTOMER_PASSWORD, customer.value?.password)
+//            editor.putString(CUSTOMER_EMAIL, customer.value?.email)
+//            editor.apply()
         }
     }
 
@@ -82,4 +88,18 @@ class CustomerViewModel @Inject constructor(
             }
         }
     }
+
+//    fun getFromSharedPref( context: Context , name: String): String? {
+//        val sharedPreferences =
+//            context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
+//        return sharedPreferences.getString(name , " ")
+//    }
+//
+//    fun saveToSharedPref(context: Context,name: String, item: String){
+//        val sharedPreferences =
+//            context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
+//        val editor = sharedPreferences.edit()
+//        editor.putString(name, item)
+//        editor.apply()
+//    }
 }

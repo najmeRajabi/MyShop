@@ -51,11 +51,23 @@ class CustomerRegisteredFragment():Fragment() {
             open = !open
         }
         binding.imvCircleThemeDark.setOnClickListener {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+            darkTheme()
+
         }
         binding.imvCircleThemePurple.setOnClickListener {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+            lightTheme()
+
         }
+    }
+
+    private fun lightTheme() {
+        vModel.lightTheme()
+        vModel.saveToSharedPref(requireContext(), THEME,"light" )
+    }
+
+    private fun darkTheme() {
+        vModel.darkTheme()
+        vModel.saveToSharedPref(requireContext(), THEME,"dark" )
     }
 
     @SuppressLint("ResourceType")

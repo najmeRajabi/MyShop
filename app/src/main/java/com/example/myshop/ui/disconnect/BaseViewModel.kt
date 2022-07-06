@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myshop.data.ProductRepository
@@ -78,6 +79,33 @@ open class BaseViewModel @Inject constructor():ViewModel() {
                 connectivityManager.activeNetworkInfo ?: return false
             @Suppress("DEPRECATION")
             return networkInfo.isConnected
+        }
+    }
+
+    fun lightTheme() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+    fun darkTheme() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    }
+
+    fun getFromSharedPref( context: Context , name: String): String? {
+        val sharedPreferences =
+            context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
+        return sharedPreferences.getString(name , " ")
+    }
+
+    fun saveToSharedPref(context: Context,name: String, item: String){
+        val sharedPreferences =
+            context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(name, item)
+        editor.apply()
+    }
+
+    fun checkTheme(context: Context){
+        if (getFromSharedPref(context , THEME) == "dark"){
+            darkTheme()
         }
     }
 }
