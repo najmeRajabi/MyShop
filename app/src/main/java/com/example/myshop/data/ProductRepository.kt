@@ -33,7 +33,7 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.searchInProducts(category,searchKey,sortItem, attribute , terms)
     }
 
-    suspend fun createOrder(order: Order): Resource<Order> {
+    suspend fun createOrder(order: Order): Resource<List<Order>> {
         return productRemoteDataSource.createOrder(order)
     }
 

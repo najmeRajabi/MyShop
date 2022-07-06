@@ -19,6 +19,7 @@ const val CUSTOMER_ID = "customerId"
 const val CUSTOMER_USERNAME = "customerUserName"
 const val CUSTOMER_PASSWORD = "customerPassword"
 const val CUSTOMER_EMAIL = "customerEmail"
+const val CUSTOMER_REGISTERED = "customerRegistered"
 const val THEME = "theme"
 
 @HiltViewModel
@@ -39,7 +40,7 @@ class CustomerViewModel @Inject constructor(
                 state.postValue(productRepository.register(iCustomer).status)
                 message.postValue(productRepository.register(iCustomer).message)
                 registerMessage.postValue(message.value + " آیدی شما:  " + mCustomer.value?.id)
-                registered = true
+                registered.postValue(true)
                 saveCustomerToShearedPreferences(context)
                 customer.postValue(iCustomer)
             }catch (e: Exception){
@@ -51,12 +52,13 @@ class CustomerViewModel @Inject constructor(
     }
 
     fun saveCustomerToShearedPreferences(context: Context) {
-        if (registered) {
+        if (registered.value == true) {
             customer.value?.first_name?.let { saveToSharedPref(context, CUSTOMER_NAME, it) }
             saveToSharedPref(context,CUSTOMER_ID, customer.value?.id.toString())
             customer.value?.username?.let { saveToSharedPref(context,CUSTOMER_USERNAME, it) }
             customer.value?.password?.let { saveToSharedPref(context,CUSTOMER_PASSWORD, it) }
             customer.value?.email?.let { saveToSharedPref(context,CUSTOMER_EMAIL, it) }
+            saveToSharedPref(context, CUSTOMER_REGISTERED,"true")
 //            val sharedPreferences =
 //                context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
 //            val editor = sharedPreferences.edit()
@@ -66,10 +68,9 @@ class CustomerViewModel @Inject constructor(
 //            editor.putString(CUSTOMER_PASSWORD, customer.value?.password)
 //            editor.putString(CUSTOMER_EMAIL, customer.value?.email)
 //            editor.apply()
-        }
     }
 
-    fun login(id: Int , password: String) {
+    fun login(id: Int , password: String, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 state.postValue(State.LOADING)
@@ -80,7 +81,8 @@ class CustomerViewModel @Inject constructor(
                     mCustomer.postValue(iCustomer)
                     registerMessage.postValue(message.value + "ورود با موفقیت انجام شد. ")
                     customer.postValue(mCustomer.value)
-                    registered = true
+                    registered.value = true
+                    saveCustomerToShearedPreferences(context)
                 } else
                     registerMessage.postValue(message.value)
             }catch (e: Exception){

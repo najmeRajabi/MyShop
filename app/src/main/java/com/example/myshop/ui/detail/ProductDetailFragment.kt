@@ -2,16 +2,17 @@ package com.example.myshop.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -28,6 +29,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator3
+import org.intellij.lang.annotations.JdkConstants
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -52,6 +54,8 @@ class ProductDetailFragment : Fragment() {
         )
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility =
             View.GONE
+
+        vModel.checkRegistered(requireContext())
         return binding.root
     }
 
@@ -109,10 +113,17 @@ class ProductDetailFragment : Fragment() {
 
     private fun addReview() {
         binding.txvAddReview.setOnClickListener {
-            showDefaultDialog()
+            vModel.setReview("sssssssssssaaaaaaaaaaaaaaa")
+//            if (!vModel.registered) {
+//                showRegisterDialog(
+//                " ثبت نام نکرده اید؟ "," برای ثبت نظر لازم است ثبت نام کنید یا در صورتی که حساب دارید وارد شوید! "," فهمیدم ")
+//            }else{
+//                showAddReviewDialog()
+//            }
         }
 
     }
+
 
     private fun initSameProducts() {
         val adapterSameProduct = HomeListsAdapter(Orientation.HORIZONTAL){
@@ -144,6 +155,7 @@ class ProductDetailFragment : Fragment() {
         binding.progressBarDetail.visibility = View.GONE
         binding.constraintDetail.visibility= View.GONE
         binding.imvProblemDetail.visibility = View.VISIBLE
+        vModel.message.value?.let { showDefaultDialog("خطا", it,"فهمیدم") }
     }
 
     private fun hideLoading() {
@@ -187,7 +199,7 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun showDefaultDialog() {
+    private fun showAddReviewDialog() {
         val alertDialog = AlertDialog.Builder(requireContext())
 
         val dialogView = LayoutInflater.from(requireContext()).
@@ -204,6 +216,7 @@ class ProductDetailFragment : Fragment() {
                     edtReview.error= " نظر خالی است!!! "
                 }else{
                     vModel.setReview(edtReview.text.toString())
+                    Toast.makeText(requireContext(),"clicked",Toast.LENGTH_SHORT).show()
                 }
             }
             btnCancel.setOnClickListener {
@@ -213,5 +226,24 @@ class ProductDetailFragment : Fragment() {
         }.create().show()
 
     }
+    private fun showDefaultDialog(title :String , message: String , negativeButton: String) {
+        val alertDialog = AlertDialog.Builder(requireContext())
+
+        alertDialog.apply {
+            setTitle(title)
+            setMessage(message)
+        }.create().show()
+        alertDialog.apply {
+//            setPositiveButton(" ثبت نام "){_,_ ->
+//
+//            }
+            setNegativeButton(negativeButton){ _,_->
+               //alertDialog.dissmis
+            }
+
+        }
+
+    }
+
 
 }

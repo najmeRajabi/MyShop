@@ -32,7 +32,7 @@ data class Product(
     val attributes: List<Any?> = listOf(),
 
     @Json(name = "related_ids")
-    val related_ids: List<Int>,
+    val related_ids: List<Int>? = null,
 )
 /*
 class Product : ArrayList<ProductItem>()

@@ -35,6 +35,8 @@ class HomeListsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeListsAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.home_list_item, parent, false)
+        val viewFirst = LayoutInflater.from(parent.context)
+            .inflate(R.layout.header_product_item, parent, false)
         val viewRow = LayoutInflater.from(parent.context)
             .inflate(R.layout.product_item_row, parent, false)
 

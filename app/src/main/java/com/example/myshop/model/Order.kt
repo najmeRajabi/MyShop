@@ -23,6 +23,8 @@ data class Order (
 
     val discount_total : String? = null,
 
+    val related_ids: List<Int>? = null,
+
     val customer_id : Int? = null
 
     ){

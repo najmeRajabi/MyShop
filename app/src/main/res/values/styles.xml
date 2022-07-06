@@ -19,7 +19,7 @@
         <item name="android:layout_marginStart">@dimen/defaultMargin</item>
         <item name="android:layout_marginEnd">@dimen/defaultMargin</item>
         <item name="android:layout_marginTop">@dimen/defaultMargin</item>
-        <item name="android:padding">@dimen/paddingDefault</item>
+        <item name="android:padding">@dimen/paddingMore</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
@@ -30,4 +30,12 @@
         <item name="android:layout_marginStart">@dimen/defaultMargin</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
+
+    <style name="icon_location">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_marginStart">@dimen/defaultMargin</item>
+    </style>
+
+    <dimen name="paddingMore">10dp</dimen>
 </resources>

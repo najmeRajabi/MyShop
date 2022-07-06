@@ -34,18 +34,23 @@ class CustomerFragment : Fragment() {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_customer, container, false)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.VISIBLE
         binding.lifecycleOwner = viewLifecycleOwner
-
-        vModel.checkRegistered(requireContext())
-        if (vModel.registered){
-            findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkRegister()
         initViews()
+    }
+
+    private fun checkRegister() {
+        vModel.checkRegistered(requireContext())
+        vModel.registered.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
+            }
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -72,6 +77,7 @@ class CustomerFragment : Fragment() {
                 vModel.login(
                     binding.idEdtSignIn.text.toString().toInt(),
                     binding.passwordEdtSignIn.text.toString()
+                    ,requireContext()
                 )
             }
         }

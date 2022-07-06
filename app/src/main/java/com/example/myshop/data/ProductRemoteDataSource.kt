@@ -91,18 +91,19 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
 
-    suspend fun createOrder(order: Order): Resource<Order> {
+    suspend fun createOrder(order: Order): Resource<List<Order>> {
+//        return apiService.createOrder(order)
         return try {
             val response = apiService.createOrder(order)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, Order(0, arrayListOf()),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, Order(0, arrayListOf()),e.message)
+            Resource(State.FAILED, null,e.message)
         }
     }
 
@@ -200,17 +201,18 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
     suspend fun createReview(review: Review): Resource<Review> {
+//        return apiService.createReview(review)
         return try {
             val response = apiService.createReview(review)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, Review(0,"","",1,2),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, Review(0,"","",1,2),e.message)
+            Resource(State.FAILED, null,e.message)
         }
     }
 
