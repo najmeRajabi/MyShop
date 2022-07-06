@@ -75,7 +75,7 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
         @Body order: Order,
         @Query("consumer_key") key : String = KEY,
         @Query("consumer_secret") secret : String = SECRET,
-    ):Response<Order>
+    ):Response<List<Order>>
 
     @PUT("orders/{id}")
     suspend fun updateOrder(

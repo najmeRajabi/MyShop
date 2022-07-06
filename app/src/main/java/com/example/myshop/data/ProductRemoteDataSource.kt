@@ -91,18 +91,19 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
 
-    suspend fun createOrder(order: Order): Resource<Order> {
+    suspend fun createOrder(order: Order): Resource<List<Order>> {
+//        return apiService.createOrder(order)
         return try {
             val response = apiService.createOrder(order)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, Order(0, arrayListOf()),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, Order(0, arrayListOf()),e.message)
+            Resource(State.FAILED, null,e.message)
         }
     }
 

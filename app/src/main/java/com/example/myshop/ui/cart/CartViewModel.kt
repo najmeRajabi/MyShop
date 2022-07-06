@@ -142,14 +142,16 @@ class CartViewModel @Inject constructor(
                 if (mOrder?.line_items.isNullOrEmpty()){
                     deleteOrderFromSharedPreferences(context )
                     deleteOrder(mOrder)
+                    Log.d("cartVM--TAG", "removeProduct: delete ${mOrder?.line_items}")
                 }else {
                     updateOrder(mOrder)
+                    Log.d("cartVM--TAG", "removeProduct: update ${mOrder?.line_items}")
                 }
             }catch (e: Exception){
                 state.postValue(State.FAILED)
                 message.postValue(mOrder?.let {
                     productRepository.updateOrder(it,orderId).message + e.message })
-
+                Log.d("cartVM--TAG", "removeProduct: error ${mOrder?.line_items}")
             }
         }
     }
@@ -162,5 +164,17 @@ class CartViewModel @Inject constructor(
         }
         updateOrder(mOrder)
     }
+
+    fun continueShopping() {
+        if (!order.value?.line_items.isNullOrEmpty()) {
+            val iOrder = Order(
+                orderId, order.value?.line_items!!, order.value?.discount_total,
+                order.value?.related_ids, customer.value?.id
+            )
+            updateOrder(iOrder)
+        }
+
+    }
+
 }
 

@@ -11,8 +11,6 @@ import androidx.fragment.app.viewModels
 import com.example.myshop.R
 import com.example.myshop.adapters.CartAdapter
 import com.example.myshop.databinding.FragmentCartBinding
-import com.example.myshop.model.Order
-import com.example.myshop.model.Product
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,10 +71,15 @@ class CartFragment : Fragment() {
             }
             vModel.count.value = ordersCount
             vModel.calculatePrice()
-            binding.btnSetDiscount.setOnClickListener {
-                setDiscount()
-            }
+        }
+        binding.btnSetDiscount.setOnClickListener {
+            setDiscount()
+        }
 
+        binding.btnContinueShopping.setOnClickListener {
+            vModel.continueShopping()
+            vModel.shoppingList.postValue(null)
+            vModel.deleteOrderFromSharedPreferences(requireContext())
         }
 
 

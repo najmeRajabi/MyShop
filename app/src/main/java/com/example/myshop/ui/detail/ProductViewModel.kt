@@ -18,6 +18,7 @@ import javax.inject.Inject
 
 const val ORDER = "order"
 const val ORDER_ID = "orderId"
+const val HAS_ORDER = "hasOrder"
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
@@ -53,20 +54,37 @@ class ProductViewModel @Inject constructor(
     }
 
     fun createOrder(context: Context) {
+        checkHasOrder(context)
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("TAG", "createOrder: ${product.value}")
+            Log.d("ProductVM---TAG", "createOrder---product: ${product.value}")
             val order = Order(0, listOf(product.value!!))
-            Log.d("TAG", "createOrder: $order")
-            state.postValue(State.LOADING)
-            if (hasOrder) {
-                updateOrder(context)
+            Log.d("ProductVM---TAG", "createOrder--order: $order")
+            try {
 
-            } else {
-                orderCallback.postValue(productRepository.createOrder(order).data!!)
+                state.postValue(State.LOADING)
+                if (hasOrder) {
+                    updateOrder(context)
+
+                } else {
+                    orderCallback.postValue(productRepository.createOrder(order).data!![1])
+                }
+                state.postValue(productRepository.createOrder(order).status)
+                message.postValue(productRepository.createOrder(order).message)
+                orderMessage.postValue(message.value)
+            } catch (e: Exception) {
+                Log.d(
+                    "ProductVM---TAG",
+                    "createOrder error:${e.message}" + productRepository.createOrder(order).message
+                )
+                state.postValue(State.FAILED)
             }
-            state.postValue(productRepository.createOrder(order).status)
-            message.postValue(productRepository.createOrder(order).message)
-            orderMessage.postValue(message.value)
+        }
+    }
+
+    private fun checkHasOrder(context: Context) {
+        val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
+        if (sharedPreferences.getBoolean(HAS_ORDER, false)) {
+            hasOrder = true
         }
     }
 
@@ -81,7 +99,8 @@ class ProductViewModel @Inject constructor(
                 order = (productRepository.retrieveOrder(id).data!![0])
                 state.postValue(productRepository.retrieveOrder(id).status)
                 message.postValue(productRepository.retrieveOrder(id).message)
-            }catch (e: Exception){}
+            } catch (e: Exception) {
+            }
 
             if (order != null &&
                 product.value != null
@@ -104,10 +123,13 @@ class ProductViewModel @Inject constructor(
             val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putInt(ORDER_ID, orderCallback.value!!.id)
+            editor.putBoolean(HAS_ORDER, true)
             hasOrder = true
             editor.apply()
         }
     }
+
+
 
 
     fun retrieveReview() {
@@ -150,7 +172,7 @@ class ProductViewModel @Inject constructor(
     }
 
     fun setReview(reviewText: String) {
-        val review : Review = Review(0,"ada",reviewText,product.value!!.id,3)
+        val review: Review = Review(0, "ada", reviewText, product.value!!.id, 3)
         viewModelScope.launch {
             productRepository.createReview(review!!)
             try {
@@ -160,7 +182,7 @@ class ProductViewModel @Inject constructor(
 //                }
                 state.postValue(review?.let { productRepository.createReview(it).status })
                 message.postValue(review?.let { productRepository.createReview(it).message })
-            }catch (e: Exception){
+            } catch (e: Exception) {
 
                 state.postValue(State.FAILED)
 //                message.postValue(review?.let { productRepository.createReview(it).message + e.message })
