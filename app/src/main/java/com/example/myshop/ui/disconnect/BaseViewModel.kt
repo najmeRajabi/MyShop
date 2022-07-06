@@ -25,21 +25,28 @@ open class BaseViewModel @Inject constructor():ViewModel() {
     var splashFlag = true
 
 
-    fun checkRegistered(context: Context) {
+    fun checkRegistered(context: Context): Boolean? {
+        var mCustomer: Customer? = null
         val sharedPreferences =
             context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
-        if (sharedPreferences.getBoolean(CUSTOMER_REGISTERED, false)){
+        if (sharedPreferences.getString(CUSTOMER_REGISTERED, "f") == "true"){
             registered.value = true
 
             val username = sharedPreferences.getString(CUSTOMER_USERNAME , "username")
             val id = sharedPreferences.getString(CUSTOMER_ID , "-1")
             val name = sharedPreferences.getString(CUSTOMER_NAME , "name")
             val email = sharedPreferences.getString(CUSTOMER_EMAIL , "email")
-            val mCustomer = Customer(id = id?.toInt(),email = email!!,first_name = name!!,username = username!!,password = null)
-            customer.postValue(mCustomer)
+            email?.let {
+                if (name != null) {
+                    mCustomer = Customer(id = id?.toInt(),email = it,first_name = name,username = username!!,password = null)
+                }
+            }
+            if (mCustomer != null)
+                customer.postValue(mCustomer!!)
         }
 
 
+        return registered.value
 
     }
 

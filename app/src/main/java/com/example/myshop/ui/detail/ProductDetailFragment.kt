@@ -55,7 +55,6 @@ class ProductDetailFragment : Fragment() {
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility =
             View.GONE
 
-        vModel.checkRegistered(requireContext())
         return binding.root
     }
 

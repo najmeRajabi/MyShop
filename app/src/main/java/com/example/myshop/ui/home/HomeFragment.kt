@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vModel = vModel
 
-        vModel.checkRegistered(requireContext())
         return binding.root
     }
 

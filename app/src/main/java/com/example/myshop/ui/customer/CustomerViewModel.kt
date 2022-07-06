@@ -31,7 +31,7 @@ class CustomerViewModel @Inject constructor(
     val registerMessage = MutableLiveData<String>()
     val state = MutableLiveData<State>()
 
-    fun register(iCustomer: Customer , context: Context) {
+    fun register(iCustomer: Customer, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 state.postValue(State.LOADING)
@@ -43,7 +43,7 @@ class CustomerViewModel @Inject constructor(
                 registered.postValue(true)
                 saveCustomerToShearedPreferences(context)
                 customer.postValue(iCustomer)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 state.postValue(State.FAILED)
                 registerMessage.postValue(message.value + e.message)
             }
@@ -54,11 +54,11 @@ class CustomerViewModel @Inject constructor(
     fun saveCustomerToShearedPreferences(context: Context) {
         if (registered.value == true) {
             customer.value?.first_name?.let { saveToSharedPref(context, CUSTOMER_NAME, it) }
-            saveToSharedPref(context,CUSTOMER_ID, customer.value?.id.toString())
-            customer.value?.username?.let { saveToSharedPref(context,CUSTOMER_USERNAME, it) }
-            customer.value?.password?.let { saveToSharedPref(context,CUSTOMER_PASSWORD, it) }
-            customer.value?.email?.let { saveToSharedPref(context,CUSTOMER_EMAIL, it) }
-            saveToSharedPref(context, CUSTOMER_REGISTERED,"true")
+            saveToSharedPref(context, CUSTOMER_ID, customer.value?.id.toString())
+            customer.value?.username?.let { saveToSharedPref(context, CUSTOMER_USERNAME, it) }
+            customer.value?.password?.let { saveToSharedPref(context, CUSTOMER_PASSWORD, it) }
+            customer.value?.email?.let { saveToSharedPref(context, CUSTOMER_EMAIL, it) }
+            saveToSharedPref(context, CUSTOMER_REGISTERED, "true")
 //            val sharedPreferences =
 //                context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
 //            val editor = sharedPreferences.edit()
@@ -68,40 +68,28 @@ class CustomerViewModel @Inject constructor(
 //            editor.putString(CUSTOMER_PASSWORD, customer.value?.password)
 //            editor.putString(CUSTOMER_EMAIL, customer.value?.email)
 //            editor.apply()
-    }
-
-    fun login(id: Int , password: String, context: Context) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                state.postValue(State.LOADING)
-                val iCustomer: Customer = productRepository.login(id).data!!
-                state.postValue(productRepository.login(id).status)
-                message.postValue(productRepository.login(id).message)
-                if (iCustomer.password.toString() == password) {
-                    mCustomer.postValue(iCustomer)
-                    registerMessage.postValue(message.value + "ورود با موفقیت انجام شد. ")
-                    customer.postValue(mCustomer.value)
-                    registered.value = true
-                    saveCustomerToShearedPreferences(context)
-                } else
-                    registerMessage.postValue(message.value)
-            }catch (e: Exception){
-                state.postValue(State.FAILED)
-            }
         }
     }
 
-//    fun getFromSharedPref( context: Context , name: String): String? {
-//        val sharedPreferences =
-//            context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
-//        return sharedPreferences.getString(name , " ")
-//    }
-//
-//    fun saveToSharedPref(context: Context,name: String, item: String){
-//        val sharedPreferences =
-//            context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
-//        val editor = sharedPreferences.edit()
-//        editor.putString(name, item)
-//        editor.apply()
-//    }
+        fun login(id: Int, password: String, context: Context) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    state.postValue(State.LOADING)
+                    val iCustomer: Customer = productRepository.login(id).data!!
+                    state.postValue(productRepository.login(id).status)
+                    message.postValue(productRepository.login(id).message)
+                    if (iCustomer.password.toString() == password) {
+                        mCustomer.postValue(iCustomer)
+                        registerMessage.postValue(message.value + "ورود با موفقیت انجام شد. ")
+                        customer.postValue(mCustomer.value)
+                        registered.value = true
+                        saveCustomerToShearedPreferences(context)
+                    } else
+                        registerMessage.postValue(message.value)
+                } catch (e: Exception) {
+                    state.postValue(State.FAILED)
+                }
+            }
+        }
+
 }

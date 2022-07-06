@@ -45,12 +45,14 @@ class CustomerFragment : Fragment() {
     }
 
     private fun checkRegister() {
-        vModel.checkRegistered(requireContext())
-        vModel.registered.observe(viewLifecycleOwner) {
-            if (it) {
-                findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
-            }
+        if (vModel.checkRegistered(requireContext()) == true){
+            findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
         }
+//        vModel.registered.observe(viewLifecycleOwner) {
+//            if (it) {
+//                findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
+//            }
+//        }
     }
 
     @SuppressLint("ResourceAsColor")
