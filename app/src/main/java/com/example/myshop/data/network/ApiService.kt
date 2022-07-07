@@ -28,29 +28,25 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
     @GET("products")
     suspend fun getSortedProducts(
         @Query("orderby") orderby : String ,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
-        @Query("per_page") perPage: Int = 100
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100,
     ): Response<List<Product>>
 
     @GET("products/{id}")
     suspend fun getProductById(
         @Path("id") id: Int,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ): Response<Product>
 
     @GET("products/categories")
     suspend fun getCategories(
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ): Response<List<Category>>
 
     @GET("products/")
     suspend fun getProductsByCategory(
         @Query("category") categoryId: String,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
@@ -62,8 +58,7 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
         @Query("orderby") orderby : String? = "date",
         @Query("attribute") attribute : String?  = null,
         @Query("attribute_term") terms: Int? = null,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
 
@@ -73,8 +68,7 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
     @POST("orders/")
     suspend fun createOrder(
         @Body order: Order,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ):Response<List<Order>>
 
     @PUT("orders/{id}")
@@ -82,22 +76,19 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
         @Body order: Order,
         @Query("id") id: Int,
         @Body status: String = "completed",
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ):Response<List<Order>>
 
     @GET("orders/")
     suspend fun retrieveOrder(
         @Query("id") id: Int,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ):Response<List<Order>>
 
     @DELETE("orders/")
     suspend fun deleteOrder(
         @Query("id") id: Int,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
         @Query("force") force: Boolean = true
     ):Response<List<Order>>
 
@@ -105,110 +96,40 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
 
     @POST("customers")
     suspend fun register(
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
         @Body customer: Customer
     ): Response<List<Customer>>
 
     @GET("customers/{id}")
     suspend fun login(
         @Path("id") id: Int,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ): Response<Customer>
 
     //...... review.................................................
 
     @GET("products/reviews/")
     suspend fun retrieveReview(
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ):Response<List<Review>>
 
     @POST("products/reviews/")
     suspend fun createReview(
         @Body review: Review,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET,
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ):Response<Review>
 
 
     @GET("products/attributes")
     suspend fun retrieveAllProductAttribute(
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ): Response<List<Attribute>>
 
     @GET("products/attributes/{id}/terms")
     suspend fun retrieveAttributeTerm(
         @Path("id") attributeId: Int,
-        @Query("consumer_key") key : String = KEY,
-        @Query("consumer_secret") secret : String = SECRET
+        @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ): Response<List<Terms>>
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-//    @GET("products")
-//    suspend fun getProducts(
-//        @Query("search") searchText: String?,
-//        @Query("attribute") attribute: String?,
-//        @Query("attribute_term") terms: String?,
-//        @Query("per_page") perPage: Int,
-//        @Query("page") numberOfPage: Int,
-//        @Query("orderby") baseOn: String?,
-//        @Query("order") order: String?
-//    ): Response<List<Product>>
-
-//    @GET("products")
-//    fun getProducts(
-//        @Query("search") searchText: String?,
-//        @Query("attribute") attribute: String?,
-//        @Query("attribute_term") terms: String?,
-//        @Query("per_page") perPage: Int,
-//        @Query("page") numberOfPage: Int
-//    ): Call<List<Product?>?>?
-
-
-//    @GET("products")
-//    fun getProducts(
-//        @Query("attribute") attribute: String?,
-//        @Query("attribute_term") terms: String?,
-//        @Query("per_page") perPage: Int,
-//        @Query("page") numberOfPage: Int
-//    ): Call<List<Product?>?>?
-
-
-//    @GET("products")
-//    fun getProducts(
-//        @Query("per_page") perPage: Int,
-//        @Query("page") numberOfPage: Int,
-//        @Query("orderby") baseOn: String?
-//    ): Call<List<Product?>?>?
-
-    ///// With Category
-
-    ///// With Category
-    @GET( "products")
-    suspend fun getProducts(
-        @Query("category") category: String? = null,
-        @Query("search") searchText: String? = null,
-        @Query("attribute") attribute: String? = null,
-        @Query("attribute_term") terms: String? = null,
-        @Query("per_page") perPage: Int = 100,
-        @Query("page") numberOfPage: Int,
-        @Query("orderby") baseOn: String? = "date",
-        @Query("order") order: String? = null
-    ): Response<List<Product>>
-
-//    @GET("products")
-//    fun getProducts(
-//        @Query("category") category: String?,
-//        @Query("search") searchText: String?,
-//        @Query("attribute") attribute: String?,
-//        @Query("attribute_term") terms: String?,
-//        @Query("per_page") perPage: Int,
-//        @Query("page") numberOfPage: Int
-//    ): Call<List<Product?>?>?
 
 }
