@@ -20,194 +20,100 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/ll_changeTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="@dimen/defaultMargin"
-            android:layout_marginEnd="@dimen/defaultMargin"
-            android:layout_marginTop="@dimen/defaultMargin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <ImageView
-                android:id="@+id/imv_theme"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/palette"
-                android:alpha="0.6"
-               />
-
-            <ImageView
-                android:id="@+id/imv_circle_theme_dark"
-                android:src="@drawable/circle"
-                app:tint="@color/purple_700"
-                style="@style/circle_theme_style"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/imv_circle_theme_purple"
-                android:src="@drawable/circle"
-                app:tint="@color/purple_500"
-                style="@style/circle_theme_style"
-                android:visibility="gone"/>
-
-        </LinearLayout>
-
-        <ScrollView
-            android:id="@+id/scroll_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/scroll_profile"
-            app:layout_constraintTop_toTopOf="parent"
-            android:orientation="vertical">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="10dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/id_edtField_location1"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginBottom="5dp"
-                    android:hint="@string/location1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imv_get_location1"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/id_edt_location1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-                <ImageView
-                    android:id="@+id/imv_get_location1"
-                    android:src="@drawable/ic_baseline_add_location_24"
-                    app:layout_constraintEnd_toStartOf="@id/id_edtField_location1"
-                    app:layout_constraintTop_toTopOf="@id/id_edtField_location1"
-                    app:layout_constraintBottom_toBottomOf="@id/id_edtField_location1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    style="@style/icon_location" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/id_edtField_location2"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginBottom="5dp"
-                    android:hint="@string/location2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imv_get_location2"
-                    app:layout_constraintTop_toBottomOf="@id/id_edtField_location1">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/id_edt_location2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/imv_get_location2"
-                    android:src="@drawable/ic_baseline_add_location_24"
-                    app:layout_constraintEnd_toStartOf="@id/id_edtField_location2"
-                    app:layout_constraintTop_toTopOf="@id/id_edtField_location2"
-                    app:layout_constraintBottom_toBottomOf="@id/id_edtField_location2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    style="@style/icon_location" />
-
-                <Button
-                    android:id="@+id/btn_saveLocation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/saveLocation"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/id_edtField_location2"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="@dimen/defaultMargin"
-                    android:layout_marginEnd="30dp"
-                    style="?attr/materialButtonOutlinedStyle"
-                    app:strokeColor="?attr/colorSecondary"
-                    android:textColor="?attr/colorOnPrimary"
-                    app:strokeWidth="2dp"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-
-        <ScrollView
-            android:id="@+id/scroll_profile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/scroll_location"
-            app:layout_constraintTop_toBottomOf="@id/ll_changeTheme">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="@dimen/defaultMargin"
-            >
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/defaultMargin">
+                android:id="@+id/ll_changeTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:layout_marginTop="@dimen/defaultMargin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/imv_theme"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/palette"
+                    android:alpha="0.6"
+                    />
 
+                <ImageView
+                    android:id="@+id/imv_circle_theme_dark"
+                    android:src="@drawable/circle"
+                    app:tint="@color/purple_700"
+                    style="@style/circle_theme_style"
+                    android:visibility="gone"/>
 
-        <ImageView
-            android:id="@+id/imv_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_baseline_person_24"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/imv_circle_theme_purple"
+                    android:src="@drawable/circle"
+                    app:tint="@color/purple_500"
+                    style="@style/circle_theme_style"
+                    android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/txv_username_profile"
-            tools:text="@string/username"
-            style="@style/txv_profile_style"
-            android:background="@drawable/bg_line"
-            app:drawableEndCompat="@drawable/ic_baseline_person_24" />
-        <TextView
-            android:id="@+id/txv_id_profile"
-            tools:text="@string/id"
-            style="@style/txv_profile_style"
-            android:background="@drawable/bg_line"
-            app:drawableEndCompat="@drawable/check"/>
-        <TextView
-            android:id="@+id/txv_email_profile"
-            tools:text="@string/emailAddress"
-            style="@style/txv_profile_style"
-            android:background="@drawable/bg_line"
-            app:drawableEndCompat="@drawable/ic_baseline_mail_24" />
-
-        <Button
-            android:id="@+id/btn_deleteAccount_profile"
-            style="@style/txv_profile_style"
-            android:text="@string/deleteAccount"
-            android:textColor="?attr/colorOnPrimary"/>
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
 
-        </ScrollView>
+
+            <ScrollView
+                android:id="@+id/scroll_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ll_changeTheme">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="@dimen/defaultMargin"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/defaultMargin">
+
+
+                        <ImageView
+                            android:id="@+id/imv_profile"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_baseline_person_24"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"/>
+
+                        <TextView
+                            android:id="@+id/txv_username_profile"
+                            tools:text="@string/username"
+                            style="@style/txv_profile_style"
+                            android:background="@drawable/bg_line"
+                            app:drawableEndCompat="@drawable/ic_baseline_person_24" />
+                        <TextView
+                            android:id="@+id/txv_id_profile"
+                            tools:text="@string/id"
+                            style="@style/txv_profile_style"
+                            android:background="@drawable/bg_line"
+                            app:drawableEndCompat="@drawable/check"/>
+                        <TextView
+                            android:id="@+id/txv_email_profile"
+                            tools:text="@string/emailAddress"
+                            style="@style/txv_profile_style"
+                            android:background="@drawable/bg_line"
+                            app:drawableEndCompat="@drawable/ic_baseline_mail_24" />
+
+                        <Button
+                            android:id="@+id/btn_deleteAccount_profile"
+                            style="@style/txv_profile_style"
+                            android:text="@string/deleteAccount"
+                            android:textColor="?attr/colorOnPrimary"/>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

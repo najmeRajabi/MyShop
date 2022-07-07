@@ -35,7 +35,11 @@ class CustomerViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 state.postValue(State.LOADING)
-                mCustomer.postValue(productRepository.register(iCustomer).data!![2])
+                val job = launch {
+                    mCustomer.postValue(productRepository.register(iCustomer).data!![2])
+                }
+                job.join()
+
                 Log.d("list---object", "register : ${productRepository.register(iCustomer).data!!}")
                 state.postValue(productRepository.register(iCustomer).status)
                 message.postValue(productRepository.register(iCustomer).message)
@@ -54,20 +58,12 @@ class CustomerViewModel @Inject constructor(
     fun saveCustomerToShearedPreferences(context: Context) {
         if (registered.value == true) {
             customer.value?.first_name?.let { saveToSharedPref(context, CUSTOMER_NAME, it) }
-            saveToSharedPref(context, CUSTOMER_ID, customer.value?.id.toString())
+            saveToSharedPref(context, CUSTOMER_ID, mCustomer.value?.id.toString())
             customer.value?.username?.let { saveToSharedPref(context, CUSTOMER_USERNAME, it) }
             customer.value?.password?.let { saveToSharedPref(context, CUSTOMER_PASSWORD, it) }
             customer.value?.email?.let { saveToSharedPref(context, CUSTOMER_EMAIL, it) }
             saveToSharedPref(context, CUSTOMER_REGISTERED, "true")
-//            val sharedPreferences =
-//                context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
-//            val editor = sharedPreferences.edit()
-//            editor.putString(CUSTOMER_NAME, customer.value?.first_name)
-//            editor.putString(CUSTOMER_ID, customer.value?.id.toString())
-//            editor.putString(CUSTOMER_USERNAME, customer.value?.username)
-//            editor.putString(CUSTOMER_PASSWORD, customer.value?.password)
-//            editor.putString(CUSTOMER_EMAIL, customer.value?.email)
-//            editor.apply()
+
         }
     }
 

@@ -29,8 +29,8 @@ open class BaseViewModel @Inject constructor():ViewModel() {
         var mCustomer: Customer? = null
         val sharedPreferences =
             context.getSharedPreferences(CUSTOMER_INFO, Context.MODE_PRIVATE)
-        if (sharedPreferences.getString(CUSTOMER_REGISTERED, "f") == "true"){
-            registered.value = true
+        if (sharedPreferences.getString(CUSTOMER_REGISTERED, "f")?.contains("t") == true){
+            registered.postValue(true)
 
             val username = sharedPreferences.getString(CUSTOMER_USERNAME , "username")
             val id = sharedPreferences.getString(CUSTOMER_ID , "-1")
@@ -38,7 +38,9 @@ open class BaseViewModel @Inject constructor():ViewModel() {
             val email = sharedPreferences.getString(CUSTOMER_EMAIL , "email")
             email?.let {
                 if (name != null) {
-                    mCustomer = Customer(id = id?.toInt(),email = it,first_name = name,username = username!!,password = null)
+                    if (id != null) {
+                        mCustomer = username?.let { it1 -> Customer(id = checkNotNull(id.toInt()),email = it,first_name = name,username = it1,password = null) }
+                    }
                 }
             }
             if (mCustomer != null)

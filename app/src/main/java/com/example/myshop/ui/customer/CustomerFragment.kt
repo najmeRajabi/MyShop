@@ -1,25 +1,42 @@
 package com.example.myshop.ui.customer
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.databinding.FragmentCustomerBinding
 import com.example.myshop.model.Customer
 import com.example.myshop.ui.disconnect.State
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CustomerFragment : Fragment() {
 
+    val locationPermissionRequest = registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions ->
+        getLocationPermission(permissions)
+    }
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var binding: FragmentCustomerBinding
     val vModel: CustomerViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +48,7 @@ class CustomerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_customer, container, false)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home).visibility = View.VISIBLE
         binding.lifecycleOwner = viewLifecycleOwner
@@ -57,6 +75,7 @@ class CustomerFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     private fun initViews() {
+        clickOnGetLocation()
         observeState()
         binding.btnRegister.setOnClickListener {
             if (checkedRegisterField()) {
@@ -142,4 +161,75 @@ class CustomerFragment : Fragment() {
             }
         }
     }
+
+
+    fun getLocationPermission(permissions : Map<String , Boolean>) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+
+//            val locationPermissionRequest = registerForActivityResult(
+//                ActivityResultContracts.RequestMultiplePermissions()
+//            ) { permissions ->
+                when {
+                    permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                        Toast.makeText(requireContext(), "fine", Toast.LENGTH_SHORT).show()
+                        getUserLocation()
+                    }
+                    permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                        Toast.makeText(requireContext(), "corse", Toast.LENGTH_SHORT).show()
+                        getUserLocation()
+                    }
+                    else -> {
+                        // No location access granted.
+                    }
+//                }
+            }
+
+// ...
+
+// Before you perform the actual permission request, check whether your app
+// already has the permissions, and whether your app needs to show a permission
+// rationale dialog. For more details, see Request permissions.
+            locationPermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+
+    }
+
+    private fun getUserLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            return
+        }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location : Location? ->
+                location?.let {
+                    Toast.makeText(requireContext() , "lat"+ it.latitude + " lang : " + it.longitude, Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+
+    private fun clickOnGetLocation() {
+
+        binding.imvGetLocation1.setOnClickListener {
+            locationPermissionRequest
+//            getLocationPermission()
+        }
+        binding.imvGetLocation2.setOnClickListener {
+//            getLocationPermission()
+        }
+    }
+
 }
