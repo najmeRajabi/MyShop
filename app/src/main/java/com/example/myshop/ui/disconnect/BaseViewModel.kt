@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,8 +39,8 @@ open class BaseViewModel @Inject constructor():ViewModel() {
             val email = sharedPreferences.getString(CUSTOMER_EMAIL , "email")
             email?.let {
                 if (name != null) {
-                    if (id != null) {
-                        mCustomer = username?.let { it1 -> Customer(id = checkNotNull(id.toInt()),email = it,first_name = name,username = it1,password = null) }
+                    if (id != null ) {
+                        mCustomer = username?.let { it1 -> Customer(id = id.toInt(),email = it,first_name = name,username = it1,password = null) }
                     }
                 }
             }
@@ -116,5 +117,21 @@ open class BaseViewModel @Inject constructor():ViewModel() {
         if (getFromSharedPref(context , THEME) == "dark"){
             darkTheme()
         }
+    }
+
+    fun showDefaultDialog(context: Context,title :String , message: String , negativeButton: String ) {
+        val alertDialog = AlertDialog.Builder(context)
+
+        alertDialog.apply {
+            setTitle(title)
+            setMessage(message)
+        }.create().show()
+        alertDialog.apply {
+            setNegativeButton(negativeButton){ _,_->
+                //alertDialog.dissmis
+            }
+
+        }
+
     }
 }

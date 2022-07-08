@@ -63,14 +63,12 @@ class CustomerFragment : Fragment() {
     }
 
     private fun checkRegister() {
-        if (vModel.checkRegistered(requireContext()) == true){
-            findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
+        vModel.checkRegistered(requireContext())
+        vModel.customer.observe(viewLifecycleOwner){
+            if (it.id != null){
+                findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
+            }
         }
-//        vModel.registered.observe(viewLifecycleOwner) {
-//            if (it) {
-//                findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
-//            }
-//        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -89,6 +87,7 @@ class CustomerFragment : Fragment() {
                         binding.passwordEdtRegister.text.toString(),
                     ),requireContext()
                 )
+                checkRegister()
             }
         }
         binding.btnSignIn.setOnClickListener {
@@ -100,6 +99,7 @@ class CustomerFragment : Fragment() {
                     binding.passwordEdtSignIn.text.toString()
                     ,requireContext()
                 )
+                checkRegister()
             }
         }
         binding.btnRegisterCard.setOnClickListener {
@@ -152,7 +152,7 @@ class CustomerFragment : Fragment() {
                 State.SUCCESS -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
                     binding.progressBarProfile.visibility = View.GONE
-                    findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
+//                    findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
                 }
                 State.FAILED -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
@@ -185,11 +185,11 @@ class CustomerFragment : Fragment() {
 //                }
             }
 
-// ...
+            // ...
 
-// Before you perform the actual permission request, check whether your app
-// already has the permissions, and whether your app needs to show a permission
-// rationale dialog. For more details, see Request permissions.
+            // Before you perform the actual permission request, check whether your app
+            // already has the permissions, and whether your app needs to show a permission
+            // rationale dialog. For more details, see Request permissions.
             locationPermissionRequest.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,

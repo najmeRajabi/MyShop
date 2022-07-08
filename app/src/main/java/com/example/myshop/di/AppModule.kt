@@ -1,6 +1,7 @@
 package com.example.myshop.di
 
 import com.example.myshop.data.network.ApiService
+import com.example.myshop.data.network.NetworkParams
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -53,7 +54,7 @@ object AppModule {
         return  Retrofit
             .Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl("http://woocommerce.maktabsharif.ir/wp-json/wc/v3/")
+            .baseUrl(NetworkParams.BASE_URL)
             .client(client)
             .build()
     }
