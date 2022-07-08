@@ -10,9 +10,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.R
+import com.example.myshop.model.Product
 import com.example.myshop.model.Review
 
-class ReviewAdapter() :
+typealias ClickHandlerReview = (review: Review) -> Unit
+
+class ReviewAdapter(
+    val clickDelete: ClickHandlerReview,
+    val clickEdit: ClickHandlerReview) :
     ListAdapter<Review, ReviewAdapter.ViewHolder>(ReviewDiffCallback) {
 
 
@@ -25,7 +30,7 @@ class ReviewAdapter() :
     }
 
     override fun onBindViewHolder(holder: ReviewAdapter.ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position) ,clickDelete,clickEdit )
 
 
     }
@@ -51,7 +56,9 @@ class ReviewAdapter() :
 
 
         fun bind(
-            review: Review
+            review: Review,
+            clickDelete: ClickHandlerReview,
+            clickEdit: ClickHandlerReview,
         ) {
             if (review.review.isNullOrBlank()) {
                 txvReview.text = "بدون نظر"
@@ -68,6 +75,13 @@ class ReviewAdapter() :
                 imvStar.setImageResource(R.drawable.ic_baseline_star_outline_24)
             }else
                 imvStar.setImageResource(R.drawable.ic_baseline_star_rate_24)
+
+            imvDelete.setOnClickListener {
+                clickDelete(review)
+            }
+            imvEdit.setOnClickListener {
+                clickEdit(review)
+            }
 
         }
 

@@ -23,6 +23,7 @@ import com.example.myshop.adapters.ReviewAdapter
 import com.example.myshop.adapters.SliderAdapter
 import com.example.myshop.databinding.FragmentProductDetailBinding
 import com.example.myshop.model.Product
+import com.example.myshop.model.Review
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
@@ -69,13 +70,18 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun initReviews() {
-        val adapter = ReviewAdapter()
+        val adapter = ReviewAdapter ({
+            vModel.deleteReview(it.id)
+        }){
+            showAddReviewDialog(it)
+        }
         binding.recyclerReview.adapter = adapter
 
         vModel.reviews.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
     }
+
 
     private fun addToCart() {
         binding.menuDetail.imvAddToCart.setOnClickListener {
@@ -108,17 +114,19 @@ class ProductDetailFragment : Fragment() {
         observeState()
         initSameProducts()
         addReview()
+
     }
+
 
     private fun addReview() {
         binding.txvAddReview.setOnClickListener {
-            vModel.setReview("sssssssssssaaaaaaaaaaaaaaa")
-//            if (!vModel.registered) {
-//                showRegisterDialog(
-//                " ثبت نام نکرده اید؟ "," برای ثبت نظر لازم است ثبت نام کنید یا در صورتی که حساب دارید وارد شوید! "," فهمیدم ")
-//            }else{
-//                showAddReviewDialog()
-//            }
+//            vModel.setReview("sssssssssssaaaaaaaaaaaaaaa")
+            if (vModel.registered.value == false) {
+                vModel.showDefaultDialog(
+                requireContext()," ثبت نام نکرده اید؟ "," برای ثبت نظر لازم است ثبت نام کنید یا در صورتی که حساب دارید وارد شوید! "," فهمیدم ")
+            }else{
+                showAddReviewDialog(null)
+            }
         }
 
     }
@@ -154,7 +162,7 @@ class ProductDetailFragment : Fragment() {
         binding.progressBarDetail.visibility = View.GONE
         binding.constraintDetail.visibility= View.GONE
         binding.imvProblemDetail.visibility = View.VISIBLE
-        vModel.message.value?.let { showDefaultDialog("خطا", it,"فهمیدم") }
+        vModel.message.value?.let { vModel.showDefaultDialog(requireContext(),"خطا", it,"فهمیدم") }
     }
 
     private fun hideLoading() {
@@ -198,7 +206,7 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun showAddReviewDialog() {
+    private fun showAddReviewDialog(review: Review?) {
         val alertDialog = AlertDialog.Builder(requireContext())
 
         val dialogView = LayoutInflater.from(requireContext()).
@@ -208,41 +216,34 @@ class ProductDetailFragment : Fragment() {
         val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btn_cancel_dialog)
         val edtReview = dialogView.findViewById<EditText>(R.id.edt_dialog_addReview)
 
-        alertDialog.apply {
+        alertDialog.
             setView(dialogView)
+        val mAlertDialog = alertDialog.create()
+            alertDialog.apply {
             btnSetReview.setOnClickListener {
                 if (edtReview.text.isNullOrBlank()){
                     edtReview.error= " نظر خالی است!!! "
                 }else{
-                    vModel.setReview(edtReview.text.toString())
-                    Toast.makeText(requireContext(),"clicked",Toast.LENGTH_SHORT).show()
+                    if (review == null) {
+                        vModel.setReview(edtReview.text.toString())
+                        mAlertDialog.dismiss()
+                    }
+                    else{
+                        vModel.updateReview(review.id , edtReview.text.toString(),review)
+                        mAlertDialog.dismiss()
+                    }
                 }
             }
             btnCancel.setOnClickListener {
-                //dismiss
-            }
-
-        }.create().show()
-
-    }
-    private fun showDefaultDialog(title :String , message: String , negativeButton: String) {
-        val alertDialog = AlertDialog.Builder(requireContext())
-
-        alertDialog.apply {
-            setTitle(title)
-            setMessage(message)
-        }.create().show()
-        alertDialog.apply {
-//            setPositiveButton(" ثبت نام "){_,_ ->
-//
-//            }
-            setNegativeButton(negativeButton){ _,_->
-               //alertDialog.dissmis
+                mAlertDialog.dismiss()
             }
 
         }
+        mAlertDialog.show()
 
     }
+
+
 
 
 }

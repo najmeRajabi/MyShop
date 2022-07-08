@@ -172,20 +172,48 @@ class ProductViewModel @Inject constructor(
     }
 
     fun setReview(reviewText: String) {
-        val review: Review = Review(0, "ada", reviewText, product.value!!.id, 3)
+        val review: Review = Review(0, customer.value?.username ?: "user", reviewText, product.value!!.id, 3)
         viewModelScope.launch {
-            productRepository.createReview(review!!)
+
             try {
                 state.postValue(State.LOADING)
-//                if (review != null) {
-//                    productRepository.createReview(review!!)
-//                }
+                productRepository.createReview(review)
                 state.postValue(review?.let { productRepository.createReview(it).status })
                 message.postValue(review?.let { productRepository.createReview(it).message })
             } catch (e: Exception) {
 
                 state.postValue(State.FAILED)
 //                message.postValue(review?.let { productRepository.createReview(it).message + e.message })
+            }
+        }
+    }
+
+    fun deleteReview(id: Int){
+        viewModelScope.launch {
+            try {
+                state.postValue(State.LOADING)
+                productRepository.deleteReview(id)
+                message.postValue(productRepository.deleteReview(id).message)
+                state.postValue(productRepository.deleteReview(id).status)
+            }catch (e: Exception){
+                state.postValue(State.FAILED)
+                message.postValue(productRepository.deleteReview(id).message + e.message)
+            }
+        }
+    }
+
+    fun updateReview(id: Int,reviewText: String , review: Review){
+        viewModelScope.launch {
+            val mReview: Review = Review(review.id, review.reviewer, reviewText, product.value!!.id, 3)
+
+            try {
+                state.postValue(State.LOADING)
+                productRepository.updateReview(id, mReview)
+                message.postValue(productRepository.updateReview(id, mReview).message)
+                state.postValue(productRepository.updateReview(id, mReview).status)
+            }catch (e: Exception){
+                state.postValue(State.FAILED)
+                message.postValue(productRepository.updateReview(id, mReview).message + e.message)
             }
         }
     }

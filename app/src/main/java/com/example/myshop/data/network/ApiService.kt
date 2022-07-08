@@ -117,7 +117,20 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
     suspend fun createReview(
         @Body review: Review,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
-    ):Response<Review>
+    ):Response<List<Review>>
+
+    @DELETE("products/reviews/{id}")
+    suspend fun deleteReview(
+        @Path ("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+    ): Response<Review>
+
+    @PUT("products/reviews/{id}")
+    suspend fun updateReview(
+        @Path ("id") id: Int,
+        @Body review: Review,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+    ): Response<Review>
 
 
     @GET("products/attributes")
