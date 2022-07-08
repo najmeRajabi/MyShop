@@ -87,7 +87,6 @@ class CustomerFragment : Fragment() {
                         binding.passwordEdtRegister.text.toString(),
                     ),requireContext()
                 )
-                checkRegister()
             }
         }
         binding.btnSignIn.setOnClickListener {
@@ -99,7 +98,6 @@ class CustomerFragment : Fragment() {
                     binding.passwordEdtSignIn.text.toString()
                     ,requireContext()
                 )
-                checkRegister()
             }
         }
         binding.btnRegisterCard.setOnClickListener {
@@ -152,11 +150,15 @@ class CustomerFragment : Fragment() {
                 State.SUCCESS -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
                     binding.progressBarProfile.visibility = View.GONE
-//                    findNavController().navigate(R.id.action_customerFragment_to_customerRegisteredFragment)
                 }
                 State.FAILED -> {
                     binding.txvCustomerMessage.visibility = View.VISIBLE
                     binding.progressBarProfile.visibility = View.INVISIBLE
+                    vModel.showDefaultDialog(
+                        requireContext() , "خطا!" ,
+                        vModel.message.value + " مشکلی پیش آمده: ",
+                        "متوجه شدم"
+                    )
                 }
             }
         }
