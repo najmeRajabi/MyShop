@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myshop.R
 import com.example.myshop.data.ProductRepository
 import com.example.myshop.model.Customer
 import com.example.myshop.ui.customer.*
@@ -33,7 +34,7 @@ open class BaseViewModel @Inject constructor():ViewModel() {
         if (sharedPreferences.getString(CUSTOMER_REGISTERED, "f")?.contains("t") == true){
             registered.postValue(true)
 
-            val username = sharedPreferences.getString(CUSTOMER_USERNAME , "username")
+            val username = sharedPreferences.getString(CUSTOMER_USERNAME , context.getString(R.string.username))
             val id = sharedPreferences.getString(CUSTOMER_ID , "-1")
             val name = sharedPreferences.getString(CUSTOMER_NAME , "name")
             val email = sharedPreferences.getString(CUSTOMER_EMAIL , "email")
@@ -125,13 +126,15 @@ open class BaseViewModel @Inject constructor():ViewModel() {
         alertDialog.apply {
             setTitle(title)
             setMessage(message)
-        }.create().show()
+        }
+        val dialog = alertDialog.create()
         alertDialog.apply {
             setNegativeButton(negativeButton){ _,_->
-                //alertDialog.dissmis
+                dialog.dismiss()
             }
 
         }
+        dialog.show()
 
     }
 }

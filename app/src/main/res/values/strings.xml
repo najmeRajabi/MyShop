@@ -39,4 +39,5 @@
     <string name="location1">آدرس 1</string>
     <string name="location2">آدرس 2</string>
     <string name="saveLocation">ذخیره آدرس</string>
+    <string name="username1">username</string>
 </resources>

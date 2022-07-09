@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
+import com.example.myshop.model.Coupon
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.ui.detail.ORDER
@@ -37,8 +38,14 @@ class CartViewModel @Inject constructor(
         var counter = 0L
         if (!shoppingList.value.isNullOrEmpty() && !count.value.isNullOrEmpty()) {
             for (index in 0 until shoppingList.value!!.size) {
-                counter += (shoppingList.value!![index].price.toLong()).times(count.value!![index])
+                try {
+                    counter += (shoppingList.value!![index].price.toLong()).times(count.value!![index])
+                }catch (e: Exception){
+                    state.postValue(State.FAILED)
+                    message.postValue(e.message)
+                }
             }
+
             price.value = "%,d".format(counter) + " تومان"
             Log.d("cart---TAG", "calculatePrice: ${"%,d".format(counter) + " تومان"}")
         }
@@ -62,7 +69,10 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
             try {
+                if (orderId != -1)
                 shoppingList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
+                else
+                    state.postValue(State.FAILED)
             }catch (e: Exception){
                 state.postValue(State.FAILED)
             }
@@ -131,7 +141,7 @@ class CartViewModel @Inject constructor(
 
     fun removeProduct(product: Product , context: Context) {
         var productList = shoppingList.value?.minus(product)
-        val mOrder = productList?.let { Order(orderId , it) }
+        val mOrder = productList?.let { Order(orderId , it , null) }
         if (mOrder != null) {
             shoppingList.postValue(mOrder.line_items)
         }
@@ -168,8 +178,8 @@ class CartViewModel @Inject constructor(
     fun continueShopping() {
         if (!order.value?.line_items.isNullOrEmpty()) {
             val iOrder = Order(
-                orderId, order.value?.line_items!!, order.value?.discount_total,
-                order.value?.related_ids, customer.value?.id
+                orderId, order.value?.line_items!!, discount_total = order.value?.discount_total,
+                related_ids = order.value?.related_ids, customer_id = customer.value?.id
             )
             updateOrder(iOrder)
         }
