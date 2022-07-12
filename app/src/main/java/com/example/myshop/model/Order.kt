@@ -19,7 +19,7 @@ data class Order (
 //    val billing : Billing,//پرداخت
 
     @Json(name = "line_items")
-    val line_items: List<Product>,
+    val line_items: List<LineItems>,
 
     val discount_total : String? = null,
 

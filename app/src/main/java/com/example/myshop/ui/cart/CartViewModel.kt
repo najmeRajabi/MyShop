@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
+import com.example.myshop.model.LineItems
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.ui.detail.ORDER
@@ -22,6 +23,7 @@ class CartViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val shoppingList = MutableLiveData<List<Product>>()
+    val lineItemList = MutableLiveData<List<LineItems>>()
     val order = MutableLiveData<Order>()
     val state = MutableLiveData<State>(State.FAILED)
     val price = MutableLiveData<String>()
@@ -62,7 +64,7 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
             try {
-                shoppingList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
+                lineItemList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
             }catch (e: Exception){
                 state.postValue(State.FAILED)
             }
@@ -87,7 +89,7 @@ class CartViewModel @Inject constructor(
     fun updateOrder(order: Order?){
         viewModelScope.launch {
             try {
-                shoppingList.postValue(order?.let {
+                lineItemList.postValue(order?.let {
                     productRepository.updateOrder(
                         it, orderId).data!![0]
                 }?.line_items)
@@ -111,7 +113,7 @@ class CartViewModel @Inject constructor(
     fun deleteOrder(order: Order?){
         viewModelScope.launch {
             try {
-                shoppingList.postValue(order?.let {
+                lineItemList.postValue(order?.let {
                     productRepository.deleteOrder(
                         orderId).data!![0]
                 }?.line_items)
@@ -129,11 +131,11 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun removeProduct(product: Product , context: Context) {
-        var productList = shoppingList.value?.minus(product)
+    fun removeProduct(lineItem: LineItems, context: Context) {
+        var productList = lineItemList.value?.minus(lineItem)
         val mOrder = productList?.let { Order(orderId , it) }
         if (mOrder != null) {
-            shoppingList.postValue(mOrder.line_items)
+            lineItemList.postValue(mOrder.line_items)
         }
 
         viewModelScope.launch {
