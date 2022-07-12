@@ -104,22 +104,23 @@ import retrofit2.http.*
 
     @POST("products/reviews/")
     suspend fun createReview(
-        @Body review: Review,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
-    ):Response<List<Review>>
+        @Body review: Review,
+        ):Response<Review>
 
     @DELETE("products/reviews/{id}")
     suspend fun deleteReview(
         @Path ("id") id: Int,
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("force") force: Boolean = true
     ): Response<Review>
 
     @PUT("products/reviews/{id}")
     suspend fun updateReview(
         @Path ("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Body review: Review,
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
-    ): Response<Review>
+        ): Response<Review>
 
 
     @GET("products/attributes")

@@ -62,7 +62,7 @@ class ProductRepository @Inject constructor(
         return productRemoteDataSource.retrieveReview(productId)
     }
 
-    suspend fun createReview(review: Review): Resource<List<Review>> {
+    suspend fun createReview(review: Review): Resource<Review> {
         return productRemoteDataSource.createReview(review)
     }
 

@@ -11,9 +11,11 @@ import com.example.myshop.model.Product
 import com.example.myshop.model.Review
 import com.example.myshop.ui.disconnect.BaseViewModel
 import com.example.myshop.ui.disconnect.State
+import com.google.android.gms.common.util.CollectionUtils.listOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 const val ORDER = "order"
@@ -171,9 +173,12 @@ class ProductViewModel @Inject constructor(
 
             try {
                 state.postValue(State.LOADING)
-                productRepository.createReview(review)
+                val newReview = productRepository.createReview(review).data
                 state.postValue(review?.let { productRepository.createReview(it).status })
                 message.postValue(review?.let { productRepository.createReview(it).message })
+                if (state.value == State.SUCCESS){
+                    reviews.postValue(newReview?.let { (reviews.value as ArrayList<Review> ).add(it) } as List<Review>)
+                }
             } catch (e: Exception) {
 
                 state.postValue(State.FAILED)
