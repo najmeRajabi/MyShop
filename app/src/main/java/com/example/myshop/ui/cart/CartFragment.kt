@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.myshop.R
 import com.example.myshop.adapters.CartAdapter
 import com.example.myshop.databinding.FragmentCartBinding
@@ -88,9 +89,20 @@ class CartFragment : Fragment() {
         }
 
         binding.btnContinueShopping.setOnClickListener {
-            vModel.continueShopping()
-            vModel.shoppingList.postValue(null)
-            vModel.deleteOrderFromSharedPreferences(requireContext())
+            vModel.checkRegistered(requireContext())
+            vModel.customer.observe(viewLifecycleOwner){
+                if (it.id != null){
+                    vModel.continueShopping()
+                    vModel.shoppingList.postValue(null)
+                    vModel.deleteOrderFromSharedPreferences(requireContext())
+                    vModel.showDefaultDialog(
+                        requireContext(),
+                        "ثبت خرید", vModel.message.value + "خرید شما ", "متوجه شدم")
+                }else{
+                    vModel.showDefaultDialog(requireContext() ,"هنوز ثبت نام نکرده اید؟" ,
+                        "برای ادامه خرید ثبت نام کنید یا وارد شوید." ,"باشه")
+                }
+            }
         }
 
 

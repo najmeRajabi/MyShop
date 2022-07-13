@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
 
 @Serializable
-data class Order (
+data class Order(
 
     @Json(name = "id")
     val id: Int,
@@ -21,11 +21,13 @@ data class Order (
     @Json(name = "line_items")
     var line_items: List<LineItems>,
 
-    val discount_total : String? = null,
+//    val coupon_lines: List<Coupon?>? = null ,
+
+    val discount_total: String? = null,
 
     val related_ids: List<Int>? = null,
 
-    val customer_id : Int? = null
+    val customer_id: Int? = null
 
     ){
 }

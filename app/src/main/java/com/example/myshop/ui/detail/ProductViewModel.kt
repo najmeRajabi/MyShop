@@ -13,9 +13,11 @@ import com.example.myshop.model.Product
 import com.example.myshop.model.Review
 import com.example.myshop.ui.disconnect.BaseViewModel
 import com.example.myshop.ui.disconnect.State
+import com.google.android.gms.common.util.CollectionUtils.listOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 const val ORDER = "order"
@@ -107,6 +109,7 @@ class ProductViewModel @Inject constructor(
         val id = sharedPreferences.getInt(ORDER_ID, -1)
         viewModelScope.launch {
             try {
+
                 state.postValue(State.LOADING)
                 var callback = productRepository.retrieveOrder(id)
                 mOrder= (callback.data!!.line_items)
@@ -131,6 +134,7 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     fun saveOrderToSharedPreferences(context: Context) {
         if (orderCallback.value != null) {
             val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
@@ -141,6 +145,8 @@ class ProductViewModel @Inject constructor(
             editor.apply()
         }
     }
+
+
 
 
     fun retrieveReview() {
@@ -156,6 +162,9 @@ class ProductViewModel @Inject constructor(
             reviews.postValue(mReviews)
             state.postValue(callback.status)
             message.postValue(callback.message)
+            reviews.postValue(product.value?.let { productRepository.retrieveReview(listOf(it.id)).data }!!)
+            state.postValue(productRepository.retrieveReview(listOf(product.value!!.id)).status)
+            message.postValue(productRepository.retrieveReview(listOf(product.value!!.id)).message)
         }
 
     }

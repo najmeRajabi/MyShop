@@ -19,3 +19,7 @@ data class Review(
     @Json(name = "rating")
     val rating : Int
 )
+
+data class ReviewDelete (
+    val deleted: Boolean
+        )

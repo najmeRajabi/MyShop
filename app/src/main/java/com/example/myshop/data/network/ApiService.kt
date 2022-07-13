@@ -6,19 +6,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 
-//private const val KEY = "ck_4e34eda4882e044742e643e35060ab5234231ab3"
-private const val KEY = "ck_63f4c52da932ddad1570283b31f3c96c4bd9fd6f"
-//private const val SECRET = "cs_28f528089254ed3dc6bc8cbd0ffeb34a52f69547"
-private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
-
-//class NetWorkParams () {
-//
-//    fun getBaseOptions() {
-//        val queryMap: HashMap<String, String> = HashMap()
-//        queryMap[KEY] = query1
-//        queryMap[SECRET] = query2
-//    }
-//}
     interface ApiService {
 
 
@@ -110,29 +97,32 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
 
     @GET("products/reviews/")
     suspend fun retrieveReview(
+        @Query("product") productId: List<Int>,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100
     ):Response<List<Review>>
 
     @POST("products/reviews/")
     suspend fun createReview(
-        @Body review: Review,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
-    ):Response<List<Review>>
+        @Body review: Review,
+        ):Response<Review>
 
 
 
     @DELETE("products/reviews/{id}")
     suspend fun deleteReview(
         @Path ("id") id: Int,
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("force") force: Boolean = true
     ): Response<Review>
 
     @PUT("products/reviews/{id}")
     suspend fun updateReview(
         @Path ("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Body review: Review,
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
-    ): Response<Review>
+        ): Response<Review>
 
 
     @GET("products/attributes")
