@@ -57,56 +57,60 @@ class ProductViewModel @Inject constructor(
     }
 
     fun createOrder(context: Context) {
-        checkHasOrder(context)
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("ProductVM---TAG", "createOrder---product: ${product.value}")
-            if (product.value != null) {
-                val productValue = product.value
-                val order = Order(
-                    0, listOf(
-                        LineItems(
-                            0, productValue?.id!!, productValue.name, 1, productValue.price,
-                            productValue.price, productValue.price
+            if (checkHasOrder(context) != -1) {
+                Log.d("ProductVM---TAG", "createOrder---product: ${product.value}")
+                if (product.value != null) {
+                    val productValue = product.value
+                    val order = Order(
+                        0, listOf(
+                            LineItems(
+                                0,
+                                productValue?.id!!,
+                                productValue.name,
+                                1,
+                                productValue.price,
+                                productValue.price,
+                                productValue.price
+                            )
                         )
                     )
-                )
-                Log.d("ProductVM---TAG", "createOrder--order: $order")
+                    Log.d("ProductVM---TAG", "createOrder--order: $order")
+                    try {
 
-                try {
+                        var callback: Resource<Order>? = null
+                        state.postValue(State.LOADING)
+                        if (hasOrder) {
+                            updateOrder(context, order)
+                        } else {
+                            callback = productRepository.createOrder(order)
+                            orderCallback.postValue(callback.data!!)
+                            saveOrderToSharedPreferences(context)
+                            state.postValue(callback.status)
+                            message.postValue(callback.message)
+                            orderMessage.postValue(callback.message!!)
+                        }
 
-                    var callback: Resource<Order>? = null
-                    state.postValue(State.LOADING)
-                    if (hasOrder) {
-                        updateOrder(context , order)
-                    } else {
-                        callback = productRepository.createOrder(order)
-                        orderCallback.postValue(callback.data!!)
-                        saveOrderToSharedPreferences(context)
-                        state.postValue(callback.status)
-                        message.postValue(callback.message)
-                        orderMessage.postValue(callback.message!!)
+                    } catch (e: Exception) {
+                        Log.d(
+                            "ProductVM---TAG",
+                            "createOrder error:${e.message}" + productRepository.createOrder(order).message
+                        )
+                        state.postValue(State.FAILED)
                     }
-
-                } catch (e: Exception) {
-                Log.d(
-                    "ProductVM---TAG",
-                    "createOrder error:${e.message}" + productRepository.createOrder(order).message
-                )
-                    state.postValue(State.FAILED)
                 }
             }
         }
     }
 
-    private fun checkHasOrder(context: Context) {
+    private fun checkHasOrder(context: Context): Int {
         val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
-        hasOrder = sharedPreferences.getBoolean(HAS_ORDER, false)
+        return sharedPreferences.getInt(ORDER_ID,-1)
     }
 
     private fun updateOrder(context: Context , order: Order) {
         var mOrder = orderCallback.value?.line_items
-        val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
-        val id = sharedPreferences.getInt(ORDER_ID, -1)
+        val id = checkHasOrder(context)
         viewModelScope.launch {
             try {
 
@@ -140,7 +144,6 @@ class ProductViewModel @Inject constructor(
             val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putInt(ORDER_ID, orderCallback.value!!.id)
-            editor.putBoolean(HAS_ORDER, true)
             hasOrder = true
             editor.apply()
         }
@@ -153,18 +156,20 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             var mReviews = arrayListOf<Review>()
             state.postValue(State.LOADING)
-            val callback = productRepository.retrieveReview()
-            for (review in callback.data!!) {
-                if (review.product_id == product.value?.id) {
-                    mReviews.add(review)
+            val callback = product.value?.let {
+                kotlin.collections.listOf(
+                    it.id)
+            }?.let { productRepository.retrieveReview(it) }
+            if (callback != null) {
+                for (review in callback.data!!) {
+                    if (review.product_id == product.value?.id) {
+                        mReviews.add(review)
+                    }
                 }
+                reviews.postValue(mReviews)
+                state.postValue(callback.status)
+                message.postValue(callback.message)
             }
-            reviews.postValue(mReviews)
-            state.postValue(callback.status)
-            message.postValue(callback.message)
-            reviews.postValue(product.value?.let { productRepository.retrieveReview(listOf(it.id)).data }!!)
-            state.postValue(productRepository.retrieveReview(listOf(product.value!!.id)).status)
-            message.postValue(productRepository.retrieveReview(listOf(product.value!!.id)).message)
         }
 
     }

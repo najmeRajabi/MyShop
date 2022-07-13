@@ -60,10 +60,10 @@ import retrofit2.http.*
 
     @PUT("orders/{id}")
     suspend fun updateOrder(
-        @Body order: Order,
         @Path("id") id: Int,
         @Query ("status")status: String = "completed",
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
+        @Body order: Order,
     ):Response<Order>
 
     @GET("orders/{id}")
