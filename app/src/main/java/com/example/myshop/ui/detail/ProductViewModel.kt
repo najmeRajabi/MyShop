@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myshop.data.ProductRepository
+import com.example.myshop.data.Resource
+import com.example.myshop.model.LineItems
 import com.example.myshop.model.Order
 import com.example.myshop.model.Product
 import com.example.myshop.model.Review
@@ -34,16 +36,15 @@ class ProductViewModel @Inject constructor(
     var relatedIds: List<Int>? = null
     var hasOrder = false
 
-    init {
-    }
 
 
     fun getProduct(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             state.postValue(State.LOADING)
-            product.postValue(productRepository.getProductById(id).data!!)
-            state.postValue(productRepository.getProductById(id).status)
-            message.postValue(productRepository.getProductById(id).message)
+            val callback = productRepository.getProductById(id)
+            product.postValue(callback.data!!)
+            state.postValue(callback.status)
+            message.postValue(callback.message)
             Log.d("detailVM---TAG", "getProduct related: ${product.value?.related_ids}")
             relatedIds = product.value?.related_ids
 
@@ -57,67 +58,79 @@ class ProductViewModel @Inject constructor(
         checkHasOrder(context)
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("ProductVM---TAG", "createOrder---product: ${product.value}")
-            val order = Order(0, listOf(product.value!!))
-            Log.d("ProductVM---TAG", "createOrder--order: $order")
-            try {
+            if (product.value != null) {
+                val productValue = product.value
+                val order = Order(
+                    0, listOf(
+                        LineItems(
+                            0, productValue?.id!!, productValue.name, 1, productValue.price,
+                            productValue.price, productValue.price
+                        )
+                    )
+                )
+                Log.d("ProductVM---TAG", "createOrder--order: $order")
 
-                state.postValue(State.LOADING)
-                if (hasOrder) {
-                    updateOrder(context)
+                try {
 
-                } else {
-                    orderCallback.postValue(productRepository.createOrder(order).data!![1])
-                }
-                state.postValue(productRepository.createOrder(order).status)
-                message.postValue(productRepository.createOrder(order).message)
-                orderMessage.postValue(message.value)
-            } catch (e: Exception) {
+                    var callback: Resource<Order>? = null
+                    state.postValue(State.LOADING)
+                    if (hasOrder) {
+                        updateOrder(context , order)
+                    } else {
+                        callback = productRepository.createOrder(order)
+                        orderCallback.postValue(callback.data!!)
+                        saveOrderToSharedPreferences(context)
+                        state.postValue(callback.status)
+                        message.postValue(callback.message)
+                        orderMessage.postValue(callback.message!!)
+                    }
+
+                } catch (e: Exception) {
                 Log.d(
                     "ProductVM---TAG",
                     "createOrder error:${e.message}" + productRepository.createOrder(order).message
                 )
-                state.postValue(State.FAILED)
+                    state.postValue(State.FAILED)
+                }
             }
         }
     }
 
     private fun checkHasOrder(context: Context) {
         val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
-        if (sharedPreferences.getBoolean(HAS_ORDER, false)) {
-            hasOrder = true
-        }
+        hasOrder = sharedPreferences.getBoolean(HAS_ORDER, false)
     }
 
-    private fun updateOrder(context: Context) {
-        var order = orderCallback.value
+    private fun updateOrder(context: Context , order: Order) {
+        var mOrder = orderCallback.value?.line_items
         val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt(ORDER_ID, -1)
         viewModelScope.launch {
             try {
-
                 state.postValue(State.LOADING)
-                order = (productRepository.retrieveOrder(id).data!![0])
-                state.postValue(productRepository.retrieveOrder(id).status)
-                message.postValue(productRepository.retrieveOrder(id).message)
+                var callback = productRepository.retrieveOrder(id)
+                mOrder= (callback.data!!.line_items)
+                state.postValue(callback.status)
+                message.postValue(callback.message)
             } catch (e: Exception) {
             }
 
-            if (order != null &&
+            if (mOrder != null &&
                 product.value != null
             ) {
-                val list = order!!.line_items.plus(product.value)
+                val list = mOrder!!.plus(order.line_items)
                 orderCallback.postValue(
-                    Order(
-                        order!!.id,
-                        (list as List<Product>)
-                    )
+                    Order(id, (list as List<LineItems>))
                 )
-                productRepository.updateOrder(order!!, id)
+                val callback = productRepository.updateOrder(
+                    Order(id, (list as List<LineItems>)), id)
+                state.postValue(callback.status)
+                message.postValue(callback.message)
+                orderMessage.postValue(callback.message!!)
             }
         }
     }
 
-    @SuppressLint("CommitPrefEdits")
     fun saveOrderToSharedPreferences(context: Context) {
         if (orderCallback.value != null) {
             val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
@@ -130,20 +143,19 @@ class ProductViewModel @Inject constructor(
     }
 
 
-
-
     fun retrieveReview() {
         viewModelScope.launch(Dispatchers.IO) {
             var mReviews = arrayListOf<Review>()
             state.postValue(State.LOADING)
-            for (review in productRepository.retrieveReview().data!!) {
+            val callback = productRepository.retrieveReview()
+            for (review in callback.data!!) {
                 if (review.product_id == product.value?.id) {
                     mReviews.add(review)
                 }
             }
             reviews.postValue(mReviews)
-            state.postValue(productRepository.retrieveReview().status)
-            message.postValue(productRepository.retrieveReview().message)
+            state.postValue(callback.status)
+            message.postValue(callback.message)
         }
 
     }
@@ -152,15 +164,19 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 state.postValue(State.LOADING)
+                var callback: Resource<Product>? = null
                 var sameList = arrayListOf<Product>()
                 if (!relatedIds.isNullOrEmpty()) {
                     for (id in relatedIds!!) {
-                        sameList.add(productRepository.getProductById(id).data!!)
+                        callback = productRepository.getProductById(id)
+                        sameList.add(callback.data!!)
                     }
                     Log.d("detailVM---TAG", "getProduct: ${sameList}")
                     sameProducts.postValue(sameList)
-                    message.postValue(productRepository.getProductById(relatedIds!![0]).message)
-                    state.postValue(productRepository.getProductById(relatedIds!![0]).status)
+                    if (callback != null) {
+                        message.postValue(callback.message)
+                        state.postValue(callback.status)
+                    }
                 }
                 Log.d("detailVM---TAG", "getProduct out: ${sameList}")
             } catch (e: Exception) {
@@ -172,48 +188,56 @@ class ProductViewModel @Inject constructor(
     }
 
     fun setReview(reviewText: String) {
-        val review: Review = Review(0, customer.value?.username ?: "user", reviewText, product.value!!.id, 3)
+        val review: Review =
+            Review(0, customer.value?.username ?: "user", reviewText, product.value!!.id, 3)
         viewModelScope.launch {
 
             try {
                 state.postValue(State.LOADING)
-                productRepository.createReview(review)
-                state.postValue(review?.let { productRepository.createReview(it).status })
-                message.postValue(review?.let { productRepository.createReview(it).message })
+                val callback = productRepository.createReview(review)
+                state.postValue(callback.status )
+                message.postValue(callback.message )
+                orderMessage.postValue(callback.message!!)
             } catch (e: Exception) {
 
                 state.postValue(State.FAILED)
-//                message.postValue(review?.let { productRepository.createReview(it).message + e.message })
+                message.postValue(review.let { productRepository.createReview(it).message + e.message })
+                orderMessage.postValue(e.message)
             }
         }
     }
 
-    fun deleteReview(id: Int){
+    fun deleteReview(id: Int) {
         viewModelScope.launch {
             try {
                 state.postValue(State.LOADING)
-                productRepository.deleteReview(id)
-                message.postValue(productRepository.deleteReview(id).message)
-                state.postValue(productRepository.deleteReview(id).status)
-            }catch (e: Exception){
+                val callback = productRepository.deleteReview(id)
+                message.postValue(callback.message)
+                state.postValue(callback.status)
+                orderMessage.postValue(callback.message!!)
+            } catch (e: Exception) {
                 state.postValue(State.FAILED)
                 message.postValue(productRepository.deleteReview(id).message + e.message)
+                orderMessage.postValue(e.message)
             }
         }
     }
 
-    fun updateReview(id: Int,reviewText: String , review: Review){
+    fun updateReview(id: Int, reviewText: String, review: Review) {
         viewModelScope.launch {
-            val mReview: Review = Review(review.id, review.reviewer, reviewText, product.value!!.id, 3)
+            val mReview: Review =
+                Review(review.id, review.reviewer, reviewText, product.value!!.id, 3)
 
             try {
                 state.postValue(State.LOADING)
-                productRepository.updateReview(id, mReview)
-                message.postValue(productRepository.updateReview(id, mReview).message)
-                state.postValue(productRepository.updateReview(id, mReview).status)
-            }catch (e: Exception){
+                val callback = productRepository.updateReview(id, mReview)
+                message.postValue(callback.message)
+                state.postValue(callback.status)
+                orderMessage.postValue(callback.message!!)
+            } catch (e: Exception) {
                 state.postValue(State.FAILED)
                 message.postValue(productRepository.updateReview(id, mReview).message + e.message)
+                orderMessage.postValue(e.message)
             }
         }
     }
