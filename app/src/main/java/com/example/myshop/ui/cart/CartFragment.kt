@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.myshop.R
 import com.example.myshop.adapters.CartAdapter
 import com.example.myshop.databinding.FragmentCartBinding
+import com.example.myshop.model.LineItems
 import com.example.myshop.ui.disconnect.State
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,12 +41,11 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
-        vModel.getShoppingList()
 
     }
 
     private fun initView() {
-        vModel.getOrderFromSharedPreferences(requireContext())
+        vModel.getShoppingList(requireContext())
         val ordersCount = arrayListOf<Int>()
         val adapter = CartAdapter { product, count , position ->
             if (count == 0)
@@ -58,7 +58,18 @@ class CartFragment : Fragment() {
 
         binding.recyclerCart.adapter = adapter
 
-        vModel.shoppingList.observe(viewLifecycleOwner) {
+        val fakeList = arrayListOf(
+            LineItems(0,608,"aaaaaaaaa" , 1 , "2","2","1111"),
+            LineItems(1,608,"aaaaaaaaa" , 1 , "2","2","1111"),
+            LineItems(2,608,"aaaaaaaaa" , 1 , "2","2","1111"),
+            LineItems(3,608,"aaaaaaaaa" , 1 , "2","2","1111"),
+            LineItems(4,608,"aaaaaaaaa" , 1 , "2","2","1111"),
+            LineItems(5,608,"aaaaaaaaa" , 1 , "2","2","1111"),
+        )
+//        adapter.submitList(fakeList)
+
+
+        vModel.lineItemList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             Log.d("TAG", "initView: $it")
             vModel.calculatePrice()
@@ -83,29 +94,38 @@ class CartFragment : Fragment() {
         }
 
 
-        vModel.state.observe(viewLifecycleOwner) {
-            when (it) {
-                State.LOADING -> {
-                    binding.llAllPriceCart.visibility = View.INVISIBLE
-                    binding.llDiscountCart.visibility = View.INVISIBLE
-                    binding.progressBarCart.visibility = View.VISIBLE
-                    binding.imvEmptyList.visibility = View.GONE
-                }
-                State.SUCCESS -> {
-                    binding.llAllPriceCart.visibility = View.VISIBLE
-                    binding.llDiscountCart.visibility = View.VISIBLE
-                    binding.progressBarCart.visibility = View.GONE
-                    binding.imvEmptyList.visibility = View.GONE
-                }
-                State.FAILED -> {
-                    binding.recyclerCart.visibility = View.INVISIBLE
-                    binding.llAllPriceCart.visibility = View.INVISIBLE
-                    binding.llDiscountCart.visibility = View.INVISIBLE
-                    binding.progressBarCart.visibility = View.INVISIBLE
-                    binding.imvEmptyList.visibility = View.VISIBLE
-                }
-            }
-        }
+//        vModel.state.observe(viewLifecycleOwner) {
+//            when (it) {
+//                State.LOADING -> {
+//                    binding.recyclerCart.visibility = View.VISIBLE
+//                    binding.llAllPriceCart.visibility = View.INVISIBLE
+//                    binding.llDiscountCart.visibility = View.INVISIBLE
+//                    binding.progressBarCart.visibility = View.VISIBLE
+//                    binding.imvEmptyList.visibility = View.GONE
+//                }
+//                State.SUCCESS -> {
+//                    binding.recyclerCart.visibility = View.VISIBLE
+//                    binding.llAllPriceCart.visibility = View.VISIBLE
+//                    binding.llDiscountCart.visibility = View.VISIBLE
+//                    binding.progressBarCart.visibility = View.GONE
+//                    binding.imvEmptyList.visibility = View.GONE
+//                }
+//                State.FAILED -> {
+//                    binding.recyclerCart.visibility = View.VISIBLE
+//                    binding.llAllPriceCart.visibility = View.INVISIBLE
+//                    binding.llDiscountCart.visibility = View.INVISIBLE
+//                    binding.progressBarCart.visibility = View.INVISIBLE
+//                    binding.imvEmptyList.visibility = View.VISIBLE
+//                }
+//
+//
+
+
+
+
+
+//            }
+//        }
 
     }
 

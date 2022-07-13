@@ -15,16 +15,15 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.myshop.R
-import com.example.myshop.model.Product
+import com.example.myshop.model.LineItems
 
-typealias ClickHandlerOrder = (product: Product , count: Int , position: Int) -> Unit
+typealias ClickHandlerOrder = (lineItems: LineItems , count: Int , position: Int) -> Unit
 
 class CartAdapter(
     var clickHandler: ClickHandlerOrder
 ) :
-    ListAdapter<Product, CartAdapter.ViewHolder>(ProductDiffCallback) {
+    ListAdapter<LineItems, CartAdapter.ViewHolder>(ProductDiffCallback) {
 
-    private var productItem:Product? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartAdapter.ViewHolder {
@@ -35,18 +34,17 @@ class CartAdapter(
     }
 
     override fun onBindViewHolder(holder: CartAdapter.ViewHolder, position: Int) {
-        productItem = getItem(position)
         holder.bind(getItem(position),position, clickHandler)
 
 
     }
 
-    object ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+    object ProductDiffCallback : DiffUtil.ItemCallback<LineItems>() {
+        override fun areItemsTheSame(oldItem: LineItems, newItem: LineItems): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        override fun areContentsTheSame(oldItem: LineItems, newItem: LineItems): Boolean {
             return oldItem.id == newItem.id
         }
     }
@@ -65,17 +63,17 @@ class CartAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(
-            product: Product,
+            lineItems: LineItems,
             position: Int,
             clickHandler: ClickHandlerOrder
         ) {
             try {
-                txvTitle.text = product.name
+                txvTitle.text = lineItems.name
             }catch (e: Exception){
                 txvTitle.text = "نام محصول"
             }
             try {
-                txvPrice.text = "%,d".format(product.price.toInt()) + " تومان"
+                txvPrice.text = "%,d".format(lineItems.price.toInt()) + " تومان"
             }catch (e: Exception){
                 txvPrice.text = "%,d".format(0) + " تومان"
             }
@@ -84,11 +82,11 @@ class CartAdapter(
 
 
             try {
-                Log.d("CartAdapter---TAG", "bind: ${product.name}")
-                counter(product,position, clickHandler)
+                Log.d("CartAdapter---TAG", "bind: ${lineItems.name}")
+                counter(lineItems,position, clickHandler)
                 Glide
                     .with(view)
-                    .load(product.images[0]?.src)
+                    .load(R.drawable.check)///lineItems.images[0]?.src)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .transform(CenterInside(), RoundedCorners(25))
@@ -103,7 +101,7 @@ class CartAdapter(
 
         }
 
-        private fun counter(product: Product, position: Int,clickHandler: ClickHandlerOrder) {
+        private fun counter(lineItems: LineItems, position: Int,clickHandler: ClickHandlerOrder) {
             imvPlus.setOnClickListener {
                 when (productCount) {
                     1 -> {
@@ -113,7 +111,7 @@ class CartAdapter(
                     else -> productCount += 1
                 }
                 txvCount.text = productCount.toString()
-                clickHandler(product , productCount, position)
+                clickHandler(lineItems , productCount, position)
             }
             imvMinus.setOnClickListener {
                 when (productCount) {
@@ -122,12 +120,12 @@ class CartAdapter(
                         productCount -= 1
                     }
                     1 -> {
-                        clickHandler(product , 0 , position)
+                        clickHandler(lineItems , 0 , position)
                     }
                     else -> productCount -= 1
                 }
                 txvCount.text = productCount.toString()
-                clickHandler(product , productCount , position)
+                clickHandler(lineItems , productCount , position)
             }
         }
     }
