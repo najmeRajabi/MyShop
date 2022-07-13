@@ -17,6 +17,17 @@
         android:paddingBottom="?attr/actionBarSize"
         tools:context=".ui.cart.CartFragment">
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_cart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="18dp"
+            android:foregroundTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/ll_discount_cart">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_cart"
@@ -25,10 +36,8 @@
             android:layout_margin="18dp"
             android:paddingBottom="?attr/actionBarSize"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/ll_discount_cart"/>
+            />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <LinearLayout
             android:id="@+id/ll_discount_cart"
             android:layout_width="match_parent"
@@ -54,7 +63,6 @@
                 android:id="@+id/edt_discount_code_cart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/discountHint"
                 android:padding="@dimen/paddingDefault"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
