@@ -25,15 +25,12 @@ class CartViewModel @Inject constructor(
     val shoppingList = MutableLiveData<List<Product>>()
     val lineItemList = MutableLiveData<List<LineItems>>()
     val order = MutableLiveData<Order>()
-    val state = MutableLiveData<State>(State.FAILED)
+    val state = MutableLiveData<State>()
     val price = MutableLiveData<String>()
     var count = MutableLiveData<List<Int>>()
     var discount: String? = null
-    var orderId =-1
+    var orderId = -1
 
-    init {
-        getShoppingList()
-    }
 
     fun calculatePrice() {
         var counter = 0L
@@ -44,39 +41,33 @@ class CartViewModel @Inject constructor(
             price.value = "%,d".format(counter) + " تومان"
             Log.d("cart---TAG", "calculatePrice: ${"%,d".format(counter) + " تومان"}")
         }
-        if (counter == 0L){
+        if (counter == 0L) {
             state.postValue(State.FAILED)
-        }else
+        } else
             state.postValue(State.SUCCESS)
     }
 
-    fun getShoppingList() {
-//        val fakeList = arrayListOf(
-//            Product(0, arrayListOf(),"n1","200", arrayListOf(),1.0f,"de1",2,
-//                arrayListOf(),),
-//            Product(1, arrayListOf(),"n2","10", arrayListOf(),1.0f,"de2",2,
-//                arrayListOf(),),
-//            Product(2, arrayListOf(),"n1","100", arrayListOf(),1.0f,"de3",2,
-//                arrayListOf(),)
-//        )
-//        shoppingList.postValue(fakeList)
-//        state.postValue(State.SUCCESS)
-        viewModelScope.launch(Dispatchers.IO) {
-            state.postValue(State.LOADING)
-            try {
-                lineItemList.postValue( productRepository.retrieveOrder(orderId).data!![0].line_items)
-            }catch (e: Exception){
-                state.postValue(State.FAILED)
-            }
-            state.postValue(productRepository.retrieveOrder(orderId).status)
-            message.postValue(productRepository.retrieveOrder(orderId).message)
-        }
+    fun getShoppingList(context: Context) {
 
+        viewModelScope.launch(Dispatchers.IO) {
+            getOrderFromSharedPreferences(context)
+            if (orderId != -1) {
+                state.postValue(State.LOADING)
+                try {
+                    val callback = productRepository.retrieveOrder(orderId)
+                    lineItemList.postValue(callback.data!!.line_items)
+                    state.postValue(callback.status)
+                    message.postValue(callback.message)
+                } catch (e: Exception) {
+                    state.postValue(State.FAILED)
+                }
+            }
+        }
     }
 
     fun getOrderFromSharedPreferences(context: Context) {
         val sharedPreferences = context.getSharedPreferences(ORDER, Context.MODE_PRIVATE)
-        orderId= sharedPreferences.getInt(ORDER_ID, -1)
+        orderId = sharedPreferences.getInt(ORDER_ID, -1)
 
     }
 
@@ -86,54 +77,62 @@ class CartViewModel @Inject constructor(
 
     }
 
-    fun updateOrder(order: Order?){
+    fun updateOrder(order: Order?) {
         viewModelScope.launch {
             try {
                 lineItemList.postValue(order?.let {
                     productRepository.updateOrder(
-                        it, orderId).data!![0]
+                        it, orderId
+                    ).data!!
                 }?.line_items)
                 state.postValue(order?.let {
                     productRepository.updateOrder(
-                        it, orderId).status
+                        it, orderId
+                    ).status
                 })
                 message.postValue(order?.let {
                     productRepository.updateOrder(
-                        it, orderId).message
+                        it, orderId
+                    ).message
                 })
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 state.postValue(State.FAILED)
                 message.postValue(order?.let {
                     productRepository.updateOrder(
-                        it, orderId).message + e.message
+                        it, orderId
+                    ).message + e.message
                 })
             }
         }
     }
-    fun deleteOrder(order: Order?){
+
+    fun deleteOrder(order: Order?) {
         viewModelScope.launch {
             try {
                 lineItemList.postValue(order?.let {
                     productRepository.deleteOrder(
-                        orderId).data!![0]
+                        orderId
+                    ).data!!
                 }?.line_items)
                 state.postValue(order?.let {
                     productRepository.deleteOrder(
-                        orderId).status
+                        orderId
+                    ).status
                 })
                 message.postValue(order?.let {
                     productRepository.deleteOrder(
-                        orderId).message
+                        orderId
+                    ).message
                 })
-            }catch (e: Exception){
+            } catch (e: Exception) {
 
             }
         }
     }
 
     fun removeProduct(lineItem: LineItems, context: Context) {
-        var productList = lineItemList.value?.minus(lineItem)
-        val mOrder = productList?.let { Order(orderId , it) }
+        var list = lineItemList.value?.minus(lineItem)
+        val mOrder = list?.let { Order(orderId, it) }
         if (mOrder != null) {
             lineItemList.postValue(mOrder.line_items)
         }
@@ -141,18 +140,19 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 state.postValue(State.LOADING)
-                if (mOrder?.line_items.isNullOrEmpty()){
-                    deleteOrderFromSharedPreferences(context )
+                if (mOrder?.line_items.isNullOrEmpty()) {
+                    deleteOrderFromSharedPreferences(context)
                     deleteOrder(mOrder)
                     Log.d("cartVM--TAG", "removeProduct: delete ${mOrder?.line_items}")
-                }else {
+                } else {
                     updateOrder(mOrder)
                     Log.d("cartVM--TAG", "removeProduct: update ${mOrder?.line_items}")
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 state.postValue(State.FAILED)
                 message.postValue(mOrder?.let {
-                    productRepository.updateOrder(it,orderId).message + e.message })
+                    productRepository.updateOrder(it, orderId).message + e.message
+                })
                 Log.d("cartVM--TAG", "removeProduct: error ${mOrder?.line_items}")
             }
         }
@@ -161,7 +161,7 @@ class CartViewModel @Inject constructor(
     fun setDiscount() {
         val mOrder = order.value?.let {
             Order(
-                orderId, it.line_items , discount
+                orderId, it.line_items, discount
             )
         }
         updateOrder(mOrder)
