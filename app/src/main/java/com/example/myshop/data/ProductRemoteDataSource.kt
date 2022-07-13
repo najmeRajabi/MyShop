@@ -91,10 +91,10 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
     }
 
 
-    suspend fun createOrder(order: Order): Resource<List<Order>> {
+    suspend fun createOrder(order: Order): Resource<Order> {
 //        return apiService.createOrder(order)
         return try {
-            val response = apiService.createOrder(order)
+            val response = apiService.createOrder(order = order)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
@@ -107,22 +107,22 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
         }
     }
 
-    suspend fun updateOrder (id: Int,order: Order): Resource<List<Order>> {
+    suspend fun updateOrder (id: Int,order: Order): Resource<Order> {
         return try {
             val response = apiService.updateOrder(order,id)
             val message=handleRequestCode(response.code())
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, arrayListOf(),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED,  arrayListOf(),e.message)
+            Resource(State.FAILED,  null,e.message)
         }
     }
 
-    suspend fun retrieveOrder(id: Int): Resource<List<Order>> {
+    suspend fun retrieveOrder(id: Int): Resource<OrderCallback> {
 
         return try {
             val response = apiService.retrieveOrder(id)
@@ -130,15 +130,15 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, arrayListOf(),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, arrayListOf(),e.message)
+            Resource(State.FAILED, null,e.message)
         }
     }
 
-    suspend fun deleteOrder(id: Int): Resource<List<Order>> {
+    suspend fun deleteOrder(id: Int): Resource<Order> {
 
         return try {
             val response = apiService.deleteOrder(id)
@@ -146,11 +146,11 @@ class ProductRemoteDataSource @Inject constructor(val apiService: ApiService) {
             if (response.isSuccessful){
                 Resource(State.SUCCESS,response.body(),message)
             }else{
-                Resource(State.FAILED, arrayListOf(),message)
+                Resource(State.FAILED, null,message)
             }
 
         } catch (e: Exception) {
-            Resource(State.FAILED, arrayListOf(),e.message)
+            Resource(State.FAILED, null,e.message)
         }
     }
 

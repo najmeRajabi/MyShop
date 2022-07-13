@@ -67,30 +67,30 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
     @Headers("Content-Type: application/json")
     @POST("orders/")
     suspend fun createOrder(
-        @Body order: Order,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
-    ):Response<List<Order>>
+        @Body order: Order,
+    ):Response<Order>
 
     @PUT("orders/{id}")
     suspend fun updateOrder(
         @Body order: Order,
-        @Query("id") id: Int,
-        @Body status: String = "completed",
+        @Path("id") id: Int,
+        @Query ("status")status: String = "completed",
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
-    ):Response<List<Order>>
+    ):Response<Order>
 
-    @GET("orders/")
+    @GET("orders/{id}")
     suspend fun retrieveOrder(
-        @Query("id") id: Int,
+        @Path("id") id: Int,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
-    ):Response<List<Order>>
+    ):Response<OrderCallback>
 
-    @DELETE("orders/")
+    @DELETE("orders/{id}")
     suspend fun deleteOrder(
-        @Query("id") id: Int,
+        @Path("id") id: Int,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
         @Query("force") force: Boolean = true
-    ):Response<List<Order>>
+    ):Response<Order>
 
     //.... customer...................................................
 
@@ -118,6 +118,8 @@ private const val SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
         @Body review: Review,
         @QueryMap options: Map<String , String> = NetworkParams.getBaseOptions(),
     ):Response<List<Review>>
+
+
 
     @DELETE("products/reviews/{id}")
     suspend fun deleteReview(
